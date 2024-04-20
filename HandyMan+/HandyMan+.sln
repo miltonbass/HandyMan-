@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandyMan+.Backend", "HandyMan+.Backend\HandyMan+.Backend.csproj", "{4431FAC0-EA1C-4C0E-A1A4-B716123666F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HandyMan+.Backend", "HandyMan+.Backend\HandyMan+.Backend.csproj", "{4431FAC0-EA1C-4C0E-A1A4-B716123666F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandyMan+.Frontend", "HandyMan+.Frontend\HandyMan+.Frontend.csproj", "{0440747E-76CF-4428-B152-423EB1C63CA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HandyMan+.Frontend", "HandyMan+.Frontend\HandyMan+.Frontend.csproj", "{0440747E-76CF-4428-B152-423EB1C63CA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandyMan+.Shered", "HandyMan+.Shered\HandyMan+.Shered.csproj", "{8A0F49A1-6772-48E6-BF41-C8309A61E949}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HandyMan+.Shered", "HandyMan+.Shered\HandyMan+.Shered.csproj", "{8A0F49A1-6772-48E6-BF41-C8309A61E949}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandyMan+.UnitTests", "HandyMan+.UnitTests\HandyMan+.UnitTests.csproj", "{FDC06D9A-7BDB-423B-BB9F-132F7B166304}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HandyMan+.UnitTests", "HandyMan+.UnitTests\HandyMan+.UnitTests.csproj", "{FDC06D9A-7BDB-423B-BB9F-132F7B166304}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,15 +22,12 @@ Global
 		{4431FAC0-EA1C-4C0E-A1A4-B716123666F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4431FAC0-EA1C-4C0E-A1A4-B716123666F1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0440747E-76CF-4428-B152-423EB1C63CA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0440747E-76CF-4428-B152-423EB1C63CA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0440747E-76CF-4428-B152-423EB1C63CA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0440747E-76CF-4428-B152-423EB1C63CA0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8A0F49A1-6772-48E6-BF41-C8309A61E949}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8A0F49A1-6772-48E6-BF41-C8309A61E949}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A0F49A1-6772-48E6-BF41-C8309A61E949}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A0F49A1-6772-48E6-BF41-C8309A61E949}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FDC06D9A-7BDB-423B-BB9F-132F7B166304}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FDC06D9A-7BDB-423B-BB9F-132F7B166304}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDC06D9A-7BDB-423B-BB9F-132F7B166304}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDC06D9A-7BDB-423B-BB9F-132F7B166304}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
