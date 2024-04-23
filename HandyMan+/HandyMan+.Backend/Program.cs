@@ -33,3 +33,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+//Front 7002
+//Back 7002
