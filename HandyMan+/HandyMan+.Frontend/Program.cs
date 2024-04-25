@@ -1,3 +1,4 @@
+using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend;
 using HandyMan_.Frontend.Repositories;
 using Microsoft.AspNetCore.Components.Web;
@@ -9,5 +10,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7002/") }); 
 builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddSweetAlert2();
 
 await builder.Build().RunAsync();
