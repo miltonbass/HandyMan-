@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HandyMan_.Frontend.Shared.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace HandyMan_.Shered.Entities
 {
-    public class Country
+    public class Country : IEntityWithName
     {
         public int Id { get; set; }
 

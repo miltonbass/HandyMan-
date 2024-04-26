@@ -16,4 +16,8 @@
     <ProjectReference Include="..\HandyMan+.Shered\HandyMan+.Shered.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Shared\Interfaces\" />
+  </ItemGroup>
+
 </Project>
