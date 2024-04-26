@@ -1,4 +1,8 @@
 using HandyMan_.Backend.Data;
+using HandyMan_.Backend.Repositories.Implementations;
+using HandyMan_.Backend.Repositories.Interfaces;
+using HandyMan_.Backend.UnitsOfWork.Implementations;
+using HandyMan_.Backend.UnitsOfWork.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +14,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=LocalConnection"));
+builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitOfWork<>));
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
 
 var app = builder.Build();
 
