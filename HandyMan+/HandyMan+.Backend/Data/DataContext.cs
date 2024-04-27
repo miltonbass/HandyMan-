@@ -34,18 +34,6 @@ namespace HandyMan_.Backend.Data
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
-            modelBuilder.Entity<PeopleType>().HasIndex(pt => pt.Name).IsUnique();
-            modelBuilder.Entity<People>().HasIndex(p => p.Identification).IsUnique();
-            //desabilitar eliminacion en cascada
-            DisableCascadingDelete(modelBuilder);
-        }
-        private void DisableCascadingDelete(ModelBuilder modelBuilder)
-        {
-            var relationships = modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys());
-            foreach (var relationship in relationships)
-            {
-                relationship.DeleteBehavior = DeleteBehavior.Restrict;
-            }
         }
     }
 }
