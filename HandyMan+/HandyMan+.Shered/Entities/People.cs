@@ -29,7 +29,7 @@ namespace HandyMan_.Shered.Entities
 
         [Display(Name = "Ciudad")]
         [Range(1, int.MaxValue, ErrorMessage = "Debes seleccionar una {0}.")]
-        public int CityId { get; set; }      
+        public int CityId { get; set; } = 0;
 
         public ICollection<Service>? Service { get; set; }
     }

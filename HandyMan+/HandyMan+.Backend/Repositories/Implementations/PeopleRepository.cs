@@ -8,32 +8,32 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HandyMan_.Backend.Repositories.Implementations
 {
-    public class ServicesRepository : GenericRepository<Service>, IServicesRepository
+    public class PeopleRepository : GenericRepository<People>, IPeopleRepository
     {
         private readonly DataContext _context;
 
-        public ServicesRepository(DataContext context) : base(context)
+        public PeopleRepository(DataContext context) : base(context)
         {
             _context = context;
         }
 
-        public override async Task<ActionResponse<IEnumerable<Service>>> GetAsync()
+        public override async Task<ActionResponse<IEnumerable<People>>> GetAsync()
         {
-            var services = await _context.Services
+            var peoples = await _context.Peoples
                 .OrderBy(x => x.Name)
                 .ToListAsync();
-            return new ActionResponse<IEnumerable<Service>>
+            return new ActionResponse<IEnumerable<People>>
             {
                 WasSuccess = true,
-                Result = services
+                Result = peoples
             };
         }
 
-        public override async Task<ActionResponse<IEnumerable<Service>>> GetAsync(PaginationDTO pagination)
+        public override async Task<ActionResponse<IEnumerable<People>>> GetAsync(PaginationDTO pagination)
         {
-            var queryable = _context.Services
-                .Include(c => c.Category)
-                .Include(p => p.People)
+            var queryable = _context.Peoples
+                .Include(c => c.City)
+                .Include(pt => pt.PeopleType)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
@@ -41,7 +41,7 @@ namespace HandyMan_.Backend.Repositories.Implementations
                 queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
             }
 
-            return new ActionResponse<IEnumerable<Service>>
+            return new ActionResponse<IEnumerable<People>>
             {
                 WasSuccess = true,
                 Result = await queryable
@@ -52,7 +52,7 @@ namespace HandyMan_.Backend.Repositories.Implementations
         }
         public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
         {
-            var queryable = _context.Services.AsQueryable();
+            var queryable = _context.Peoples.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
@@ -67,26 +67,26 @@ namespace HandyMan_.Backend.Repositories.Implementations
                 Result = totalPages
             };
         }
-        public override async Task<ActionResponse<Service>> GetAsync(int id)
+        public override async Task<ActionResponse<People>> GetAsync(int id)
         {
-            var service = await _context.Services
-                 .Include(c => c.Category!)
-                 .Include(p => p.People)
+            var people = await _context.Peoples
+                 .Include(c => c.City)
+                 .Include(pt => pt.PeopleType)
                  .FirstOrDefaultAsync(c => c.Id == id);
 
-            if (service == null)
+            if (people == null)
             {
-                return new ActionResponse<Service>
+                return new ActionResponse<People>
                 {
                     WasSuccess = false,
-                    Message = "Servicio no existe"
+                    Message = "Persona no existe"
                 };
             }
 
-            return new ActionResponse<Service>
+            return new ActionResponse<People>
             {
                 WasSuccess = true,
-                Result = service
+                Result = people
             };
         }
     }
