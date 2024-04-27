@@ -17,6 +17,8 @@ namespace HandyMan_.Backend.Data
             await CheckCountriesAsync();
             await CheckCategoriesAsync();
             await CheckoutPeopleTypeAsync();
+            await CheckoutPeopleAsync();
+            await CheckoutServiceAsync();
         }
 
         private async Task CheckCategoriesAsync()
@@ -41,18 +43,58 @@ namespace HandyMan_.Backend.Data
                 _context.Categories.Add(new Category { Name = "Nutrición" });
                 _context.Categories.Add(new Category { Name = "Ropa" });
                 _context.Categories.Add(new Category { Name = "Tecnología" });
+                _context.Categories.Add(new Category { Name = "Hogar" });
+                _context.Categories.Add(new Category { Name = "Construcción" });
+                _context.Categories.Add(new Category { Name = "Reparaciones Locativas" });
             }
 
             await _context.SaveChangesAsync();
         }
-        private async Task CheckoutPeopleTypeAsync() 
+        private async Task CheckoutPeopleTypeAsync()
         {
-            if (!_context.PeopleTypes.Any()) 
+            if (!_context.PeopleTypes.Any())
             {
                 _context.PeopleTypes.Add(new PeopleType { Name = "Proveedor" });
             }
             await _context.SaveChangesAsync();
         }
+
+        private async Task CheckoutPeopleAsync()
+        {
+            if (!_context.Peoples.Any())
+            {
+                _context.Peoples.Add(new People { 
+                    Identification = "56232222",
+                    Name = "Tecnico aldo",
+                    Surname = "The best",
+                    Email = "tec_aldo@yopmail.com",
+                    PeopleTypeId = 2,
+                    CityId = 1,
+                    PeopleType = null,
+                    City = null,
+                    Service = null
+                });
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task CheckoutServiceAsync()
+        {
+            if (!_context.Services.Any())
+            {
+                _context.Services.Add(new Service { 
+                    CategoryId = 1,
+                    Category = null,
+                    PeopleId = 2,
+                    People = null,
+                    Name = "Repacion de Jardiner",
+                    Detail = "Repacion de 2mts de ceped mas 400gm de abono",
+                    Price = "300.000"
+                });
+            }
+            await _context.SaveChangesAsync();
+        }
+
 
         private async Task CheckCountriesAsync()
         {

@@ -21,10 +21,7 @@ namespace HandyMan_.Shered.Entities
         public string Detail { get; set; } = null!;
         [Display(Name = "Precio")]
         public string Price { get; set; } = null!;
-
-        
-
-         public int PeopleId { get; set; }
+        public int PeopleId { get; set; }
         public People? People { get; set; }
     }
 }

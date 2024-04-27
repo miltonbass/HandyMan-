@@ -13,7 +13,7 @@ namespace HandyMan_.Shered.Entities
         public string Name { get; set; } = null!;
         [Display(Name = "Apellido")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public string Surname { get; set; }
+        public string? Surname { get; set; }
         [Display(Name = "Correo Electronico")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string? Email { get; set; }

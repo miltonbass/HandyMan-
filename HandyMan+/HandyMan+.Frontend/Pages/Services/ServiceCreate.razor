@@ -1,0 +1,46 @@
+﻿@page "/services/create"
+
+
+<h3>Crear Servicio</h3>
+
+<EditForm EditContext="editContext" OnValidSubmit="CreateAsync">
+    <DataAnnotationsValidator />
+     <div class="mb-3">
+        <label>Categoria</label>
+        <div>
+            <InputNumber class="form-control" @bind-Value="Service!.CategoryId" />
+            <ValidationMessage For="@(() => Service!.CategoryId)" />
+        </div>
+    </div>
+     <div class="mb-3">
+        <label>Proveedor</label>
+        <div>
+            <InputNumber class="form-control" @bind-Value="Service!.PeopleId" />
+            <ValidationMessage For="@(() => Service!.PeopleId)" />
+        </div>
+    </div>
+     <div class="mb-3">
+        <label>Nombre</label>
+        <div>
+            <InputText class="form-control" @bind-Value="Service!.Name" />
+            <ValidationMessage For="@(() => Service.Name)" />
+        </div>
+    </div>
+     <div class="mb-3">
+        <label>Detalle</label>
+        <div>
+            <InputText class="form-control" @bind-Value="Service!.Detail" />
+            <ValidationMessage For="@(() => Service.Detail)" />
+        </div>
+    </div>
+     <div class="mb-3">
+        <label>Precio</label>
+        <div>
+            <InputText class="form-control" @bind-Value="Service!.Price" />
+            <ValidationMessage For="@(() => Service.Price)" />
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+    <button class="btn btn-success" @onclick="Return">Regresar</button>
+</EditForm>
+
