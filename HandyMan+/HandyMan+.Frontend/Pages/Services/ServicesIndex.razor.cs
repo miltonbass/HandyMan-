@@ -66,7 +66,7 @@ namespace HandyMan_.Frontend.Pages.Services
 
         private async Task LoadPagesAsync()
         {
-            var url = "api/countries/totalPages";
+            var url = "api/services/totalPages";
             if (!string.IsNullOrEmpty(Filter))
             {
                 url += $"?filter={Filter}";
