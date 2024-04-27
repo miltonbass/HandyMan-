@@ -4,11 +4,9 @@ using HandyMan_.Shered.Responses;
 
 namespace HandyMan_.Backend.UnitsOfWork.Interfaces
 {
-    public interface ICountriesUnitOfWork
+    public interface ICategoriesUnitOfWork
     {
-        Task<ActionResponse<Country>> GetAsync(int id);
-        Task<ActionResponse<IEnumerable<Country>>> GetAsync(PaginationDTO pagination);
-        Task<ActionResponse<IEnumerable<Country>>> GetAsync();
+        Task<ActionResponse<IEnumerable<Category>>> GetAsync(PaginationDTO pagination);
         Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
     }
 }
