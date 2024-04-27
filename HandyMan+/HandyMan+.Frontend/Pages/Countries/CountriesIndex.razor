@@ -8,11 +8,21 @@
 
 <GenericList MyList="Countries">
     <Body>
+        <Pagination CurrentPage="currentPage"
+                    TotalPages="totalPages"
+                    SelectedPage="SelectedPageAsync" />
+        <div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
+            <input style="width: 400px;" type="text" class="form-control" id="titulo" placeholder="Buscar país..." @bind-value="Filter" />
+            <button type="button" class="btn btn-outline-primary mx-1" @onclick="ApplyFilterAsync">Filtrar</button>
+            <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync">Limpiar</button>
+        </div>
+
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>País</th>
-                    <th></th>
+                    <th style="width:210px">Estados / Departamentos</th>
+                    <th style="width:210px"></th>
                 </tr>
             </thead>
             <tbody>
@@ -23,8 +33,12 @@
                             @country.Name
                         </td>
                         <td>
-                            <a href="/countries/edit/@country.Id" class="btn btn-warning">Editar</a>
-                            <button @onclick=@(() => DeleteAsync(country)) class="btn btn-danger">Borrar</button>
+                            @country.StatesNumber
+                        </td>
+                        <td>
+                            <a class="btn btn-warning btn-sm" href="/countries/edit/@country.Id">Editar</a>
+                            <a class="btn btn-info btn-sm" href="/countries/details/@country.Id">Detalles</a>
+                            <button class="btn btn-danger btn-sm" @onclick=@(() => DeleteAsync(country))>Borrar</button>
                         </td>
                     </tr>
                 }

@@ -1,4 +1,5 @@
 ﻿using HandyMan_.Backend.UnitsOfWork.Interfaces;
+using HandyMan_.Shered.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HandyMan_.Backend.Controllers
@@ -12,10 +13,32 @@ namespace HandyMan_.Backend.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpGet]
+        [HttpGet("full")]
         public virtual async Task<IActionResult> GetAsync()
         {
             var action = await _unitOfWork.GetAsync();
+            if (action.WasSuccess)
+            {
+                return Ok(action.Result);
+            }
+            return BadRequest();
+        }
+
+        [HttpGet]
+        public virtual async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
+        {
+            var action = await _unitOfWork.GetAsync(pagination);
+            if (action.WasSuccess)
+            {
+                return Ok(action.Result);
+            }
+            return BadRequest();
+        }
+
+        [HttpGet("totalPages")]
+        public virtual async Task<IActionResult> GetPagesAsync([FromQuery] PaginationDTO pagination)
+        {
+            var action = await _unitOfWork.GetTotalPagesAsync(pagination);
             if (action.WasSuccess)
             {
                 return Ok(action.Result);
