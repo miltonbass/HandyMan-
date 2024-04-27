@@ -13,6 +13,9 @@ namespace HandyMan_.Backend.Data
         public DbSet<City> Cities { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<State> States { get; set; }
+        public DbSet<PeopleType> PeopleTypes { get; set; }
+        public DbSet<People> Peoples { get; set; }
+        public DbSet<Service> Services { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,6 +24,10 @@ namespace HandyMan_.Backend.Data
             modelBuilder.Entity<City>().HasIndex(c => new { c.StateId, c.Name }).IsUnique();
             modelBuilder.Entity<Country>().HasIndex(c => c.Name).IsUnique();
             modelBuilder.Entity<State>().HasIndex(s => new { s.CountryId, s.Name }).IsUnique();
+
+            modelBuilder.Entity<PeopleType>().HasIndex(pt => pt.Name).IsUnique();
+            modelBuilder.Entity<People>().HasIndex(p => p.Identification).IsUnique();
+
             DisableCascadingDelete(modelBuilder);
         }
 
