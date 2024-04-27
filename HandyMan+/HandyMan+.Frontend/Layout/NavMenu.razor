@@ -1,6 +1,6 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">HandyMan+.Frontend</a>
+        <a class="navbar-brand" href="">HandyMan+</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -24,11 +24,34 @@
                 <span class="bi bi-globe-americas-fill-nav-menu" aria-hidden="true"></span> Paises
             </NavLink>
         </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" @onclick="()=>expandSubNav = !expandSubNav">
+                <span class="bi bi-globe-americas-fill-nav-menu" aria-hidden="true"></span>Gestion
+            </NavLink>
+             @if (expandSubNav)
+             {
+                 <ul class="nav flex-column">
+                     <li class="nav-item px-3">
+                         <NavLink class="nav-link" href="/countries">
+                            <span class="bi bi-globe-americas-fill-nav-menu" aria-hidden="true"></span>Servicios
+                        </NavLink>
+                     </li>
+                     <li class="nav-item px-3">
+                         <NavLink class="nav-link" href="/countries">
+                                    <span class="bi bi-person-gear-nav-menu"></span>Proveedores
+                        </NavLink>
+                     </li>
+                 </ul>
+                
+                
+             }
+        </div>
     </nav>
 </div>
 
 @code {
     private bool collapseNavMenu = true;
+    private bool expandSubNav;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
