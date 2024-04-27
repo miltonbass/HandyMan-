@@ -24,6 +24,10 @@ namespace HandyMan_.Backend.Data
             modelBuilder.Entity<City>().HasIndex(c => new { c.StateId, c.Name }).IsUnique();
             modelBuilder.Entity<Country>().HasIndex(c => c.Name).IsUnique();
             modelBuilder.Entity<State>().HasIndex(s => new { s.CountryId, s.Name }).IsUnique();
+
+            modelBuilder.Entity<PeopleType>().HasIndex(pt => pt.Name).IsUnique();
+            modelBuilder.Entity<People>().HasIndex(p => p.Identification).IsUnique();
+
             DisableCascadingDelete(modelBuilder);
         }
 

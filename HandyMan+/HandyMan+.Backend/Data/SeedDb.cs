@@ -16,6 +16,7 @@ namespace HandyMan_.Backend.Data
             await _context.Database.EnsureCreatedAsync();
             await CheckCountriesAsync();
             await CheckCategoriesAsync();
+            await CheckoutPeopleTypeAsync();
         }
 
         private async Task CheckCategoriesAsync()
@@ -42,6 +43,14 @@ namespace HandyMan_.Backend.Data
                 _context.Categories.Add(new Category { Name = "Tecnología" });
             }
 
+            await _context.SaveChangesAsync();
+        }
+        private async Task CheckoutPeopleTypeAsync() 
+        {
+            if (!_context.PeopleTypes.Any()) 
+            {
+                _context.PeopleTypes.Add(new PeopleType { Name = "Proveedor" });
+            }
             await _context.SaveChangesAsync();
         }
 

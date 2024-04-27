@@ -95,6 +95,9 @@ namespace HandyMan_.Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -117,6 +120,8 @@ namespace HandyMan_.Backend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CityId");
 
                     b.HasIndex("Identification")
                         .IsUnique()
@@ -185,13 +190,56 @@ namespace HandyMan_.Backend.Migrations
                     b.ToTable("Services");
                 });
 
+            modelBuilder.Entity("HandyMan_.Shered.Entities.State", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId", "Name")
+                        .IsUnique();
+
+                    b.ToTable("States");
+                });
+
+            modelBuilder.Entity("HandyMan_.Shered.Entities.City", b =>
+                {
+                    b.HasOne("HandyMan_.Shered.Entities.State", "State")
+                        .WithMany("Cities")
+                        .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("State");
+                });
+
             modelBuilder.Entity("HandyMan_.Shered.Entities.People", b =>
                 {
+                    b.HasOne("HandyMan_.Shered.Entities.City", "City")
+                        .WithMany("Peoples")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("HandyMan_.Shered.Entities.PeopleType", "PeopleType")
                         .WithMany("People")
                         .HasForeignKey("PeopleTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("City");
 
                     b.Navigation("PeopleType");
                 });
@@ -205,7 +253,7 @@ namespace HandyMan_.Backend.Migrations
                         .IsRequired();
 
                     b.HasOne("HandyMan_.Shered.Entities.People", "People")
-                        .WithMany()
+                        .WithMany("Service")
                         .HasForeignKey("PeopleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -215,14 +263,45 @@ namespace HandyMan_.Backend.Migrations
                     b.Navigation("People");
                 });
 
+            modelBuilder.Entity("HandyMan_.Shered.Entities.State", b =>
+                {
+                    b.HasOne("HandyMan_.Shered.Entities.Country", "Country")
+                        .WithMany("States")
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Country");
+                });
+
             modelBuilder.Entity("HandyMan_.Shered.Entities.Category", b =>
                 {
                     b.Navigation("Services");
                 });
 
+            modelBuilder.Entity("HandyMan_.Shered.Entities.City", b =>
+                {
+                    b.Navigation("Peoples");
+                });
+
+            modelBuilder.Entity("HandyMan_.Shered.Entities.Country", b =>
+                {
+                    b.Navigation("States");
+                });
+
+            modelBuilder.Entity("HandyMan_.Shered.Entities.People", b =>
+                {
+                    b.Navigation("Service");
+                });
+
             modelBuilder.Entity("HandyMan_.Shered.Entities.PeopleType", b =>
                 {
                     b.Navigation("People");
+                });
+
+            modelBuilder.Entity("HandyMan_.Shered.Entities.State", b =>
+                {
+                    b.Navigation("Cities");
                 });
 #pragma warning restore 612, 618
         }
