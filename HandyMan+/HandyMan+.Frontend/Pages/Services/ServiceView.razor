@@ -2,4 +2,38 @@
 @layout NoMenuLayout
 
 
-<h3>Landing page test</h3>
+<!-- Parte superior derecha: Botones Login y Register -->
+    <div class="d-flex justify-content-end mt-3 me-3">
+        <button class="btn btn-light me-2">Login</button>
+        <button class="btn btn-light">Register</button>
+    </div>
+
+    <!-- Barra de búsqueda -->
+    <div class="input-group mt-3 mb-3 justify-content-center">
+        <input type="text" class="form-control rounded-pill border-dark" placeholder="Buscar..." aria-label="Buscar">
+        <button class="btn btn-outline-secondary rounded-pill" type="button">
+            <i class="fas fa-search"></i>
+        </button>
+    </div>
+
+    <!-- Grid con cards -->
+    <div class="container mt-5">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <!-- Ejemplo de card (puedes repetir este bloque para cada card) -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://via.placeholder.com/150" class="card-img-top img-fluid" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Producto 1</h5>
+                        <p class="card-text">Descripción corta del producto.</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <span class="badge bg-primary rounded-pill">Categoría</span>
+                        <span class="badge bg-secondary rounded-pill">Precio: $99.99</span>
+                        <a href="#" class="text-decoration-none">Agregar</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Fin del ejemplo de card -->
+        </div>
+    </div>
