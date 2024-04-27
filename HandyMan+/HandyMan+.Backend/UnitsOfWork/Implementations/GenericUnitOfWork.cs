@@ -1,5 +1,6 @@
 ﻿using HandyMan_.Backend.Repositories.Interfaces;
 using HandyMan_.Backend.UnitsOfWork.Interfaces;
+using HandyMan_.Shered.DTOs;
 using HandyMan_.Shered.Responses;
 
 namespace HandyMan_.Backend.UnitsOfWork.Implementations
@@ -12,6 +13,10 @@ namespace HandyMan_.Backend.UnitsOfWork.Implementations
         {
             _repository = repository;
         }
+
+        public virtual async Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTO pagination) => await _repository.GetAsync(pagination);
+
+        public virtual async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination) => await _repository.GetTotalPagesAsync(pagination);
 
         public virtual async Task<ActionResponse<T>> AddAsync(T model) => await _repository.AddAsync(model);
 

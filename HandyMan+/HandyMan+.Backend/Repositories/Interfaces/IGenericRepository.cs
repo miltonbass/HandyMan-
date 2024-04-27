@@ -1,10 +1,15 @@
-﻿using HandyMan_.Shered.Responses;
+﻿using HandyMan_.Shered.DTOs;
+using HandyMan_.Shered.Responses;
 
 namespace HandyMan_.Backend.Repositories.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {
         Task<ActionResponse<T>> GetAsync(int id);
+
+        Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTO pagination);
+
+        Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
 
         Task<ActionResponse<IEnumerable<T>>> GetAsync();
 
