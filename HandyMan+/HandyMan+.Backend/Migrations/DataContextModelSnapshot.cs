@@ -42,6 +42,30 @@ namespace HandyMan_.Backend.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("HandyMan_.Shered.Entities.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("StateId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StateId", "Name")
+                        .IsUnique();
+
+                    b.ToTable("Cities");
+                });
+
             modelBuilder.Entity("HandyMan_.Shered.Entities.Country", b =>
                 {
                     b.Property<int>("Id")
