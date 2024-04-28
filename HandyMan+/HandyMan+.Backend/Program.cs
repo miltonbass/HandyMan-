@@ -26,6 +26,9 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 builder.Services.AddScoped<ISurveyDefinitionsRepository, SurveyDefinitionsRepository>();
 builder.Services.AddScoped<ISurveyDefinitionsUnitOfWork, SurveyDefinitionsUnitOfWork>();
 
+builder.Services.AddScoped<ISubscriptionTypeRepository, SubscriptionTypeRepository>();
+builder.Services.AddScoped<ISubscriptionUnitOfWork, SubscriptionUnitOfWork>();
+
 
 
 var app = builder.Build();
