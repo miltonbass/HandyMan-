@@ -46,7 +46,7 @@ namespace HandyMan_.Backend.Repositories.Implementations
 
         public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
         {
-            var queryable = _context.Categories.AsQueryable();
+            var queryable = _context.SubscriptionTypes.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
@@ -61,5 +61,6 @@ namespace HandyMan_.Backend.Repositories.Implementations
                 Result = totalPages
             };
         }
+
     }
 }

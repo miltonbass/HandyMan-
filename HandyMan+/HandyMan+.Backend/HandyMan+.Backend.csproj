@@ -22,4 +22,8 @@
     <ProjectReference Include="..\HandyMan+.Shered\HandyMan+.Shered.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

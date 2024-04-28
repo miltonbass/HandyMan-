@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HandyMan_.Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240428130131_AddingSurveyData")]
-    partial class AddingSurveyData
+    [Migration("20240428161755_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

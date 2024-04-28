@@ -13,6 +13,7 @@ namespace HandyMan_.Frontend.Pages.SubscriptionTypes
 {
         private int currentPage = 1;
         private int totalPages;
+        public int RecordsNumber { get; set; } = 10;
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService sweetAlertService { get; set; } = null!;
@@ -22,6 +23,8 @@ namespace HandyMan_.Frontend.Pages.SubscriptionTypes
 
         [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
+
+        public List<int> Values = [5, 10, 15, 20, 25];
 
         protected override async Task OnInitializedAsync()
         {
@@ -39,6 +42,14 @@ namespace HandyMan_.Frontend.Pages.SubscriptionTypes
         {
             currentPage = page;
             await LoadAsync(page);
+        }
+
+        private async Task HandleChange(ChangeEventArgs e)
+        {
+            RecordsNumber = Convert.ToInt32(e.Value);
+            await LoadAsync();
+
+
         }
 
         private async Task CleanFilterAsync()
@@ -63,6 +74,7 @@ namespace HandyMan_.Frontend.Pages.SubscriptionTypes
         private async Task<bool> LoadListAsync(int page)
         {
             var url = $"api/subscriptions?page={page}";
+            url += $"&recordsNumber={RecordsNumber}";
             if (!string.IsNullOrEmpty(Filter))
             {
                 url += $"&filter={Filter}";
@@ -82,9 +94,10 @@ namespace HandyMan_.Frontend.Pages.SubscriptionTypes
         private async Task LoadPagesAsync()
         {
             var url = "api/subscriptions/totalPages";
+            url += $"?recordsNumber={RecordsNumber}";
             if (!string.IsNullOrEmpty(Filter))
             {
-                url += $"?filter={Filter}";
+                url += $"&filter={Filter}";
             }
 
             var responseHttp = await Repository.GetAsync<int>(url);

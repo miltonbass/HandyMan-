@@ -211,6 +211,54 @@ namespace HandyMan_.Backend.Data
                     UserType = UserType.Proveedor.ToString()
                 });
 
+                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
+                {
+                    Title = "Compatibilidad del servicio",
+                    Description = "¿El servicio es compatible con tus necesidades?",
+                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
+                    UserType = UserType.Proveedor.ToString()
+                });
+
+                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
+                {
+                    Title = "Compatibilidad del servicio",
+                    Description = "¿El servicio es compatible con tus necesidades?",
+                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
+                    UserType = UserType.Proveedor.ToString()
+                });
+                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
+                {
+                    Title = "Compatibilidad del servicio",
+                    Description = "¿El servicio es compatible con tus necesidades?",
+                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
+                    UserType = UserType.Proveedor.ToString()
+                });
+
+                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
+                {
+                    Title = "Compatibilidad del servicio",
+                    Description = "¿El servicio es compatible con tus necesidades?",
+                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
+                    UserType = UserType.Proveedor.ToString()
+                });
+
+                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
+                {
+                    Title = "Compatibilidad del servicio",
+                    Description = "¿El servicio es compatible con tus necesidades?",
+                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
+                    UserType = UserType.Proveedor.ToString()
+                });
+                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
+                {
+                    Title = "Compatibilidad del servicio",
+                    Description = "¿El servicio es compatible con tus necesidades?",
+                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
+                    UserType = UserType.Proveedor.ToString()
+                });
+
+
+
                 await _context.SaveChangesAsync();
             }
         }

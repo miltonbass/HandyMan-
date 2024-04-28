@@ -8,7 +8,7 @@ namespace HandyMan_.Frontend.Shared
 
         [Parameter] public int CurrentPage { get; set; } = 1;
         [Parameter] public int TotalPages { get; set; } = 1;
-        [Parameter] public int Radio { get; set; } = 10;
+        [Parameter] public int Radio { get; set; } = 50;
         [Parameter] public EventCallback<int> SelectedPage { get; set; }
 
         protected override void OnParametersSet()

@@ -24,7 +24,27 @@ namespace HandyMan_.Backend.Repositories.Implementations
                 .ToListAsync();
         }
 
-        public override async Task<ActionResponse<IEnumerable<SurveyDefinitionEntity>>> GetAsync(PaginationDTO pagination)
+
+
+        public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
+        {
+            var queryable = _context.SurveyDefinitions.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.Title.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+
+            double count = await queryable.CountAsync();
+            int totalPages = (int)Math.Ceiling(count / pagination.RecordsNumber);
+            return new ActionResponse<int>
+            {
+                WasSuccess = true,
+                Result = totalPages
+            };
+        }
+
+        public async override Task<ActionResponse<IEnumerable<SurveyDefinitionEntity>>> GetAsync(PaginationDTO pagination)
         {
             var queryable = _context.SurveyDefinitions.AsQueryable();
 
@@ -40,24 +60,6 @@ namespace HandyMan_.Backend.Repositories.Implementations
                     .OrderBy(x => x.Title)
                     .Paginate(pagination)
                     .ToListAsync()
-            };
-        }
-
-        public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
-        {
-            var queryable = _context.Categories.AsQueryable();
-
-            if (!string.IsNullOrWhiteSpace(pagination.Filter))
-            {
-                queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
-            }
-
-            double count = await queryable.CountAsync();
-            int totalPages = (int)Math.Ceiling(count / pagination.RecordsNumber);
-            return new ActionResponse<int>
-            {
-                WasSuccess = true,
-                Result = totalPages
             };
         }
     }
