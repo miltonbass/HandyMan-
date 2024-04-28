@@ -1,6 +1,7 @@
 ﻿using HandyMan_.Backend.UnitsOfWork.Interfaces;
 using HandyMan_.Shered.DTOs;
 using HandyMan_.Shered.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HandyMan_.Backend.Controllers
@@ -15,6 +16,14 @@ namespace HandyMan_.Backend.Controllers
         {
             _statesUnitOfWork = statesUnitOfWork;
         }
+
+        [AllowAnonymous]
+        [HttpGet("combo/{countryId:int}")]
+        public async Task<IActionResult> GetComboAsync(int countryId)
+        {
+            return Ok(await _statesUnitOfWork.GetComboAsync(countryId));
+        }
+
 
         [HttpGet("full")]
         public override async Task<IActionResult> GetAsync()
