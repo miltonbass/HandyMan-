@@ -1,4 +1,5 @@
 ﻿ using HandyMan_.Shered.Responses;
+using Orders.Shared.DTOs;
 
 namespace HandyMan_.Backend.Repositories.Interfaces
 {
@@ -7,6 +8,10 @@ namespace HandyMan_.Backend.Repositories.Interfaces
         Task<ActionResponse<T>> GetAsync(int id);
 
         Task<ActionResponse<IEnumerable<T>>> GetAsync();
+
+        Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTO pagination);
+
+        Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
 
         Task<ActionResponse<T>> AddAsync(T entity);
 

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HandyMan_.Shared.Entities
 {
-    public class SurveyDefinitionEntity
+    public class SurveyDefinitionEntity 
     {
         public int Id { get; set; }
 
