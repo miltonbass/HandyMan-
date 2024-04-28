@@ -1,5 +1,5 @@
-﻿ using HandyMan_.Shered.Responses;
-using Orders.Shared.DTOs;
+﻿using HandyMan_.Shered.DTOs;
+using HandyMan_.Shered.Responses;
 
 namespace HandyMan_.Backend.Repositories.Interfaces
 {
