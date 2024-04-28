@@ -12,5 +12,9 @@ namespace HandyMan_.Backend.UnitsOfWork.Interfaces
         Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
 
         Task<ActionResponse<IEnumerable<State>>> GetAsync();
+
+        Task<IEnumerable<State>> GetComboAsync(int countryId);
+
+
     }
 }
