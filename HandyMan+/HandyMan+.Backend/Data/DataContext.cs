@@ -18,6 +18,9 @@ namespace HandyMan_.Backend.Data
         public DbSet<Service> Services { get; set; }
         public DbSet<SubscriptionType> SubscriptionTypes { get; set; }
 
+        public DbSet<SurveyDefinitionEntity> SurveyDefinitions { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

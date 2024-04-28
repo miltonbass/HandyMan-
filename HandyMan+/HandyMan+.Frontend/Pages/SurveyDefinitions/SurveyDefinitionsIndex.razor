@@ -1,0 +1,38 @@
+﻿@page "/surveyDefinitions"
+
+<h3>Preguntas de encuestas</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/surveyDefinition/create">Nueva pregunta de encuesta</a>
+</div>
+
+<GenericList MyList="surveyDefinitionEntities">
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Subscripción</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var surveyDefinitionEnty in surveyDefinitionEntities!)
+                {
+                        <tr>
+                            <div style="list-style: none;">
+                                 <li  style="list-style: none;"><strong>Tìtulo:</strong> @surveyDefinitionEnty.Title</li>
+                                 <li><strong>Descripción:</strong> @surveyDefinitionEnty.Description</li>
+                                 <li><strong>Tipo de pregunta</strong> @surveyDefinitionEnty.QuestionType</li>
+                                 <li><strong>Tipo de usuario</strong> @surveyDefinitionEnty.UserType</li>
+                            </div>
+                           
+                            <td>
+                                    <a href="/surveyDefinition/edit/@surveyDefinitionEnty.Id" class="btn btn-warning">Editar</a>
+                                    <button @onclick=@(() => DeleteAsycn(surveyDefinitionEnty)) class="btn btn-danger">Borrar</button>
+                            </td>
+                        </tr>
+                }
+            </tbody>
+        </table>
+    </Body>
+</GenericList>
