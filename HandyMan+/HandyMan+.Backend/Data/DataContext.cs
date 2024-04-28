@@ -16,6 +16,7 @@ namespace HandyMan_.Backend.Data
         public DbSet<PeopleType> PeopleTypes { get; set; }
         public DbSet<People> Peoples { get; set; }
         public DbSet<Service> Services { get; set; }
+        public DbSet<ServiceOrder> ServiceOrders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
