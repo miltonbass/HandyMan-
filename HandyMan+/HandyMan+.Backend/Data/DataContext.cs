@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using HandyMan_.Shered.Entities;
+using HandyMan_.Shared.Entities;
 
 
 namespace HandyMan_.Backend.Data
@@ -15,6 +16,7 @@ namespace HandyMan_.Backend.Data
         public DbSet<PeopleType> PeopleTypes { get; set; }
         public DbSet<People> Peoples { get; set; }
         public DbSet<Service> Services { get; set; }
+        public DbSet<SubscriptionType> SubscriptionTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,6 +25,8 @@ namespace HandyMan_.Backend.Data
             modelBuilder.Entity<Country>().HasIndex(c => c.Name).IsUnique();
             modelBuilder.Entity<PeopleType>().HasIndex(pt => pt.Name).IsUnique();
             modelBuilder.Entity<People>().HasIndex(p => p.Identification).IsUnique();
+            modelBuilder.Entity<SubscriptionType>().HasIndex(p => p.Name).IsUnique();
+
             //desabilitar eliminacion en cascada
             DisableCascadingDelete(modelBuilder);
         }

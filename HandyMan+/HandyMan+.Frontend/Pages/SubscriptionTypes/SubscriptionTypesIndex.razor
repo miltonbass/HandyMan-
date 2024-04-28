@@ -1,0 +1,38 @@
+﻿@page "/subscriptions"
+
+<h3>Tipos de subscripciones</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/subscriptions/create">Nuevo tipo de subscripción</a>
+</div>
+
+<GenericList MyList="SubscriptionType">
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Subscripción</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var subscriptionType in SubscriptionType!)
+                {
+                        <tr>
+                            <div style="list-style: none;">
+                                 <li  style="list-style: none;"><strong>Nombre:</strong> @subscriptionType.Name</li>
+                                 <li><strong>Precio:</strong> @subscriptionType.Price</li>
+                                 <li><strong>Tipo de usuario</strong> @subscriptionType.UserType</li>
+                                 <li><strong>Descripción</strong> @subscriptionType.Description</li>
+                            </div>
+                           
+                            <td>
+                                    <a href="/subscriptions/edit/@subscriptionType.Id" class="btn btn-warning">Editar</a>
+                                    <button @onclick=@(() => DeleteAsycn(subscriptionType)) class="btn btn-danger">Borrar</button>
+                            </td>
+                        </tr>
+                }
+            </tbody>
+        </table>
+    </Body>
+</GenericList>
