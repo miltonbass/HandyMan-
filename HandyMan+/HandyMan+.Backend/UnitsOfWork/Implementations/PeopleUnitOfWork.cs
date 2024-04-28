@@ -20,5 +20,6 @@ namespace HandyMan_.Backend.UnitsOfWork.Implementations
         public override async Task<ActionResponse<IEnumerable<People>>> GetAsync(PaginationDTO pagination) => await _peopleRepository.GetAsync(pagination);
         public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination) => await _peopleRepository.GetTotalPagesAsync(pagination);
         public override async Task<ActionResponse<People>> GetAsync(int id) => await _peopleRepository.GetAsync(id);
+        public async Task<IEnumerable<People>> GetComboAsync() => await _peopleRepository.GetComboAsync();
     }
 }
