@@ -17,8 +17,8 @@ namespace HandyMan_.Backend.Data
             await CheckCountriesAsync();
             await CheckCategoriesAsync();
             await CheckoutPeopleTypeAsync();
-            await CheckoutPeopleAsync();
-            await CheckoutServiceAsync();
+            //await CheckoutPeopleAsync();
+            //await CheckoutServiceAsync();
         }
 
         private async Task CheckCategoriesAsync()
@@ -42,14 +42,12 @@ namespace HandyMan_.Backend.Data
                 _context.Categories.Add(new Category { Name = "Mascotas" });
                 _context.Categories.Add(new Category { Name = "Nutrición" });
                 _context.Categories.Add(new Category { Name = "Ropa" });
-                _context.Categories.Add(new Category { Name = "Tecnología" });
-                _context.Categories.Add(new Category { Name = "Hogar" });
                 _context.Categories.Add(new Category { Name = "Construcción" });
-                _context.Categories.Add(new Category { Name = "Reparaciones Locativas" });
             }
 
             await _context.SaveChangesAsync();
         }
+        
         private async Task CheckoutPeopleTypeAsync()
         {
             if (!_context.PeopleTypes.Any())
@@ -68,7 +66,7 @@ namespace HandyMan_.Backend.Data
                     Name = "Tecnico aldo",
                     Surname = "The best",
                     Email = "tec_aldo@yopmail.com",
-                    PeopleTypeId = 2,
+                    PeopleTypeId = 1,
                     CityId = 1,
                     PeopleType = null,
                     City = null,
@@ -85,7 +83,7 @@ namespace HandyMan_.Backend.Data
                 _context.Services.Add(new Service { 
                     CategoryId = 1,
                     Category = null,
-                    PeopleId = 2,
+                    PeopleId = 1,
                     People = null,
                     Name = "Repacion de Jardiner",
                     Detail = "Repacion de 2mts de ceped mas 400gm de abono",
