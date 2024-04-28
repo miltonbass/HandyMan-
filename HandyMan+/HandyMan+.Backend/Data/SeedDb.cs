@@ -17,9 +17,9 @@ namespace HandyMan_.Backend.Data
             await CheckCountriesAsync();
             await CheckCategoriesAsync();
             await CheckoutPeopleTypeAsync();
-            await CheckoutPeopleAsync();
-            await CheckoutServiceAsync();
-            await CheckoutServiceOrderAsync();
+            //await CheckoutPeopleAsync();
+            //await CheckoutServiceAsync();
+            //await CheckoutServiceOrderAsync();
         }
 
         private async Task CheckCategoriesAsync()
