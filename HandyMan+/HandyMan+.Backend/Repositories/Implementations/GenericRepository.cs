@@ -4,6 +4,8 @@ using HandyMan_.Backend.Repositories.Interfaces;
 using HandyMan_.Shered.DTOs;
 using HandyMan_.Shered.Responses;
 using Microsoft.EntityFrameworkCore;
+using Orders.Backend.Helpers;
+using Orders.Shared.DTOs;
 
 namespace HandyMan_.Backend.Repositories.Implementations
 {
@@ -95,6 +97,31 @@ namespace HandyMan_.Backend.Repositories.Implementations
             {
                 WasSuccess = true,
                 Result = await _entity.ToListAsync()
+            };
+        }
+
+        public virtual async Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTO pagination)
+        {
+            var queryable = _entity.AsQueryable();
+
+            return new ActionResponse<IEnumerable<T>>
+            {
+                WasSuccess = true,
+                Result = await queryable
+                    .Paginate(pagination)
+                    .ToListAsync()
+            };
+        }
+
+        public virtual async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
+        {
+            var queryable = _entity.AsQueryable();
+            var count = await queryable.CountAsync();
+            int totalPages = (int)Math.Ceiling((double)count / pagination.RecordsNumber);
+            return new ActionResponse<int>
+            {
+                WasSuccess = true,
+                Result = totalPages
             };
         }
 

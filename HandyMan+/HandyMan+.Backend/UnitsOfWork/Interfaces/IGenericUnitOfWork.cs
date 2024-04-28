@@ -11,7 +11,6 @@ namespace HandyMan_.Backend.UnitsOfWork.Interfaces
 
         Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
 
-
         Task<ActionResponse<T>> AddAsync(T model);
 
         Task<ActionResponse<T>> UpdateAsync(T model);

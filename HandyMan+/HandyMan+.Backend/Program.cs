@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+//Evitar las referencias circulares al momento de la serialización
+builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
 
 // Add services to the container.
 
@@ -32,6 +35,12 @@ builder.Services.AddScoped<ICitiesUnitOfWork, CitiesUnitOfWork>();
 builder.Services.AddScoped<ICategoriesUnitOfWork, CategoriesUnitOfWork>();
 builder.Services.AddScoped<ICountriesUnitOfWork, CountriesUnitOfWork>();
 builder.Services.AddScoped<IStatesUnitOfWork, StatesUnitOfWork>();
+
+builder.Services.AddScoped<ISurveyDefinitionsRepository, SurveyDefinitionsRepository>();
+builder.Services.AddScoped<ISurveyDefinitionsUnitOfWork, SurveyDefinitionsUnitOfWork>();
+
+builder.Services.AddScoped<ISubscriptionTypeRepository, SubscriptionTypeRepository>();
+builder.Services.AddScoped<ISubscriptionUnitOfWork, SubscriptionUnitOfWork>();
 
 
 

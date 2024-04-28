@@ -1,0 +1,12 @@
+﻿@page "/subscriptions/edit/{Id:int}"
+
+<h3>Editar Tipo de subscripción</h3>
+
+@if (subscriptionType is null)
+{
+        <Loading/>
+}
+else
+{
+                    <SubscriptionTypeForm @ref="subscriptionTypeForm"  SubscriptionType="subscriptionType" OnValidSubmit="EditAsync" ReturnAction="Return" />
+}

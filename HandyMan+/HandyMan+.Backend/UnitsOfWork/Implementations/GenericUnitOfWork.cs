@@ -2,6 +2,7 @@
 using HandyMan_.Backend.UnitsOfWork.Interfaces;
 using HandyMan_.Shered.DTOs;
 using HandyMan_.Shered.Responses;
+using Orders.Shared.DTOs;
 
 namespace HandyMan_.Backend.UnitsOfWork.Implementations
 {
