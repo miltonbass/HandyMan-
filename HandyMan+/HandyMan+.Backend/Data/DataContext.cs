@@ -13,6 +13,7 @@ namespace HandyMan_.Backend.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<State> States { get; set; }
         public DbSet<PeopleType> PeopleTypes { get; set; }
         public DbSet<People> Peoples { get; set; }
         public DbSet<Service> Services { get; set; }
@@ -30,6 +31,7 @@ namespace HandyMan_.Backend.Data
             modelBuilder.Entity<PeopleType>().HasIndex(pt => pt.Name).IsUnique();
             modelBuilder.Entity<People>().HasIndex(p => p.Identification).IsUnique();
             modelBuilder.Entity<SubscriptionType>().HasIndex(p => p.Name).IsUnique();
+            modelBuilder.Entity<State>().HasIndex(s => new { s.CountryId, s.Name }).IsUnique();
 
             //desabilitar eliminacion en cascada
             DisableCascadingDelete(modelBuilder);

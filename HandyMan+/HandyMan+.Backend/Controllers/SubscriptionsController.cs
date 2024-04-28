@@ -3,7 +3,7 @@ using HandyMan_.Shared.Entities;
 using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Orders.Shared.DTOs;
+using HandyMan_.Shered.DTOs;
 
 namespace HandyMan_.Backend.Controllers
 {

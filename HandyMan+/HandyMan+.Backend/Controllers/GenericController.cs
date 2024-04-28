@@ -1,7 +1,7 @@
 ﻿using HandyMan_.Backend.UnitsOfWork.Interfaces;
 using HandyMan_.Shered.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using Orders.Shared.DTOs;
+using HandyMan_.Shered.DTOs;
 
 namespace HandyMan_.Backend.Controllers
 {
