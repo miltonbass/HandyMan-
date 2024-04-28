@@ -8,6 +8,8 @@ namespace HandyMan_.Backend.UnitsOfWork.Interfaces
     {
         Task<ActionResponse<IEnumerable<Category>>> GetAsync(PaginationDTO pagination);
         Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
+        Task<IEnumerable<Category>> GetComboAsync();
+
     }
 }
 

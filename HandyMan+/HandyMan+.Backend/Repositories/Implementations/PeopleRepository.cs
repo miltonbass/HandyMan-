@@ -17,6 +17,13 @@ namespace HandyMan_.Backend.Repositories.Implementations
             _context = context;
         }
 
+        public async Task<IEnumerable<People>> GetComboAsync()
+        {
+            return await _context.Peoples
+                .OrderBy(c => c.Name)
+                .ToListAsync();
+        }
+
         public override async Task<ActionResponse<IEnumerable<People>>> GetAsync()
         {
             var peoples = await _context.Peoples

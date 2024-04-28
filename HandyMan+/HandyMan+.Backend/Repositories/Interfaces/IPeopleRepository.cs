@@ -10,5 +10,6 @@ namespace HandyMan_.Backend.Repositories.Interfaces
         Task<ActionResponse<IEnumerable<People>>> GetAsync(PaginationDTO pagination);
         Task<ActionResponse<IEnumerable<People>>> GetAsync();
         Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
+        Task<IEnumerable<People>> GetComboAsync();
     }
 }

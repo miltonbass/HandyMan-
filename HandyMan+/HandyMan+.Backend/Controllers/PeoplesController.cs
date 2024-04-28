@@ -2,6 +2,7 @@
 using HandyMan_.Backend.UnitsOfWork.Interfaces;
 using HandyMan_.Shered.DTOs;
 using HandyMan_.Shered.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HandyMan_.Backend.Controllers
@@ -36,6 +37,12 @@ namespace HandyMan_.Backend.Controllers
                 return Ok(action.Result);
             }
             return BadRequest();
+        }
+        [AllowAnonymous]
+        [HttpGet("combo")]
+        public async Task<IActionResult> GetComboAsync()
+        {
+            return Ok(await _peopleUnitOfWork.GetComboAsync());
         }
     }
 }

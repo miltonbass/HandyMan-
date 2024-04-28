@@ -1,9 +1,8 @@
-﻿@page "/services/create"
+﻿@page "/services/edit/{Id:int}"
 
+<h3>Editar Servicio</h3>
 
-<h3>Crear Servicio</h3>
-
-<EditForm EditContext="editContext" OnValidSubmit="CreateAsync">
+<EditForm EditContext="editContext" OnValidSubmit="EditAsync">
     <DataAnnotationsValidator />
      <div class="mb-3">
         <label>Categoria</label>
@@ -61,4 +60,5 @@
     <button class="btn btn-primary" type="submit">Guardar Cambios</button>
     <button class="btn btn-success" @onclick="Return">Regresar</button>
 </EditForm>
+
 
