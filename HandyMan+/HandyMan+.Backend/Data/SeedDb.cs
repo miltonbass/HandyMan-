@@ -48,9 +48,6 @@ namespace HandyMan_.Backend.Data
                 _context.Categories.Add(new Category { Name = "Nutrición" });
                 _context.Categories.Add(new Category { Name = "Ropa" });
                 _context.Categories.Add(new Category { Name = "Tecnología" });
-                _context.Categories.Add(new Category { Name = "Hogar" });
-                _context.Categories.Add(new Category { Name = "Construcción" });
-                _context.Categories.Add(new Category { Name = "Reparaciones Locativas" });
             }
 
             await _context.SaveChangesAsync();
