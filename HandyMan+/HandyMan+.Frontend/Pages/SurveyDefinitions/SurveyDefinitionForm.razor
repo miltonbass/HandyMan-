@@ -1,0 +1,46 @@
+﻿<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+
+<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label>Tipo de pregunta de encuesta:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@SurveyDefinitionEntity.Title" />
+            <ValidationMessage For="@(() => SurveyDefinitionEntity.Title)" />
+        </div>
+         <br>
+<label>Tipo de pregunta:</label>
+<div>
+    <select class="form-control" @bind="@SurveyDefinitionEntity.QuestionType">
+        @foreach (var questionType in SurveyDefinitionTypeEnumToList)
+        {
+            <option value="@questionType">@questionType</option>
+        }
+    </select>
+    <ValidationMessage For="@(() => SurveyDefinitionEntity.QuestionType)" />
+</div>
+        <br>
+        <label>Descripción:</label>
+         <div>
+            <InputText class="form-control" @bind-Value="@SurveyDefinitionEntity.Description" />
+            <ValidationMessage For="@(() => SurveyDefinitionEntity.Description)" />
+        </div>
+<div>
+     <br>
+       
+     <label>Tipo de usuario:</label>
+    <select class="form-control" @bind="@SurveyDefinitionEntity.UserType">
+        @foreach (var userType in UserTypesEnumToList)
+        {
+            <option value="@userType">@userType</option>
+        }
+    </select>
+    <ValidationMessage For="@(() => SurveyDefinitionEntity.UserType)" />
+</div>
+
+
+    </div>
+
+    <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+    <button class="btn btn-success" @onclick="ReturnAction">Regresar</button>
+</EditForm>

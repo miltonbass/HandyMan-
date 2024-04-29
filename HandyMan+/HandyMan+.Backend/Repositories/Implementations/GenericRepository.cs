@@ -5,6 +5,8 @@ using HandyMan_.Shered.DTOs;
 using HandyMan_.Shered.Responses;
 using Microsoft.EntityFrameworkCore;
 
+
+
 namespace HandyMan_.Backend.Repositories.Implementations
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
@@ -98,6 +100,31 @@ namespace HandyMan_.Backend.Repositories.Implementations
             };
         }
 
+        public virtual async Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTO pagination)
+        {
+            var queryable = _entity.AsQueryable();
+
+            return new ActionResponse<IEnumerable<T>>
+            {
+                WasSuccess = true,
+                Result = await queryable
+                    .Paginate(pagination)
+                    .ToListAsync()
+            };
+        }
+
+        public virtual async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
+        {
+            var queryable = _entity.AsQueryable();
+            var count = await queryable.CountAsync();
+            int totalPages = (int)Math.Ceiling((double)count / pagination.RecordsNumber);
+            return new ActionResponse<int>
+            {
+                WasSuccess = true,
+                Result = totalPages
+            };
+        }
+
         public virtual async Task<ActionResponse<T>> UpdateAsync(T entity)
         {
             //poner aca
@@ -119,31 +146,6 @@ namespace HandyMan_.Backend.Repositories.Implementations
             {
                 return ExceptionActionResponse(exception);
             }
-        }
-
-        public virtual async Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTO pagination)
-        {
-            var queryable = _entity.AsQueryable();
-
-            return new ActionResponse<IEnumerable<T>>
-            {
-                WasSuccess = true,
-                Result = await queryable
-                    .Paginate(pagination)
-                    .ToListAsync()
-            };
-        }
-
-        public virtual async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
-        {
-            var queryable = _entity.AsQueryable();
-            double count = await queryable.CountAsync();
-            int totalPages = (int)Math.Ceiling(count / pagination.RecordsNumber);
-            return new ActionResponse<int>
-            {
-                WasSuccess = true,
-                Result = totalPages
-            };
         }
 
         private ActionResponse<T> DbUpdateExceptionActionResponse()
