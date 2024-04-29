@@ -44,6 +44,12 @@ builder.Services.AddScoped<IServicesUnitOfWork, ServicesUnitOfWork>();
 
 builder.Services.AddScoped<IServiceOrderRepository, ServiceOrderRepository>();
 builder.Services.AddScoped<IServiceOrderUnitOfWork, ServiceOrderUnitOfWork>();
+builder.Services.AddScoped<ISurveyDefinitionsRepository, SurveyDefinitionsRepository>();
+builder.Services.AddScoped<ISurveyDefinitionsUnitOfWork, SurveyDefinitionsUnitOfWork>();
+
+builder.Services.AddScoped<ISubscriptionTypeRepository, SubscriptionTypeRepository>();
+builder.Services.AddScoped<ISubscriptionUnitOfWork, SubscriptionUnitOfWork>();
+
 
 
 var app = builder.Build();

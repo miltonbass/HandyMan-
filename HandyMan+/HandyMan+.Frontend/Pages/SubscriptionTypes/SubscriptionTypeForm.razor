@@ -1,0 +1,38 @@
+﻿<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+
+<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label>Tipo de subscripción:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@SubscriptionType.Name" />
+            <ValidationMessage For="@(() => SubscriptionType.Name)" />
+        </div>
+         <br>
+         <label>Precio:</label>
+            <div>
+            <InputNumber class="form-control" @bind-Value="@SubscriptionType.Price" />
+            <ValidationMessage For="@(() => SubscriptionType.Price)" />
+        </div>
+        <br>
+<label>Tipo de usuario:</label>
+<div>
+    <select class="form-control" @bind="@SubscriptionType.UserType">
+        @foreach (var userType in SubscriptionTypeEnumToList)
+        {
+            <option value="@userType">@userType</option>
+        }
+    </select>
+    <ValidationMessage For="@(() => SubscriptionType.UserType)" />
+</div>
+        <br>
+        <label>Descripción:</label>
+         <div>
+            <InputText class="form-control" @bind-Value="@SubscriptionType.Description" />
+            <ValidationMessage For="@(() => SubscriptionType.Description)" />
+        </div>
+
+    </div>
+    <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+    <button class="btn btn-success" @onclick="ReturnAction">Regresar</button>
+</EditForm>

@@ -1,0 +1,67 @@
+﻿@page "/surveyDefinitions"
+
+<h3>Preguntas de encuestas</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/surveyDefinition/create">Nueva pregunta de encuesta</a>
+</div>
+
+<GenericList MyList="SurveyDefinitionEntities">
+    <Body>
+        <div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
+                    <div>
+                        <input style="width: 400px;" type="text" class="form-control" id="titulo" placeholder="Buscar pregunta..." @bind-value="Filter" />
+                    </div>
+                    <div class="mx-1">
+                        <button type="button" class="btn btn-outline-primary" @onclick="ApplyFilterAsync"><i class="bi bi-funnel" /> Filtrar</button>
+                        <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync"><i class="bi bi-x-circle" /> Limpiar</button>
+                    </div>
+                </div>
+
+<div style="display: flex; align-items: center; justify-content: space-between;">
+    <Pagination CurrentPage="currentPage"
+                TotalPages="totalPages"
+                SelectedPage="SelectedPageAsync"
+                />
+
+    <div>
+        <label for="paginationAmount">Cantidad Paginado</label>
+        <select id="paginationAmount" class="form-control" value="10" @onchange="HandleChange">
+                    @foreach (var userType in Values)
+                    {
+                    <option value="@userType">@userType</option>
+                    }
+        </select>
+    </div>
+</div>
+
+
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Subscripción</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var surveyDefinitionEnty in SurveyDefinitionEntities!)
+                {
+                        <tr>
+                            <div style="list-style: none;">
+                                 <li  style="list-style: none;"><strong>Tìtulo:</strong> @surveyDefinitionEnty.Title</li>
+                                 <li><strong>Descripción:</strong> @surveyDefinitionEnty.Description</li>
+                                 <li><strong>Tipo de pregunta</strong> @surveyDefinitionEnty.QuestionType</li>
+                                 <li><strong>Tipo de usuario</strong> @surveyDefinitionEnty.UserType</li>
+                            </div>
+                           
+                            <td>
+                                    <a href="/surveyDefinition/edit/@surveyDefinitionEnty.Id" class="btn btn-warning">Editar</a>
+                                    <button @onclick=@(() => DeleteAsycn(surveyDefinitionEnty)) class="btn btn-danger">Borrar</button>
+                            </td>
+                        </tr>
+                }
+            </tbody>
+        </table>
+    </Body>
+</GenericList>
