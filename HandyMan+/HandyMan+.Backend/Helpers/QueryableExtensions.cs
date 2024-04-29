@@ -1,6 +1,6 @@
 ﻿using HandyMan_.Shered.DTOs;
 
-namespace Orders.Backend.Helpers
+namespace HandyMan_.Backend.Helpers
 {
     public static class QueryableExtensions
     {
