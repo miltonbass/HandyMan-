@@ -17,8 +17,9 @@ namespace HandyMan_.Backend.Data
             await CheckCountriesAsync();
             await CheckCategoriesAsync();
             await CheckoutPeopleTypeAsync();
-            await CheckoutPeopleAsync();
-            await CheckoutServiceAsync();
+            //await CheckoutPeopleAsync();
+            //await CheckoutServiceAsync();
+            //await CheckoutServiceOrderAsync();
         }
 
         private async Task CheckCategoriesAsync()
@@ -63,7 +64,8 @@ namespace HandyMan_.Backend.Data
         {
             if (!_context.Peoples.Any())
             {
-                _context.Peoples.Add(new People { 
+                _context.Peoples.Add(new People
+                {
                     Identification = "56232222",
                     Name = "Tecnico aldo",
                     Surname = "The best",
@@ -82,7 +84,8 @@ namespace HandyMan_.Backend.Data
         {
             if (!_context.Services.Any())
             {
-                _context.Services.Add(new Service { 
+                _context.Services.Add(new Service
+                {
                     CategoryId = 1,
                     Category = null,
                     PeopleId = 2,
@@ -90,6 +93,21 @@ namespace HandyMan_.Backend.Data
                     Name = "Repacion de Jardiner",
                     Detail = "Repacion de 2mts de ceped mas 400gm de abono",
                     Price = "300.000"
+                });
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task CheckoutServiceOrderAsync()
+        {
+            if (!_context.ServiceOrders.Any())
+            {
+                _ = _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "pintar 40 mts cuadrados",
                 });
             }
             await _context.SaveChangesAsync();
