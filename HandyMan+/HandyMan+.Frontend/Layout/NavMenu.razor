@@ -1,6 +1,6 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">HandyMan+.Frontend</a>
+        <a class="navbar-brand" href="">HandyMan+</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -15,20 +15,41 @@
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
+            <NavLink class="nav-link" href="/categories">
+                <span class="bi bi-check-square-fill-nav-menu" aria-hidden="true"></span> Categorias
+            </NavLink>
+        </div>
+         <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/countries">
+                <span class="bi bi-globe-americas-fill-nav-menu" aria-hidden="true"></span> Paises
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
+            <NavLink class="nav-link" @onclick="()=>expandSubNav = !expandSubNav">
+                <span class="bi bi-globe-americas-fill-nav-menu" aria-hidden="true"></span>Gestion
             </NavLink>
+             @if (expandSubNav)
+             {
+                 <ul class="nav flex-column">
+                     <li class="nav-item px-3">
+                             <NavLink class="nav-link" href="/services">
+                            <span class="bi bi-globe-americas-fill-nav-menu" aria-hidden="true"></span>Servicios
+                        </NavLink>
+                     </li>
+                     <li class="nav-item px-3">
+                                 <NavLink class="nav-link" href="/provider">
+                                               <span> <i class="bi bi-person-vcard"></i></span>Proveedores
+                        </NavLink>
+                     </li>
+                 </ul>
+             }
         </div>
     </nav>
 </div>
 
 @code {
     private bool collapseNavMenu = true;
+    private bool expandSubNav;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 

@@ -1,0 +1,64 @@
+﻿@page "/services/edit/{Id:int}"
+
+<h3>Editar Servicio</h3>
+
+<EditForm EditContext="editContext" OnValidSubmit="EditAsync">
+    <DataAnnotationsValidator />
+     <div class="mb-3">
+        <label>Categoria</label>
+        <div>
+            <select class="form-select" @bind="Service!.CategoryId">
+                <option value="0">-- Seleccione una categoria --</option>
+                @if (categories is not null)
+                {
+                    @foreach (var category in categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                }
+            </select>
+            <ValidationMessage For="@(() => Service!.CategoryId)" />
+        </div>
+    </div>
+     <div class="mb-3">
+        <label>Proveedor</label>
+        <div>
+            <select class="form-select" @bind="Service!.PeopleId">
+                <option value="0">-- Seleccione una categoria --</option>
+                @if (categories is not null)
+                {
+                    @foreach (var people in peoples!)
+                    {
+                                <option value="@people.Id">@people.Name</option>
+                    }
+                }
+            </select>
+            <ValidationMessage For="@(() => Service!.PeopleId)" />
+        </div>
+    </div>
+     <div class="mb-3">
+        <label>Nombre</label>
+        <div>
+            <InputText class="form-control" @bind-Value="Service!.Name" />
+            <ValidationMessage For="@(() => Service.Name)" />
+        </div>
+    </div>
+     <div class="mb-3">
+        <label>Detalle</label>
+        <div>
+            <InputText class="form-control" @bind-Value="Service!.Detail" />
+            <ValidationMessage For="@(() => Service.Detail)" />
+        </div>
+    </div>
+     <div class="mb-3">
+        <label>Precio</label>
+        <div>
+            <InputText class="form-control" @bind-Value="Service!.Price" />
+            <ValidationMessage For="@(() => Service.Price)" />
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+    <button class="btn btn-success" @onclick="Return">Regresar</button>
+</EditForm>
+
+

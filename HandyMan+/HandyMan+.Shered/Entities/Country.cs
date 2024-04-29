@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HandyMan_.Frontend.Shared.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace HandyMan_.Shered.Entities
 {
-    public class Country
+    public class Country : IEntityWithName
     {
         public int Id { get; set; }
 
@@ -10,5 +11,10 @@ namespace HandyMan_.Shered.Entities
         [MaxLength(100, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Name { get; set; } = null!;
+
+        public ICollection<State>? States { get; set; }
+
+        [Display(Name = "Departamentos / Estados")]
+        public int StatesNumber => States == null || States.Count == 0 ? 0 : States.Count;
     }
 }
