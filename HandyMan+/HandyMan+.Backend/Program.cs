@@ -1,6 +1,7 @@
 using HandyMan_.Backend.Data;
 using HandyMan_.Backend.Repositories.Implementations;
 using HandyMan_.Backend.Repositories.Interfaces;
+using HandyMan_.Backend.Services;
 using HandyMan_.Backend.UnitsOfWork.Implementations;
 using HandyMan_.Backend.UnitsOfWork.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -13,16 +14,36 @@ builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.Re
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=LocalConnection"));
 builder.Services.AddTransient<SeedDb>();
 
-builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitOfWork<>));
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IApiService, ApiService>();
 
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
+builder.Services.AddScoped<ICitiesRepository, CitiesRepository>();
+builder.Services.AddScoped<ICountriesRepository, CountriesRepository>();
+builder.Services.AddScoped<IStatesRepository, StatesRepository>();
+
+builder.Services.AddScoped<IPeopleRepository, PeopleRepository>();
+builder.Services.AddScoped<IServicesRepository, ServicesRepository>();
+
+builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitOfWork<>));
+builder.Services.AddScoped<ICitiesUnitOfWork, CitiesUnitOfWork>();
+builder.Services.AddScoped<ICategoriesUnitOfWork, CategoriesUnitOfWork>();
+builder.Services.AddScoped<ICountriesUnitOfWork, CountriesUnitOfWork>();
+builder.Services.AddScoped<IStatesUnitOfWork, StatesUnitOfWork>();
+
+builder.Services.AddScoped<IPeopleUnitOfWork, PeopleUnitOfWork>();
+builder.Services.AddScoped<IServicesUnitOfWork, ServicesUnitOfWork>();
+
+builder.Services.AddScoped<IServiceOrderRepository, ServiceOrderRepository>();
+builder.Services.AddScoped<IServiceOrderUnitOfWork, ServiceOrderUnitOfWork>();
 builder.Services.AddScoped<ISurveyDefinitionsRepository, SurveyDefinitionsRepository>();
 builder.Services.AddScoped<ISurveyDefinitionsUnitOfWork, SurveyDefinitionsUnitOfWork>();
 

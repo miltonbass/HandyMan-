@@ -1,4 +1,5 @@
-﻿using HandyMan_.Shered.Responses;
+﻿using HandyMan_.Shered.DTOs;
+using HandyMan_.Shered.Responses;
 using HandyMan_.Shered.DTOs;
 
 namespace HandyMan_.Backend.UnitsOfWork.Interfaces
@@ -10,6 +11,7 @@ namespace HandyMan_.Backend.UnitsOfWork.Interfaces
         Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTO pagination);
 
         Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
+
 
         Task<ActionResponse<T>> AddAsync(T model);
 

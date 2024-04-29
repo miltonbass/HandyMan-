@@ -1,3 +1,59 @@
-﻿<h3>ServicesIndex</h3>
+﻿@page "/services"
+<h3>Servicios</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/services/create">Nuevo Servicio</a>
+</div>
 
 
+<GenericList MyList="Services">
+    <Body>
+        <Pagination CurrentPage="currentPage"
+                    TotalPages="totalPages"
+                    SelectedPage="SelectedPageAsync" />
+        <div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
+            <input style="width: 400px;" type="text" class="form-control" id="titulo" placeholder="Buscar servicio..." @bind-value="Filter" />
+            <button type="button" class="btn btn-outline-primary mx-1" @onclick="ApplyFilterAsync">Filtrar</button>
+            <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync">Limpiar</button>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Titulo</th>
+                    <th>Detalle</th>
+                    <th>Precio</th>
+                    <th>Categoria</th>
+                    <th>Proveedor a cargo</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var service in Services!)
+                {
+                        <tr>
+                            <td>
+                                @service.Name
+                            </td>
+                            <td>
+                                @service.Detail
+                            </td>
+                            <td>
+                                @service.Price
+                            </td>
+                            <td>
+                                @service.Category!.Name
+                            </td>
+                            <td>
+                                @service.People!.Name
+                            </td>
+                            <td>
+                                <a class="btn btn-warning btn-sm" href="/services/edit/@service.Id">Editar</a>
+                                    <button class="btn btn-danger btn-sm" @onclick=@(() => DeleteAsync(service))>Borrar</button>
+                            </td>
+                        </tr>
+                }
+            </tbody>
+        </table>
+    </Body>
+</GenericList>

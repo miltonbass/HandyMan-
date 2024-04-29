@@ -1,0 +1,101 @@
+﻿@page "/provider/edit/{Id:int}"
+
+<h3>Crear Proveedor</h3>
+
+<EditForm EditContext="editContext" OnValidSubmit="EditAsync">
+    <DataAnnotationsValidator />
+     <div class="mb-3">
+        <label>Identificacion</label>
+        <div>
+            <InputText class="form-control" @bind-Value="People!.Identification" />
+            <ValidationMessage For="@(() => People.Identification)" />
+        </div>
+    </div>
+    <div class="mb-3">
+        <label>Nombre</label>
+        <div>
+            <InputText class="form-control" @bind-Value="People!.Name" />
+            <ValidationMessage For="@(() => People.Name)" />
+        </div>
+    </div>
+    <div class="mb-3">
+        <label>Apellido</label>
+        <div>
+            <InputText class="form-control" @bind-Value="People!.Surname" />
+            <ValidationMessage For="@(() => People.Surname)" />
+        </div>
+    </div>
+    <div class="mb-3">
+        <label>Correo Electronico</label>
+        <div>
+            <InputText class="form-control" @bind-Value="People!.Email" />
+            <ValidationMessage For="@(() => People.Email)" />
+        </div>
+    </div>
+    <div class="mb-3">
+        <label>Tipo Persona</label>
+        <div>
+            <select class="form-select" @bind="People.PeopleTypeId">
+                <option value="0">-- Seleccione una categoria --</option>
+                @if (peoplesTypes is not null)
+                {
+                    @foreach (var peoplesType in peoplesTypes!)
+                    {
+                        <option value="@peoplesType.Id">@peoplesType.Name</option>
+                    }
+                }
+            </select>
+            <ValidationMessage For="@(() => People.PeopleTypeId)" />
+        </div>
+    </div>
+    <div class="mb-3">
+        <label>Pais</label>
+       <div>
+        <select class="form-select" @onchange="CountryChangedAsync">
+            <option value="0">-- Seleccione un país --</option>
+                @if (countries is not null)
+                {
+                    @foreach (var country in countries)
+                    {
+                       <option value="@country.Id">@country.Name</option>
+                    }
+                }
+        </select>
+    </div>
+    </div>
+    <div class="mb-3">
+        <label>Departamento</label>
+        <div>
+            <select class="form-select" @onchange="StateChangedAsync">
+                <option value="0">-- Seleccione un estado/departamento --</option>
+                @if (states is not null)
+                {
+                    @foreach (var state in states)
+                    {
+                                <option value="@state.Id">@state.Name</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label>Ciudad</label>
+        <div>
+            <select class="form-select" @bind="People.CityId">
+                <option value="0">-- Seleccione una ciudad --</option>
+                @if (cities is not null)
+                {
+                    @foreach (var city in cities)
+                    {
+                                <option value="@city.Id">@city.Name</option>
+                    }
+                }
+            </select>
+            <ValidationMessage For="@(() => People.CityId)" />
+        </div>   
+    </div>
+    <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+    <button class="btn btn-success" @onclick="Return">Regresar</button>
+</EditForm>
+
+
