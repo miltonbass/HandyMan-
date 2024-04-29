@@ -42,6 +42,8 @@ builder.Services.AddScoped<IStatesUnitOfWork, StatesUnitOfWork>();
 builder.Services.AddScoped<IPeopleUnitOfWork, PeopleUnitOfWork>();
 builder.Services.AddScoped<IServicesUnitOfWork, ServicesUnitOfWork>();
 
+builder.Services.AddScoped<IServiceOrderRepository, ServiceOrderRepository>();
+builder.Services.AddScoped<IServiceOrderUnitOfWork, ServiceOrderUnitOfWork>();
 
 
 var app = builder.Build();
