@@ -1,14 +1,16 @@
 ﻿@page "/subscriptions"
 
-<h3>Tipos de subscripciones</h3>
-
-<div class="mb-3">
-    <a class="btn btn-primary" href="/subscriptions/create">Nuevo tipo de subscripción</a>
-</div>
-
-<GenericList MyList="SubscriptionType">
-    <Body>
-         <div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
+<div class="card">
+    <div class="card-header">
+        <span>
+            <i class="bi bi-globe-americas"/> Tipos de subscripciones
+            <a class="btn btn-primary btn-sm float-end" href="/subscriptions/create"><i class="bi bi-plus-square" /> Nuevo tipo de subscripción</a>
+        </span>
+    </div>
+    <div class="card-body">
+        <GenericList MyList="SubscriptionType">
+            <Body>
+                <div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
                     <div>
                         <input style="width: 400px;" type="text" class="form-control" id="titulo" placeholder="Buscar pregunta..." @bind-value="Filter" />
                     </div>
@@ -19,49 +21,51 @@
                 </div>
 
                 <div style="display: flex; align-items: center; justify-content: space-between;">
-    <Pagination CurrentPage="currentPage"
-                TotalPages="totalPages"
-                SelectedPage="SelectedPageAsync"
-                />
+                    <Pagination CurrentPage="currentPage"
+                                TotalPages="totalPages"
+                                SelectedPage="SelectedPageAsync"
+                                />
 
-    <div>
-        <label for="paginationAmount">Cantidad Paginado</label>
-        <select id="paginationAmount" class="form-control" value="10" @onchange="HandleChange">
-                    @foreach (var userType in Values)
-                    {
-                    <option value="@userType">@userType</option>
-                    }
-        </select>
+                     <div>
+                        <label for="paginationAmount">Cantidad Paginado</label>
+                        <select id="paginationAmount" class="form-control" value="10" @onchange="HandleChange">
+                                    @foreach (var userType in Values)
+                                    {
+                                    <option value="@userType">@userType</option>
+                                    }
+                        </select>
+                      </div>
+                  </div>
+
+
+
+                   <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Subscripción</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var subscriptionType in SubscriptionType!)
+                        {
+                                <tr>
+                                    <div style="list-style: none;">
+                                             <li><strong>Nombre:</strong> @subscriptionType.Name</li>
+                                         <li><strong>Precio:</strong> @subscriptionType.Price</li>
+                                         <li><strong>Tipo de usuario</strong> @subscriptionType.UserType</li>
+                                         <li><strong>Descripción</strong> @subscriptionType.Description</li>
+                                    </div>
+                           
+                                    <td>
+                                            <a href="/subscriptions/edit/@subscriptionType.Id" class="btn btn-warning">Editar</a>
+                                            <button @onclick=@(() => DeleteAsycn(subscriptionType)) class="btn btn-danger">Borrar</button>
+                                    </td>
+                                </tr>
+                        }
+                    </tbody>
+                </table>
+            </Body>
+        </GenericList>
     </div>
 </div>
-
-
-
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Subscripción</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var subscriptionType in SubscriptionType!)
-                {
-                        <tr>
-                            <div style="list-style: none;">
-                                     <li><strong>Nombre:</strong> @subscriptionType.Name</li>
-                                 <li><strong>Precio:</strong> @subscriptionType.Price</li>
-                                 <li><strong>Tipo de usuario</strong> @subscriptionType.UserType</li>
-                                 <li><strong>Descripción</strong> @subscriptionType.Description</li>
-                            </div>
-                           
-                            <td>
-                                    <a href="/subscriptions/edit/@subscriptionType.Id" class="btn btn-warning">Editar</a>
-                                    <button @onclick=@(() => DeleteAsycn(subscriptionType)) class="btn btn-danger">Borrar</button>
-                            </td>
-                        </tr>
-                }
-            </tbody>
-        </table>
-    </Body>
-</GenericList>

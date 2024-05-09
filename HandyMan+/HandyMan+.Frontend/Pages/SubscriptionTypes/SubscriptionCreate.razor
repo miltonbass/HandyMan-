@@ -1,5 +1,12 @@
 ﻿@page "/subscriptions/create"
 
-<h3>Crear Tipo de subscripción</h3>
-
-<SubscriptionTypeForm   @ref="subscriptionTypeForm" SubscriptionType="subscriptionType" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+<div class="card">
+    <div class="card-header">
+        <span>
+            <i class="bi bi-globe-americas"/> Crear Tipo de subscripción
+        </span>
+    </div>
+    <div class="card-body">
+        <SubscriptionTypeForm   @ref="subscriptionTypeForm" SubscriptionType="subscriptionType" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+    </div>
+</div>
