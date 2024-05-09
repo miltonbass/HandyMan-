@@ -1,5 +1,5 @@
 ﻿@inherits LayoutComponentBase
-<div class="page">
+<!--<div class="page">
     <div class="sidebar">
         <NavMenu />
     </div>
@@ -8,9 +8,28 @@
         <div class="top-row px-4">
             <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
         </div>
+        <MatPortalHost></MatPortalHost>
 
         <article class="content px-4">
             @Body
         </article>
     </main>
 </div>
+-->
+<MatAppBarContainer>
+    <MatAppBar Fixed="true">
+        <MatAppBarRow>
+            <MatAppBarSection>
+                <MatIconButton Icon="menu"></MatIconButton>
+                <MatAppBarTitle>MatBlazor - Material Design components for Blazor</MatAppBarTitle>
+            </MatAppBarSection>
+            <MatAppBarSection Align="@MatAppBarSectionAlign.End">
+                <MatIconButton Icon="favorite"></MatIconButton>
+            </MatAppBarSection>
+        </MatAppBarRow>
+    </MatAppBar>
+
+    <MatAppBarContent>
+        Content
+    </MatAppBarContent>
+</MatAppBarContainer>
