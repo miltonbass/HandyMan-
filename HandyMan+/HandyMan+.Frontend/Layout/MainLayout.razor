@@ -1,22 +1,5 @@
 ﻿@using MatBlazor
 @inherits LayoutComponentBase
-<!--<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-        <MatPortalHost></MatPortalHost>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
--->
 <MatAppBarContainer>
     <MatAppBar Fixed="true">
         <MatAppBarRow>
@@ -32,20 +15,21 @@
      <MatAppBarContent>
         <MatDrawer @bind-Opened="@Opened">
             <MatNavMenu>
-                <MatNavSubMenu @bind-Expanded="@navSubMenuOpenState">
-                    <MatNavSubMenuHeader>
-                        <MatNavItem AllowSelection="false"><MatIcon Icon="all_inbox"></MatIcon>&nbsp; Paises </MatNavItem>
-                    </MatNavSubMenuHeader>
-                    <MatNavSubMenuList>
-                        <MatNavItem Href="#">Item 3.A&nbsp; <MatIcon Icon="backup"></MatIcon></MatNavItem>
-                        <MatNavItem>Item 3.B&nbsp; <MatIcon Icon="build"></MatIcon></MatNavItem>
-                        <MatNavItem>Item 3.C&nbsp; <MatIcon Icon="explore"></MatIcon></MatNavItem>
-                    </MatNavSubMenuList>
-                </MatNavSubMenu>
                 <MatNavItem Href="/countries"><MatIcon Icon="grade"></MatIcon>&nbsp; Paises </MatNavItem>
                 <MatDivider></MatDivider>
-                <MatNavItem><MatIcon Icon="face"></MatIcon>&nbsp; Item 5</MatNavItem>
-                <MatNavSubMenu>
+                <MatNavSubMenu @bind-Expanded="@navSubMenuOpenState">
+                    <MatNavSubMenuHeader>
+                        <MatNavItem AllowSelection="false"><MatIcon Icon="all_inbox"></MatIcon>&nbsp; Gestion </MatNavItem>
+                    </MatNavSubMenuHeader>
+                    <MatNavSubMenuList>
+                        <MatNavItem Href="/services">Servicios</MatNavItem>
+                        <MatNavItem Href="/providers">Proveedores</MatNavItem>
+                       
+                    </MatNavSubMenuList>
+                </MatNavSubMenu>
+                
+                <MatNavItem><MatIcon Icon="face"></MatIcon>&nbsp; Encuesta</MatNavItem>
+                <!--<MatNavSubMenu>
                     <MatNavSubMenuHeader>
                         <MatNavItem AllowSelection="false"><MatIcon Icon="explore"></MatIcon>&nbsp; Item 6</MatNavItem>
                     </MatNavSubMenuHeader>
@@ -53,9 +37,8 @@
                         <MatNavItem Disabled="true" Href="#">Item 6.A</MatNavItem>
                         <MatNavItem>Item 6.B</MatNavItem>
                         <MatNavItem>Item 6.C</MatNavItem>
- 
                     </MatNavSubMenuList>
-                </MatNavSubMenu>
+                </MatNavSubMenu>-->
             </MatNavMenu>
         </MatDrawer>
         <MatDrawerContent>
