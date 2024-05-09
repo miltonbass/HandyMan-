@@ -1,5 +1,12 @@
 ﻿@page "/surveyDefinition/create"
 
-<h3>Crear pregunta de encuesta:</h3>
-
-<SurveyDefinitionForm   @ref="surveyDefinitionForm" SurveyDefinitionEntity="surveyDefinitionEntity" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+<div class="card">
+    <div class="card-header">
+        <span>
+            <i class="bi bi-globe-americas"/> Crear pregunta de encuesta:
+        </span>
+    </div>
+    <div class="card-body">
+        <SurveyDefinitionForm   @ref="surveyDefinitionForm" SurveyDefinitionEntity="surveyDefinitionEntity" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+    </div>
+</div>

@@ -24,7 +24,7 @@ namespace HandyMan_.Frontend.Pages.SurveyDefinitions
 
         public List<SurveyDefinitionEntity>? SurveyDefinitionEntities{ get; set; }
 
-        public List<int> Values = [5, 10, 15, 20, 25];
+        public List<int> Values = [5, 10, 15, 20, 25, 50, 100];
 
 
 

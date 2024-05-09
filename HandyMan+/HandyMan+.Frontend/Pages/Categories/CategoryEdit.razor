@@ -1,12 +1,20 @@
 ﻿@page "/categories/edit/{Id:int}"
 
-<h3>Editar Categoría</h3>
+<div class="card">
+    <div class="card-header">
+        <span>
+            <i class="bi bi-globe-americas" /> Editar Categoría
+        </span>
+    </div>
+    <div class="card-body">
 
-@if (category is null)
-{
-        <Loading/>
-}
-else
-{
-            <FormWithName @ref="categoryForm" Label="Categoría:" Model="category" OnValidSubmit="EditAsync" ReturnAction="Return" />
-}
+        @if (category is null)
+        {
+                <Loading/>
+        }
+        else
+        {
+                    <FormWithName @ref="categoryForm" Label="Categoría:" Model="category" OnValidSubmit="EditAsync" ReturnAction="Return" />
+        }
+    </div>
+</div>
