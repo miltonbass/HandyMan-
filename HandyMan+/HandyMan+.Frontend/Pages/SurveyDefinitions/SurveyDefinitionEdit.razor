@@ -1,12 +1,19 @@
 ﻿@page "/surveyDefinition/edit/{Id:int}"
 
-<h3>Editar Pregunta de encuesta</h3>
-
-@if (surveyDefinitionEntity is null)
-{
-        <Loading/>
-}
-else
-{
-                    <SurveyDefinitionForm @ref="surveyDefinitionForm"  SurveyDefinitionEntity="surveyDefinitionEntity" OnValidSubmit="EditAsync" ReturnAction="Return" />
-}
+<div class="card">
+    <div class="card-header">
+        <span>
+            <i class="bi bi-globe-americas"/> Editar Pregunta de encuesta
+        </span>
+    </div>
+    <div class="card-body">
+        @if (surveyDefinitionEntity is null)
+        {
+                <Loading/>
+        }
+        else
+        {
+                <SurveyDefinitionForm @ref="surveyDefinitionForm"  SurveyDefinitionEntity="surveyDefinitionEntity" OnValidSubmit="EditAsync" ReturnAction="Return" />
+        }
+   </div>
+</div>

@@ -16,12 +16,18 @@ namespace HandyMan_.Frontend.Pages.Countries
         [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
 
-
         public List<Country>? Countries { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             await LoadAsync();
+        }
+
+        private async Task FilterCallBack(string filter)
+        {
+            Filter = filter;
+            await ApplyFilterAsync();
+            StateHasChanged();
         }
 
         private async Task SelectedPageAsync(int page)
@@ -43,6 +49,7 @@ namespace HandyMan_.Frontend.Pages.Countries
                 await LoadPagesAsync();
             }
         }
+
         private async Task<bool> LoadListAsync(int page)
         {
             var url = $"api/countries?page={page}";
@@ -78,11 +85,6 @@ namespace HandyMan_.Frontend.Pages.Countries
                 return;
             }
             totalPages = responseHttp.Response;
-        }
-        private async Task CleanFilterAsync()
-        {
-            Filter = string.Empty;
-            await ApplyFilterAsync();
         }
 
         private async Task ApplyFilterAsync()

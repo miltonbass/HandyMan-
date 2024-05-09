@@ -1,5 +1,6 @@
 ﻿using HandyMan_.Shared.Entities;
 using HandyMan_.Shered.Entities;
+using Microsoft.EntityFrameworkCore;
 using Orders.Shared.Enums;
 
 namespace HandyMan_.Backend.Data
@@ -16,6 +17,7 @@ namespace HandyMan_.Backend.Data
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
+            await CheckCountriesFullAsync();
             await CheckCountriesAsync();
             await CheckCategoriesAsync();
             await CheckSubscriptionTypesAsync();
@@ -24,6 +26,15 @@ namespace HandyMan_.Backend.Data
             //await CheckoutPeopleAsync();
             //await CheckoutServiceAsync();
             //await CheckoutServiceOrderAsync();
+        }
+
+        private async Task CheckCountriesFullAsync()
+        {
+            if (!_context.Countries.Any())
+            {
+                var countriesStatesCitiesSQLScript = File.ReadAllText("Data\\CountriesStatesCities.sql");
+                await _context.Database.ExecuteSqlRawAsync(countriesStatesCitiesSQLScript);
+            }
         }
 
         private async Task CheckCategoriesAsync()

@@ -1,5 +1,12 @@
 ﻿@page "/cities/create/{StateId:int}"
 
-<h3>Nueva Ciudad</h3>
-
-<FormWithName @ref="cityForm" Label="Ciudad:" Model="city" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+<div class="card">
+    <div class="card-header">
+        <span>
+            <i class="bi bi-globe-americas" /> Nueva Ciudad
+        </span>
+    </div>
+    <div class="card-body">
+        <FormWithName @ref="cityForm" Label="Ciudad:" Model="city" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+     </div>
+</div>
