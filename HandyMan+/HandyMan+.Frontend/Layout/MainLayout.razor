@@ -1,16 +1,70 @@
-﻿@inherits LayoutComponentBase
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+﻿@using MatBlazor
+@inherits LayoutComponentBase
+<MatAppBarContainer>
+    <MatAppBar Fixed="true">
+        <MatAppBarRow>
+            <MatAppBarSection>
+                <MatIconButton Icon="menu" OnClick="@((e) => ButtonClicked())"></MatIconButton>
+                <MatAppBarTitle>HandyMan+</MatAppBarTitle>
+            </MatAppBarSection>
+            <MatAppBarSection Align="@MatAppBarSectionAlign.End">
+                <MatIconButton Icon="chevron_right"></MatIconButton>
+            </MatAppBarSection>
+        </MatAppBarRow>
+    </MatAppBar>
+     <MatAppBarContent>
+        <MatDrawer @bind-Opened="@Opened">
+            <MatNavMenu>
+                <MatNavItem Href="/countries"><MatIcon Icon="grade"></MatIcon>&nbsp; Paises </MatNavItem>
+                <MatDivider></MatDivider>
+                <MatNavSubMenu @bind-Expanded="@navSubMenuOpenState">
+                    <MatNavSubMenuHeader>
+                        <MatNavItem><MatIcon Icon="all_inbox"></MatIcon>&nbsp; Gestion </MatNavItem>
+                    </MatNavSubMenuHeader>
+                    <MatNavSubMenuList>
+                        <MatNavItem Href="/services">Servicios</MatNavItem>
+                        <MatNavItem Href="/providers">Proveedores</MatNavItem>
+                       
+                    </MatNavSubMenuList>
+                </MatNavSubMenu>
+                
+                <MatNavItem><MatIcon Icon="face"></MatIcon>&nbsp; Encuesta</MatNavItem>
+                <!--<MatNavSubMenu>
+                    <MatNavSubMenuHeader>
+                        <MatNavItem AllowSelection="false"><MatIcon Icon="explore"></MatIcon>&nbsp; Item 6</MatNavItem>
+                    </MatNavSubMenuHeader>
+                    <MatNavSubMenuList>
+                        <MatNavItem Disabled="true" Href="#">Item 6.A</MatNavItem>
+                        <MatNavItem>Item 6.B</MatNavItem>
+                        <MatNavItem>Item 6.C</MatNavItem>
+                    </MatNavSubMenuList>
+                </MatNavSubMenu>-->
+            </MatNavMenu>
+        </MatDrawer>
+        <MatDrawerContent>
+           @Body
+        </MatDrawerContent>
+    </MatAppBarContent>
+ 
+    
+</MatAppBarContainer>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+@code
+{
+    bool Opened = false;
+ 
+    void ButtonClicked()
+    {
+        Opened = !Opened;
+    }
+    [Inject] IJSRuntime JS { get; set; }
+ 
+    bool navSubMenuOpenState;
+ 
+    async Task ClickMe()
+    {
+        Console.WriteLine("test");
+        await JS.InvokeAsync<object>("alert", "Successful OnClick!");
+    }
+ 
+}
