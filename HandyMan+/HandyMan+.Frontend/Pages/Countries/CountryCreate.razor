@@ -1,7 +1,15 @@
 ﻿@page "/countries/create"
 
-<h3>Crear País</h3>
+<div class="card">
+    <div class="card-header">
+        <span>
+            <i class="bi bi-globe-americas" /> Crear País
+            <a class="btn btn-sm btn-success float-end" href="/Countries"><i class="bi bi-arrow-left" />  Regresar</a>
+        </span>
+    </div>
+    <div class="card-body">
 
-<FormWithName @ref="countryForm" Label="País:" Model="country" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+        <FormWithName @ref="countryForm" Label="País:" Model="country" OnValidSubmit="CreateAsync" ReturnAction="Return" />
 
-
+    </div>
+</div>
