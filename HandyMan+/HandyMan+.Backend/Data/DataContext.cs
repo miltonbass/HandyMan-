@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using HandyMan_.Shered.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using HandyMan_.Shared.Entities;
 
 namespace HandyMan_.Backend.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<User>  
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
