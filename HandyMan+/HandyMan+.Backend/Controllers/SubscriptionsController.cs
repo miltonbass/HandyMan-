@@ -4,10 +4,12 @@ using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using HandyMan_.Shered.DTOs;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace HandyMan_.Backend.Controllers
 {
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     public class SubscriptionsController : GenericController<SubscriptionType>
     {

@@ -54,11 +54,10 @@ namespace HandyMan_.Backend.Data
                 var city = await _context.Cities.FirstOrDefaultAsync(x => x.Name == "Medellín");
                 city ??= await _context.Cities.FirstOrDefaultAsync();
 
-                //var filePath = $"{Environment.CurrentDirectory}\\Images\\users\\{image}";
-                //var fileBytes = File.ReadAllBytes(filePath);
-                //var imagePath = await _fileStorage.SaveFileAsync(fileBytes, "jpg", "users");
+                var filePath = $"{Environment.CurrentDirectory}\\Images\\users\\{image}";
+                var fileBytes = File.ReadAllBytes(filePath);
+                var imagePath = await _fileStorage.SaveFileAsync(fileBytes, "jpg", "users");
 
-                var imagePath = "";
 
                 user = new User
                 {
