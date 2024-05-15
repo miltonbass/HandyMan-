@@ -1,16 +1,60 @@
-﻿@inherits LayoutComponentBase
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+﻿@using MatBlazor
+@inherits LayoutComponentBase
+<MatAppBarContainer>
+    <MatAppBar Fixed="true">
+        <MatAppBarRow>
+            <MatAppBarSection>
+                <MatIconButton Icon="menu" OnClick="@((e) => ButtonClicked())"></MatIconButton>
+                <MatAppBarTitle>HandyMan+</MatAppBarTitle>
+            </MatAppBarSection>
+            <MatAppBarSection Align="@MatAppBarSectionAlign.End">
+                <AuthLinks/>
+            </MatAppBarSection>
+        </MatAppBarRow>
+    </MatAppBar>
+     <MatAppBarContent>
+        <MatDrawer @bind-Opened="@Opened">
+            <MatNavMenu>
+                <MatNavItem Href="/countries"><MatIcon Icon="grade"></MatIcon>&nbsp; Paises </MatNavItem>
+                <MatDivider></MatDivider>
+                <MatNavSubMenu @bind-Expanded="@navSubMenuOpenState">
+                    <MatNavSubMenuHeader>
+                        <MatNavItem><MatIcon Icon="all_inbox"></MatIcon>&nbsp; Gestion </MatNavItem>
+                    </MatNavSubMenuHeader>
+                    <MatNavSubMenuList>
+                        <MatNavItem Href="/services">Servicios</MatNavItem>
+                        <MatNavItem Href="/providers">Proveedores</MatNavItem>
+                        <MatNavItem Href="/surveyDefinitions">Encuestas</MatNavItem>
+                        <MatNavItem Href="/subscriptions">Tipos de subscripciones</MatNavItem>
+                       
+                    </MatNavSubMenuList>
+                </MatNavSubMenu>
+            </MatNavMenu>
+        </MatDrawer>
+        <MatDrawerContent>
+           @Body
+        </MatDrawerContent>
+    </MatAppBarContent>
+ 
+    
+</MatAppBarContainer>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+@code
+{
+    bool Opened = false;
+ 
+    void ButtonClicked()
+    {
+        Opened = !Opened;
+    }
+    [Inject] IJSRuntime JS { get; set; }
+ 
+    bool navSubMenuOpenState;
+ 
+    async Task ClickMe()
+    {
+        Console.WriteLine("test");
+        await JS.InvokeAsync<object>("alert", "Successful OnClick!");
+    }
+ 
+}

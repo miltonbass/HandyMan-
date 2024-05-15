@@ -1,4 +1,6 @@
-﻿using HandyMan_.Shared.Entities;
+﻿using HandyMan_.Backend.Helpers;
+using HandyMan_.Backend.UnitsOfWork.Interfaces;
+using HandyMan_.Shared.Entities;
 using HandyMan_.Shered.Entities;
 using Microsoft.EntityFrameworkCore;
 using Orders.Shared.Enums;
@@ -8,11 +10,16 @@ namespace HandyMan_.Backend.Data
     public class SeedDb
     {
         private readonly DataContext _context;
+        private readonly IUsersUnitOfWork _usersUnitOfWork;
+        private readonly IFileStorage _fileStorage;
 
-        public SeedDb(DataContext context)
+        public SeedDb(DataContext context, IUsersUnitOfWork usersUnitOfWork, IFileStorage fileStorage)
         {
             _context = context;
+            _usersUnitOfWork = usersUnitOfWork;
+            _fileStorage = fileStorage;
         }
+
 
         public async Task SeedAsync()
         {
@@ -23,10 +30,65 @@ namespace HandyMan_.Backend.Data
             await CheckSubscriptionTypesAsync();
             await CheckSurveyDataAsync();
             await CheckoutPeopleTypeAsync();
+            await CheckRolesAsync();
+            await CheckUserAsync("0001", "user", "admin", "admin@yopmail.com", "318 4756753", "Avenida siempre viva 123", "admin.jpg", UserType.Admin);
+            await CheckUserAsync("0002", "User", "asistant", "asistant@yopmail.com", "111 111 111", "Avenida 2", "specialist.jpg", UserType.Specialist);
+            await CheckUserAsync("0003", "User", "provider", "provider@yopmail.com", "111 111 111", "Avenida 3", "provider.jpg", UserType.Provider);
+            await CheckUserAsync("0003", "User", "costumer", "costumer@yopmail.com", "111 111 111", "Avenida 3", "costumer.jpg", UserType.Costumer);
+
             //await CheckoutPeopleAsync();
             //await CheckoutServiceAsync();
             //await CheckoutServiceOrderAsync();
         }
+
+        private async Task CheckRolesAsync()
+        {
+            await _usersUnitOfWork.CheckRoleAsync(UserType.Admin.ToString());
+            await _usersUnitOfWork.CheckRoleAsync(UserType.Costumer.ToString());
+            await _usersUnitOfWork.CheckRoleAsync(UserType.CostumerPremium.ToString());
+            await _usersUnitOfWork.CheckRoleAsync(UserType.Provider.ToString());
+            await _usersUnitOfWork.CheckRoleAsync(UserType.ProviderPremium.ToString());
+            await _usersUnitOfWork.CheckRoleAsync(UserType.Specialist.ToString());
+        }
+
+        private async Task<User> CheckUserAsync(string document, string firstName, string lastName, string email, string phone, string address, string image, UserType userType)
+        {
+            var user = await _usersUnitOfWork.GetUserAsync(email);
+            if (user == null)
+            {
+                var city = await _context.Cities.FirstOrDefaultAsync(x => x.Name == "Medellín");
+                city ??= await _context.Cities.FirstOrDefaultAsync();
+
+                var filePath = $"{Environment.CurrentDirectory}\\Images\\users\\{image}";
+                var fileBytes = File.ReadAllBytes(filePath);
+                var imagePath = await _fileStorage.SaveFileAsync(fileBytes, "jpg", "users");
+
+
+                user = new User
+                {
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Email = email,
+                    UserName = email,
+                    PhoneNumber = phone,
+                    Address = address,
+                    Document = document,
+                    City = city,
+                    UserType = userType,
+                    Photo = imagePath,
+                };
+
+                await _usersUnitOfWork.AddUserAsync(user, "123456");
+                await _usersUnitOfWork.AddUserToRoleAsync(user, userType.ToString());
+
+                var token = await _usersUnitOfWork.GenerateEmailConfirmationTokenAsync(user);
+                await _usersUnitOfWork.ConfirmEmailAsync(user, token);
+            }
+
+            return user;
+        }
+
+
 
         private async Task CheckCountriesFullAsync()
         {
@@ -202,35 +264,35 @@ namespace HandyMan_.Backend.Data
                     Name = "Free",
                     Price = 0.00,
                     Description = "Acceso básico sin costo.",
-                    UserType = UserType.Usuario.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
                 _context.SubscriptionTypes.Add(new SubscriptionType
                 {
                     Name = "Premium Level 1",
                     Price = 19.99,
                     Description = "Acceso a recursos avanzados y soporte técnico estándar.",
-                    UserType = UserType.Usuario.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
                 _context.SubscriptionTypes.Add(new SubscriptionType
                 {
                     Name = "Premium Level 2",
                     Price = 39.99,
                     Description = "Acceso completo a todos los recursos y soporte prioritario.",
-                    UserType = UserType.Usuario.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
                 _context.SubscriptionTypes.Add(new SubscriptionType
                 {
                     Name = "Associated",
                     Price = 99.99,
                     Description = "Para entidades asociadas con beneficios extendidos y colaboraciones.",
-                    UserType = UserType.Proveedor.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
                 _context.SubscriptionTypes.Add(new SubscriptionType
                 {
                     Name = "Expert",
                     Price = 199.99,
                     Description = "Para expertos y consultores con acceso a análisis de datos y herramientas avanzadas.",
-                    UserType = UserType.Proveedor.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
                 await _context.SaveChangesAsync();
             }
@@ -245,7 +307,7 @@ namespace HandyMan_.Backend.Data
                     Title = "Experiencia del servicio",
                     Description = "¿Cómo fue tu experiencia con el servicio prestado?",
                     QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Usuario.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -253,7 +315,7 @@ namespace HandyMan_.Backend.Data
                     Title = "Información por parte del usuario",
                     Description = "¿El usuario entregó la información necesaria para realizar el servicio?",
                     QuestionType = QuestionTypeEnum.SingleResponse.ToString(),
-                    UserType = UserType.Proveedor.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -261,7 +323,7 @@ namespace HandyMan_.Backend.Data
                     Title = "Satisfacción general",
                     Description = "¿Qué tan satisfecho estás con nuestro servicio en general?",
                     QuestionType = QuestionTypeEnum.StarRange.ToString(),
-                    UserType = UserType.Usuario.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -269,7 +331,7 @@ namespace HandyMan_.Backend.Data
                     Title = "Calidad del producto",
                     Description = "Califica la calidad del producto recibido",
                     QuestionType = QuestionTypeEnum.StarRange.ToString(),
-                    UserType = UserType.Usuario.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -277,7 +339,7 @@ namespace HandyMan_.Backend.Data
                     Title = "Tiempo de respuesta",
                     Description = "¿El tiempo de respuesta fue adecuado?",
                     QuestionType = QuestionTypeEnum.TrueFalse.ToString(),
-                    UserType = UserType.Proveedor.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -285,7 +347,7 @@ namespace HandyMan_.Backend.Data
                     Title = "Facilidad de uso",
                     Description = "¿Qué tan fácil es utilizar nuestro servicio?",
                     QuestionType = QuestionTypeEnum.SingleResponse.ToString(),
-                    UserType = UserType.Usuario.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -293,7 +355,7 @@ namespace HandyMan_.Backend.Data
                     Title = "Recomendaciones",
                     Description = "¿Recomendarías nuestro servicio a otras personas?",
                     QuestionType = QuestionTypeEnum.SingleResponse.ToString(),
-                    UserType = UserType.Usuario.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -301,7 +363,7 @@ namespace HandyMan_.Backend.Data
                     Title = "Eficiencia del proceso",
                     Description = "¿El proceso de servicio fue eficiente?",
                     QuestionType = QuestionTypeEnum.TrueFalse.ToString(),
-                    UserType = UserType.Proveedor.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -309,7 +371,7 @@ namespace HandyMan_.Backend.Data
                     Title = "Sugerencias de mejora",
                     Description = "¿Tienes alguna sugerencia para mejorar nuestro servicio?",
                     QuestionType = QuestionTypeEnum.Comment.ToString(),
-                    UserType = UserType.Proveedor.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -317,7 +379,7 @@ namespace HandyMan_.Backend.Data
                     Title = "Comentarios generales",
                     Description = "Por favor, proporciona cualquier otro comentario que tengas.",
                     QuestionType = QuestionTypeEnum.Comment.ToString(),
-                    UserType = UserType.Usuario.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -325,7 +387,7 @@ namespace HandyMan_.Backend.Data
                     Title = "Disponibilidad del servicio",
                     Description = "¿El servicio estuvo disponible cuando lo necesitaste?",
                     QuestionType = QuestionTypeEnum.TrueFalse.ToString(),
-                    UserType = UserType.Usuario.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -333,7 +395,7 @@ namespace HandyMan_.Backend.Data
                     Title = "Atención al cliente",
                     Description = "Califica la atención recibida por parte de nuestro equipo de soporte",
                     QuestionType = QuestionTypeEnum.StarRange.ToString(),
-                    UserType = UserType.Usuario.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -341,7 +403,7 @@ namespace HandyMan_.Backend.Data
                     Title = "Claridad de la información",
                     Description = "¿La información proporcionada fue clara y comprensible?",
                     QuestionType = QuestionTypeEnum.SingleResponse.ToString(),
-                    UserType = UserType.Usuario.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -349,7 +411,7 @@ namespace HandyMan_.Backend.Data
                     Title = "Interacción con el proveedor",
                     Description = "Describe cómo fue tu interacción con el proveedor del servicio.",
                     QuestionType = QuestionTypeEnum.Comment.ToString(),
-                    UserType = UserType.Proveedor.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -357,7 +419,7 @@ namespace HandyMan_.Backend.Data
                     Title = "Compatibilidad del servicio",
                     Description = "¿El servicio es compatible con tus necesidades?",
                     QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Proveedor.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -365,7 +427,7 @@ namespace HandyMan_.Backend.Data
                     Title = "Compatibilidad del servicio",
                     Description = "¿El servicio es compatible con tus necesidades?",
                     QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Proveedor.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -373,22 +435,14 @@ namespace HandyMan_.Backend.Data
                     Title = "Compatibilidad del servicio",
                     Description = "¿El servicio es compatible con tus necesidades?",
                     QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Proveedor.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
                 {
                     Title = "Compatibilidad del servicio",
                     Description = "¿El servicio es compatible con tus necesidades?",
                     QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Proveedor.ToString()
-                });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Compatibilidad del servicio",
-                    Description = "¿El servicio es compatible con tus necesidades?",
-                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Proveedor.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -396,14 +450,22 @@ namespace HandyMan_.Backend.Data
                     Title = "Compatibilidad del servicio",
                     Description = "¿El servicio es compatible con tus necesidades?",
                     QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Proveedor.ToString()
+                    UserType = UserType.Costumer.ToString()
+                });
+
+                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
+                {
+                    Title = "Compatibilidad del servicio",
+                    Description = "¿El servicio es compatible con tus necesidades?",
+                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
+                    UserType = UserType.Costumer.ToString()
                 });
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
                 {
                     Title = "Compatibilidad del servicio",
                     Description = "¿El servicio es compatible con tus necesidades?",
                     QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Proveedor.ToString()
+                    UserType = UserType.Costumer.ToString()
                 });
 
 

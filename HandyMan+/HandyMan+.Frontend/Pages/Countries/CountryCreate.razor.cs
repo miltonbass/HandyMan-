@@ -2,10 +2,12 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Repositories;
 using HandyMan_.Frontend.Shared;
 using HandyMan_.Shered.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 
 namespace HandyMan_.Frontend.Pages.Countries
 {
+    [Authorize(Roles = "Admin")]
     public partial class CountryCreate
     {
         private FormWithName<Country>? countryForm;

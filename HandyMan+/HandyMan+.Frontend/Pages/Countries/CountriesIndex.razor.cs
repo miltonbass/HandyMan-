@@ -2,9 +2,11 @@
 using HandyMan_.Frontend.Repositories;
 using HandyMan_.Shered.Entities;
 using CurrieTechnologies.Razor.SweetAlert2;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HandyMan_.Frontend.Pages.Countries
 {
+    [Authorize(Roles = "Admin")]
     public partial class CountriesIndex
     {
         private int currentPage = 1;

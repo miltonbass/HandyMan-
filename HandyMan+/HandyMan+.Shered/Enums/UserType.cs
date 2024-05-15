@@ -5,11 +5,24 @@ namespace Orders.Shared.Enums
 {
     public enum UserType
     {
-        [Description("Usuario")]
-        Usuario,
+        [Description("Administrador")]
+        Admin,
+
+        [Description("Cliente")]
+        Costumer,
+
+        [Description("Usuario Premium")]
+        CostumerPremium,
 
         [Description("Proveedor")]
-        Proveedor
+        Provider,
+
+        [Description("Proveedor Premium")]
+        ProviderPremium,
+
+        [Description("Especialista")]
+        Specialist,
+
     }
 }
 public class UserTypeEnumToList
