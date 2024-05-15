@@ -7,92 +7,83 @@ namespace HandyMan_.Frontend.Pages.Services
 {
     public partial class ServicesIndex
     {
-        private int currentPage = 1;
-        private int totalPages;
+
+        /** 
+            Dialog modal
+         */
+        bool dialogIsOpen = false;
+        string name = null;
+        string animal = null;
+        string dialogAnimal = null;
+
+        void OpenDialog()
+        {
+            dialogAnimal = null;
+            dialogIsOpen = true;
+            
+        }
+
+        void OkClick()
+        {
+            animal = dialogAnimal;
+            dialogIsOpen = false;
+        }
+
+        
+
+       
 
         [Inject] private IRepository Repository { get; set; } = null!;
 
-        [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
-        [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
+
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] public SweetAlertService SweetAlertService { get; set; } = null!;
 
 
         public List<Service>? Services { get; set; }
+        public List<Service>? ListServices { get; set; }
+
+        private List<Category>? categories;
+        private Service Service { get; set; } = new Service();
 
 
         protected override async Task OnInitializedAsync()
         {
-            await LoadAsync();
+            await LoadAllServiceAsync();
+            await LoadCategoriesAsync();
         }
 
-        private async Task SelectedPageAsync(int page)
+        private async Task LoadCategoriesAsync()
         {
-            currentPage = page;
-            await LoadAsync(page);
-        }
-
-        private async Task LoadAsync(int page = 1)
-        {
-            if (!string.IsNullOrWhiteSpace(Page))
-            {
-                page = Convert.ToInt32(Page);
-            }
-
-            var ok = await LoadListAsync(page);
-            if (ok)
-            {
-                await LoadPagesAsync();
-            }
-        }
-        private async Task<bool> LoadListAsync(int page)
-        {
-            var url = $"api/services?page={page}";
-            if (!string.IsNullOrEmpty(Filter))
-            {
-                url += $"&filter={Filter}";
-            }
-
-            var responseHttp = await Repository.GetAsync<List<Service>>(url);
-            if (responseHttp.Error)
-            {
-                var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-                return false;
-            }
-            Services = responseHttp.Response;
-            return true;
-        }
-
-        private async Task LoadPagesAsync()
-        {
-            var url = "api/services/totalPages";
-            if (!string.IsNullOrEmpty(Filter))
-            {
-                url += $"?filter={Filter}";
-            }
-
-            var responseHttp = await Repository.GetAsync<int>(url);
+            var responseHttp = await Repository.GetAsync<List<Category>>("/api/categories/combo");
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
                 await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 return;
             }
-            totalPages = responseHttp.Response;
-        }
-        private async Task CleanFilterAsync()
-        {
-            Filter = string.Empty;
-            await ApplyFilterAsync();
+
+            categories = responseHttp.Response;
         }
 
-        private async Task ApplyFilterAsync()
+        protected void OnChangeCategory(string value)
         {
-            int page = 1;
-            await LoadAsync(page);
-            await SelectedPageAsync(page);
+            //do something
+            //selectedValue = "Selected Value: " + value;
         }
+
+        private async Task LoadAllServiceAsync()
+        {
+            var url = $"api/services/full";
+            var responseHttp = await Repository.GetAsync<List<Service>>(url);
+            if (responseHttp.Error)
+            {
+                var message = await responseHttp.GetErrorMessageAsync();
+                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            }
+            ListServices = responseHttp.Response;
+        }
+
         private async Task DeleteAsync(Service service)
         {
             var result = await SweetAlertService.FireAsync(new SweetAlertOptions
@@ -125,7 +116,7 @@ namespace HandyMan_.Frontend.Pages.Services
                 return;
             }
 
-            await LoadAsync();
+           
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
@@ -135,5 +126,6 @@ namespace HandyMan_.Frontend.Pages.Services
             });
             await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro borrado con éxito.");
         }
+        
     }
 }

@@ -1,59 +1,62 @@
 ﻿@page "/services"
-<h3>Servicios</h3>
 
-<div class="mb-3">
-    <a class="btn btn-primary" href="/services/create">Nuevo Servicio</a>
+<div class="mat-layout-grid">
+    <div class="mat-layout-grid-inner"> 
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+            <div class="mat-h4">
+                Servicios <MatButton Icon="add" OnClick="@OpenDialog"></MatButton>
+               
+            </div>
+        </div>
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+            <MatTable Items="@ListServices" LoadInitialData="true" Striped="true" RequestApiOnlyOnce="true" AllowSelection="true" RowCListServiceslass="tester"
+                  FilterByColumnName="Name" DebounceMilliseconds="150" class="mat-elevation-z5">
+                <MatTableHeader>
+                    <th>Id</th>
+                    <th>Categoria</th>
+                    <th>Nombre</th>
+                    <th>Detalle</th>
+                    <th>Precio</th>
+                    <th>Proveedor</th>
+                    <th>Acciones</th>
+                </MatTableHeader>
+                <MatTableRow>
+                    <td>@context.Id</td>
+                    <td>@context.Category?.Name</td>
+                    <td>@context.Name</td>
+                    <td>@context.Detail</td>
+                    <td>@context.Price</td>
+                    <td>@context.PeopleId</td>
+                    <td>
+                        <MatButton Icon="border_color"></MatButton>
+                        <MatButton Icon="delete"></MatButton>
+                    </td>
+                </MatTableRow>
+            </MatTable>
+        </div>
+    </div>
+<MatDialog @bind-IsOpen="@dialogIsOpen">
+    <MatDialogTitle>Servicio</MatDialogTitle>
+    <MatDialogContent>
+        <p>Datos necesrios para registrar un servicio</p>
+        @if(categories != null)
+        {
+            <MatSelect Outlined="true" Label="Categorias" ValueChanged="(string i) => OnChangeCategory(i)"> 
+                <MatOptionString>Seleccionar </MatOptionString>
+                @foreach (var cat in categories!)
+                {
+                    <MatOptionString Value="@cat.Id.ToString()">@cat.Name</MatOptionString>
+                }
+            </MatSelect>   
+        }
+        <MatTextField @bind-Value="@dialogAnimal"></MatTextField>
+
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick="@(e => { dialogIsOpen = false; })">No Gracias</MatButton>
+        <MatButton OnClick="@OkClick">Guardar</MatButton>
+    </MatDialogActions>
+</MatDialog>
 </div>
 
 
-<GenericList MyList="Services">
-    <Body>
-        <Pagination CurrentPage="currentPage"
-                    TotalPages="totalPages"
-                    SelectedPage="SelectedPageAsync" />
-        <div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
-            <input style="width: 400px;" type="text" class="form-control" id="titulo" placeholder="Buscar servicio..." @bind-value="Filter" />
-            <button type="button" class="btn btn-outline-primary mx-1" @onclick="ApplyFilterAsync">Filtrar</button>
-            <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync">Limpiar</button>
-        </div>
-
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Titulo</th>
-                    <th>Detalle</th>
-                    <th>Precio</th>
-                    <th>Categoria</th>
-                    <th>Proveedor a cargo</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var service in Services!)
-                {
-                        <tr>
-                            <td>
-                                @service.Name
-                            </td>
-                            <td>
-                                @service.Detail
-                            </td>
-                            <td>
-                                @service.Price
-                            </td>
-                            <td>
-                                @service.Category!.Name
-                            </td>
-                            <td>
-                                @service.People!.Name
-                            </td>
-                            <td>
-                                <a class="btn btn-warning btn-sm" href="/services/edit/@service.Id">Editar</a>
-                                    <button class="btn btn-danger btn-sm" @onclick=@(() => DeleteAsync(service))>Borrar</button>
-                            </td>
-                        </tr>
-                }
-            </tbody>
-        </table>
-    </Body>
-</GenericList>
