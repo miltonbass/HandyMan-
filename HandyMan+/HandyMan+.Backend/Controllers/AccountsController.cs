@@ -34,6 +34,7 @@ namespace Orders.Backend.Controllers
         }
 
 
+
         [HttpPost("CreateUser")]
         public async Task<IActionResult> CreateUser([FromBody] UserDTO model)
         {
@@ -45,9 +46,14 @@ namespace Orders.Backend.Controllers
             }
 
             var result = await _usersUnitOfWork.AddUserAsync(user, model.Password);
-       
+            if (result.Succeeded)
+            {
+                await _usersUnitOfWork.AddUserToRoleAsync(user, user.UserType.ToString());
+                return Ok(BuildToken(user));
 
-            return NoContent();
+            }
+
+            return BadRequest(result.Errors.FirstOrDefault());
         }
 
 

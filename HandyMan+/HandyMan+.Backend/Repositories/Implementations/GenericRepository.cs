@@ -6,7 +6,6 @@ using HandyMan_.Shered.Responses;
 using Microsoft.EntityFrameworkCore;
 
 
-
 namespace HandyMan_.Backend.Repositories.Implementations
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
@@ -17,7 +16,32 @@ namespace HandyMan_.Backend.Repositories.Implementations
         public GenericRepository(DataContext context)
         {
             _context = context;
-            _entity = context.Set<T>();
+            _entity = _context.Set<T>();
+        }
+
+        public virtual async Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTO pagination)
+        {
+            var queryable = _entity.AsQueryable();
+
+            return new ActionResponse<IEnumerable<T>>
+            {
+                WasSuccess = true,
+                Result = await queryable
+                    .Paginate(pagination)
+                    .ToListAsync()
+            };
+        }
+
+        public virtual async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
+        {
+            var queryable = _entity.AsQueryable();
+            var count = await queryable.CountAsync();
+            int totalPages = (int)Math.Ceiling((double)count / pagination.RecordsNumber);
+            return new ActionResponse<int>
+            {
+                WasSuccess = true,
+                Result = totalPages
+            };
         }
 
         public virtual async Task<ActionResponse<T>> AddAsync(T entity)
@@ -32,9 +56,21 @@ namespace HandyMan_.Backend.Repositories.Implementations
                     Result = entity
                 };
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
-                return DbUpdateExceptionActionResponse();
+                if (ex.InnerException != null)
+                {
+                    if (ex.InnerException!.Message.Contains("duplicate"))
+                    {
+                        return DbUpdateExceptionActionResponse();
+                    }
+                }
+
+                return new ActionResponse<T>
+                {
+                    WasSuccess = false,
+                    Message = ex.Message
+                };
             }
             catch (Exception exception)
             {
@@ -68,7 +104,7 @@ namespace HandyMan_.Backend.Repositories.Implementations
                 return new ActionResponse<T>
                 {
                     WasSuccess = false,
-                    Message = "No se puede borrar, porque tiene registros relacionados"
+                    Message = "No se puede borrar, porque tiene registros relacionados."
                 };
             }
         }
@@ -76,18 +112,19 @@ namespace HandyMan_.Backend.Repositories.Implementations
         public virtual async Task<ActionResponse<T>> GetAsync(int id)
         {
             var row = await _entity.FindAsync(id);
-            if (row != null)
+            if (row == null)
             {
-                return new ActionResponse<T>//revisar abajo
+                return new ActionResponse<T>
                 {
-                    WasSuccess = true,
-                    Result = row
+                    WasSuccess = false,
+                    Message = "Registro no encontrado"
                 };
             }
-            return new ActionResponse<T>// revisar arriba
+
+            return new ActionResponse<T>
             {
-                WasSuccess = false,
-                Message = "Registro no encontrado"
+                WasSuccess = true,
+                Result = row
             };
         }
 
@@ -100,37 +137,11 @@ namespace HandyMan_.Backend.Repositories.Implementations
             };
         }
 
-        public virtual async Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTO pagination)
-        {
-            var queryable = _entity.AsQueryable();
-
-            return new ActionResponse<IEnumerable<T>>
-            {
-                WasSuccess = true,
-                Result = await queryable
-                    .Paginate(pagination)
-                    .ToListAsync()
-            };
-        }
-
-        public virtual async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
-        {
-            var queryable = _entity.AsQueryable();
-            var count = await queryable.CountAsync();
-            int totalPages = (int)Math.Ceiling((double)count / pagination.RecordsNumber);
-            return new ActionResponse<int>
-            {
-                WasSuccess = true,
-                Result = totalPages
-            };
-        }
-
         public virtual async Task<ActionResponse<T>> UpdateAsync(T entity)
         {
-            //poner aca
+            _context.Update(entity);
             try
             {
-                _context.Update(entity);//revisar esto
                 await _context.SaveChangesAsync();
                 return new ActionResponse<T>
                 {
@@ -138,9 +149,21 @@ namespace HandyMan_.Backend.Repositories.Implementations
                     Result = entity
                 };
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
-                return DbUpdateExceptionActionResponse();
+                if (ex.InnerException != null)
+                {
+                    if (ex.InnerException!.Message.Contains("duplicate"))
+                    {
+                        return DbUpdateExceptionActionResponse();
+                    }
+                }
+
+                return new ActionResponse<T>
+                {
+                    WasSuccess = false,
+                    Message = ex.Message
+                };
             }
             catch (Exception exception)
             {
