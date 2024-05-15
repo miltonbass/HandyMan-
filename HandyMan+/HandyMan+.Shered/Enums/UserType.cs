@@ -8,16 +8,21 @@ namespace Orders.Shared.Enums
         [Description("Administrador")]
         Admin,
 
-        [Description("Usuario")]
-        User,
+        [Description("Cliente")]
+        Costumer,
 
         [Description("Usuario Premium")]
-        UserPremium,
+        CostumerPremium,
+
+        [Description("Proveedor")]
+        Provider,
+
+        [Description("Proveedor Premium")]
+        ProviderPremium,
 
         [Description("Especialista")]
-        Specialist
+        Specialist,
 
-        
     }
 }
 public class UserTypeEnumToList

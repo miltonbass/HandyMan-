@@ -94,7 +94,7 @@ namespace HandyMan_.Frontend.Pages.Auth
         private async Task CreteUserAsync()
         {
             userDTO.UserName = userDTO.Email;
-            userDTO.UserType = UserType.User;
+            userDTO.UserType = UserType.Costumer;
             loading = true;
             var responseHttp = await Repository.PostAsync<UserDTO>("/api/accounts/CreateUser", userDTO);
             loading = false;

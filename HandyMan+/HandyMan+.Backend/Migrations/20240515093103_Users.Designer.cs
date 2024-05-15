@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HandyMan_.Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240512194926_Users")]
+    [Migration("20240515093103_Users")]
     partial class Users
     {
         /// <inheritdoc />
