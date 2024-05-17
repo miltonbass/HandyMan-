@@ -12,7 +12,26 @@
         <a href="Logout" class="nav-link btn btn-link">Cerrar Sesión</a>
     </Authorized>
     <NotAuthorized>
-        <a href="Register" class="nav-link btn btn-link">Registro</a>
-        <a href="Login" class="nav-link btn btn-link">Iniciar Sesión</a>
+        <MatAppBarSection Align="@MatAppBarSectionAlign.End">
+            <MatIconButton Icon="person" OnClick="@OpenDialog"></MatIconButton>
+            <MatIconButton Icon="people" Link="Register"></MatIconButton>
+        </MatAppBarSection>
     </NotAuthorized>
 </AuthorizeView>
+
+<MatDialog @bind-IsOpen="@dialogIsOpen">
+    <MatDialogTitle>Entrar</MatDialogTitle>
+    <MatDialogContent>
+        <p>Inicia Sesión</p>
+        
+        <MatTextField @bind-Value="@dialogAnimal"></MatTextField>
+        <MatTextField @bind-Value="@dialogAnimal"></MatTextField>
+  
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick="@(e => { dialogIsOpen = false; })">No Gracias</MatButton>
+        <MatButton >Entrar</MatButton>
+    </MatDialogActions>
+</MatDialog>
+
+        

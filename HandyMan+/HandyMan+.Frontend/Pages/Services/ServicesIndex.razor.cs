@@ -1,12 +1,14 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Repositories;
 using HandyMan_.Shered.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Reflection;
 
 namespace HandyMan_.Frontend.Pages.Services
 {
+    [Authorize(Roles = "Admin")]
     public partial class ServicesIndex
     {
         /** 
