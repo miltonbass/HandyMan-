@@ -20,18 +20,37 @@
 </AuthorizeView>
 
 <MatDialog @bind-IsOpen="@dialogIsOpen">
-    <MatDialogTitle>Entrar</MatDialogTitle>
-    <MatDialogContent>
-        <p>Inicia Sesión</p>
-        
-        <MatTextField @bind-Value="@dialogAnimal"></MatTextField>
-        <MatTextField @bind-Value="@dialogAnimal"></MatTextField>
+    <EditForm Model="loginDTO" OnValidSubmit="LoginAsync">
+        <MatDialogTitle>Entrar</MatDialogTitle>
+        <MatDialogContent>
+            <p>Inicia Sesión</p>
+            
+            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-4">
+                <p>
+                    <MatTextField Label="Email" @bind-Value="@loginDTO.Email"/>
+                    <ValidationMessage For="@(() => loginDTO.Email)"/>
+                </p>
+                <p>
+                    <MatTextField Type="password" Label="Contrasenia" @bind-Value="@loginDTO.Password"/>
+                    <ValidationMessage For="@(() => loginDTO.Password)"/>
+                </p>
+                <MatChipSet>
+                    <MatChip Label="¿No eres usuario aún? Regístrate aquí"></MatChip>
+                </MatChipSet>
+                <MatChipSet>
+                    <MatChip Label="Reenviar correro de activación de cuenta"></MatChip>
+                </MatChipSet>
+                <MatChipSet>
+                    <MatChip Label="¿Has olvidado tu contraseña?"></MatChip>
+                </MatChipSet>
+            </div>
   
-    </MatDialogContent>
-    <MatDialogActions>
-        <MatButton OnClick="@(e => { dialogIsOpen = false; })">No Gracias</MatButton>
-        <MatButton >Entrar</MatButton>
-    </MatDialogActions>
+        </MatDialogContent>
+        <MatDialogActions>
+            <MatButton OnClick="@(e => { dialogIsOpen = false; })">No Gracias</MatButton>
+            <MatButton Type="submit" Raised="true">Entrar</MatButton>
+        </MatDialogActions>
+    </EditForm>
 </MatDialog>
 
         
