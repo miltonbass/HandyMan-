@@ -12,7 +12,45 @@
         <a href="Logout" class="nav-link btn btn-link">Cerrar Sesión</a>
     </Authorized>
     <NotAuthorized>
-        <a href="Register" class="nav-link btn btn-link">Registro</a>
-        <a href="Login" class="nav-link btn btn-link">Iniciar Sesión</a>
+        <MatAppBarSection Align="@MatAppBarSectionAlign.End">
+            <MatIconButton Icon="person" OnClick="@OpenDialog"></MatIconButton>
+            <MatIconButton Icon="people" Link="Register"></MatIconButton>
+        </MatAppBarSection>
     </NotAuthorized>
 </AuthorizeView>
+
+<MatDialog @bind-IsOpen="@dialogIsOpen">
+    <EditForm Model="loginDTO" OnValidSubmit="LoginAsync">
+        <MatDialogTitle>Entrar</MatDialogTitle>
+        <MatDialogContent>
+            <p>Inicia Sesión</p>
+            
+            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-4">
+                <p>
+                    <MatTextField Label="Email" @bind-Value="@loginDTO.Email"/>
+                    <ValidationMessage For="@(() => loginDTO.Email)"/>
+                </p>
+                <p>
+                    <MatTextField Type="password" Label="Contrasenia" @bind-Value="@loginDTO.Password"/>
+                    <ValidationMessage For="@(() => loginDTO.Password)"/>
+                </p>
+                <MatChipSet>
+                    <MatChip Label="¿No eres usuario aún? Regístrate aquí"></MatChip>
+                </MatChipSet>
+                <MatChipSet>
+                    <MatChip Label="Reenviar correro de activación de cuenta"></MatChip>
+                </MatChipSet>
+                <MatChipSet>
+                    <MatChip Label="¿Has olvidado tu contraseña?"></MatChip>
+                </MatChipSet>
+            </div>
+  
+        </MatDialogContent>
+        <MatDialogActions>
+            <MatButton OnClick="@(e => { dialogIsOpen = false; })">No Gracias</MatButton>
+            <MatButton Type="submit" Raised="true">Entrar</MatButton>
+        </MatDialogActions>
+    </EditForm>
+</MatDialog>
+
+        
