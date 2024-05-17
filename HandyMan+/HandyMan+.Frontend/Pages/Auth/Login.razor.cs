@@ -1,10 +1,11 @@
+using Blazored.Modal;
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Repositories;
-using HandyMan_.Shered.DTOs;
-using Microsoft.AspNetCore.Components;
 using HandyMan_.Frontend.Services;
 using HandyMan_.Shared.DTOs;
-
+using HandyMan_.Shered.DTOs;
+using Microsoft.AspNetCore.Components;
 
 
 namespace HandyMan_.Frontend.Pages.Auth
@@ -18,7 +19,13 @@ namespace HandyMan_.Frontend.Pages.Auth
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private ILoginService LoginService { get; set; } = null!;
+        [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
+        private async Task CloseModalAsync()
+        {
+            wasClose = true;
+            await BlazoredModal.CloseAsync(ModalResult.Ok());
+        }
 
         private async Task LoginAsync()
         {

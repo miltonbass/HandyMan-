@@ -4,7 +4,7 @@ using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Components;
 using HandyMan_.Frontend.Services;
 using HandyMan_.Shared.DTOs;
-using Orders.Shared.Enums;
+using HandyMan_.Shared.Enums;
 
 namespace HandyMan_.Frontend.Pages.Auth
 {

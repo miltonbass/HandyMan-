@@ -15,7 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 
 
 
-namespace Orders.Backend.Controllers
+namespace HandyMan_.Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -65,22 +65,22 @@ namespace Orders.Backend.Controllers
         }
 
 
-
         [HttpPost("ResedToken")]
         public async Task<IActionResult> ResedTokenAsync([FromBody] EmailDTO model)
-
         {
             var user = await _usersUnitOfWork.GetUserAsync(model.Email);
             if (user == null)
             {
                 return NotFound();
             }
+
             var response = await SendConfirmationEmailAsync(user);
             if (response.WasSuccess)
             {
                 return NoContent();
-                
             }
+
+            return BadRequest(response.Message);
         }
 
         [HttpGet("ConfirmEmail")]
@@ -183,8 +183,8 @@ namespace Orders.Backend.Controllers
             }, HttpContext.Request.Scheme, _configuration["Url Frontend"]);
 
             return _mailHelper.SendMail(user.FullName, user.Email!,
-                $"Orders - Confirmación de cuenta",
-                $"<h1>Orders - Confirmación de cuenta</h1>" +
+                $"Handyman + - Confirmación de cuenta",
+                $"<h1>Handyman - Confirmación de cuenta</h1>" +
                 $"<p>Para habilitar el usuario, por favor hacer clic 'Confirmar Email':</p>" +
                 $"<b><a href ={tokenLink}>Confirmar Email</a></b>");
         }
