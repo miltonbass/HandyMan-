@@ -5,7 +5,6 @@
         <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
             <div class="mat-h4">
                 Servicios <MatButton Icon="add" OnClick="@OpenDialog"></MatButton>
-               
             </div>
         </div>
         <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
@@ -36,26 +35,59 @@
         </div>
     </div>
 <MatDialog @bind-IsOpen="@dialogIsOpen">
+    <EditForm Model="Service" OnValidSubmit="CreateAsync">
+    <DataAnnotationsValidator/>
     <MatDialogTitle>Servicio</MatDialogTitle>
     <MatDialogContent>
-        <p>Datos necesrios para registrar un servicio</p>
-        @if(categories != null)
-        {
-            <MatSelect Outlined="true" Label="Categorias" ValueChanged="(string i) => OnChangeCategory(i)"> 
-                <MatOptionString>Seleccionar </MatOptionString>
-                @foreach (var cat in categories!)
-                {
-                    <MatOptionString Value="@cat.Id.ToString()">@cat.Name</MatOptionString>
-                }
-            </MatSelect>   
-        }
-        <MatTextField @bind-Value="@dialogAnimal"></MatTextField>
-
+        <p>Datos necesarios para registrar un servicio</p>
+        
+            
+             <div class="mat-layout-grid-cell mat-layout-grid-cell-span-4">
+                <p>
+                    @if(categories != null)
+                    {
+                        <MatSelect Label="Categorias"  @bind-Value="Service.CategoryId"> 
+                            <MatOption TValue="int" Value="0">Seleccionar</MatOption>
+                            @foreach (var cat in categories!)
+                            {
+                                <MatOption TValue="int" Value="cat.Id">@cat.Name</MatOption>
+                            }
+                        </MatSelect>  
+                            <ValidationMessage For="@(() => Service!.CategoryId)" />
+                    }
+                </p>
+                <p>
+                    @if(peoples != null)
+                    {
+                        <MatSelect Label="Proveedor"  @bind-Value="Service.PeopleId"> 
+                            <MatOption TValue="int" Value="0">Seleccionar</MatOption>
+                            @foreach (var p in peoples!)
+                            {
+                                <MatOption TValue="int" Value="p.Id">@p.Name</MatOption>
+                            }
+                        </MatSelect>   
+                        <ValidationMessage For="@(() => Service.PeopleId)"/>
+                    }
+                </p>
+                <p>
+                    <MatTextField Label="Nombre" @bind-Value="Service!.Name"/>
+                    <ValidationMessage For="@(() => Service.Name)"/>
+                </p>
+                <p>
+                    <MatTextField Label="Detalle" @bind-Value="Service!.Detail"/>
+                    <ValidationMessage For="@(() => Service.Detail)"/>
+                </p>
+                <p>
+                    <MatTextField Label="Precio" @bind-Value="Service!.Price"/>
+                    <ValidationMessage For="@(() => Service.Price)"/>
+                </p>               
+            </div>
     </MatDialogContent>
     <MatDialogActions>
         <MatButton OnClick="@(e => { dialogIsOpen = false; })">No Gracias</MatButton>
-        <MatButton OnClick="@OkClick">Guardar</MatButton>
+        <MatButton Type="submit" Raised="true">Guardar</MatButton>
     </MatDialogActions>
+    </EditForm>
 </MatDialog>
 </div>
 

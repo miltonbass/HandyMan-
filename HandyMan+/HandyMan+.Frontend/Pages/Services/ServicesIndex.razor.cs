@@ -2,30 +2,28 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Repositories;
 using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using System.Reflection;
 
 namespace HandyMan_.Frontend.Pages.Services
 {
     public partial class ServicesIndex
     {
-
         /** 
             Dialog modal
          */
         bool dialogIsOpen = false;
-        string name = null;
-        string animal = null;
-        string dialogAnimal = null;
+        
 
         void OpenDialog()
         {
-            dialogAnimal = null;
+            
             dialogIsOpen = true;
             
         }
 
         void OkClick()
         {
-            animal = dialogAnimal;
             dialogIsOpen = false;
         }
 
@@ -34,23 +32,51 @@ namespace HandyMan_.Frontend.Pages.Services
        
 
         [Inject] private IRepository Repository { get; set; } = null!;
-
-
+   
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] public SweetAlertService SweetAlertService { get; set; } = null!;
-
+        private EditContext editContext = null!;
 
         public List<Service>? Services { get; set; }
         public List<Service>? ListServices { get; set; }
 
         private List<Category>? categories;
+        private List<People>? peoples;
         private Service Service { get; set; } = new Service();
 
+        protected override void OnInitialized()
+        {
+            editContext = new(Service);
+        }
 
         protected override async Task OnInitializedAsync()
         {
             await LoadAllServiceAsync();
             await LoadCategoriesAsync();
+            await LoadProvidersAsync();
+           
+        }
+
+        private async Task CreateAsync()
+        {
+            var responseHttp = await Repository.PostAsync("/api/services", Service);
+            if (responseHttp.Error)
+            {
+                var message = await responseHttp.GetErrorMessageAsync();
+                await SweetAlertService.FireAsync("Error", message);
+                return;
+            }
+            Service = new Service();
+            dialogIsOpen = false;
+
+            var toast = SweetAlertService.Mixin(new SweetAlertOptions
+            {
+                Toast = true,
+                Position = SweetAlertPosition.BottomEnd,
+                ShowConfirmButton = true,
+                Timer = 3000
+            });
+            await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro creado con éxito.");
         }
 
         private async Task LoadCategoriesAsync()
@@ -66,12 +92,20 @@ namespace HandyMan_.Frontend.Pages.Services
             categories = responseHttp.Response;
         }
 
-        protected void OnChangeCategory(string value)
+        private async Task LoadProvidersAsync()
         {
-            //do something
-            //selectedValue = "Selected Value: " + value;
+            var responseHttp = await Repository.GetAsync<List<People>>("/api/peoples/combo");
+            if (responseHttp.Error)
+            {
+                var message = await responseHttp.GetErrorMessageAsync();
+                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                return;
+            }
+
+            peoples = responseHttp.Response;
         }
 
+        
         private async Task LoadAllServiceAsync()
         {
             var url = $"api/services/full";
