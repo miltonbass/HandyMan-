@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Orders.Shared.DTOs
+namespace HandyMan_.Shared.DTOs
 {
     public class UserDTO : User
     {

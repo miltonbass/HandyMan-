@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Components;
 using HandyMan_.Shered.DTOs;
 using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Repositories;
-using Orders.Frontend.Services;
-using Orders.Shared.DTOs;
+using HandyMan_.Frontend.Services;
+using HandyMan_.Shared.DTOs;
 
 namespace HandyMan_.Frontend.Shared
 {

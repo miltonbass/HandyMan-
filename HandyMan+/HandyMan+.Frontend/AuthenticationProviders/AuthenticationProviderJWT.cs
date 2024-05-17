@@ -3,10 +3,10 @@ using System.Net.Http.Headers;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
-using Orders.Frontend.Helpers;
-using Orders.Frontend.Services;
+using HandyMan_.Frontend.Helpers;
+using HandyMan_.Frontend.Services;
 
-namespace Orders.Frontend.AuthenticationProviders
+namespace HandyMan_.Frontend.AuthenticationProviders
 {
     public class AuthenticationProviderJWT : AuthenticationStateProvider, ILoginService
     {

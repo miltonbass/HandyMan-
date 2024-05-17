@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using HandyMan_.Backend.Helpers;
 using HandyMan_.Backend.UnitsOfWork.Interfaces;
+using HandyMan_.Shared.DTOs;
 using HandyMan_.Shered.DTOs;
 using HandyMan_.Shered.Entities;
 using HandyMan_.Shered.Responses;
@@ -10,11 +11,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Orders.Backend.Helpers;
-using Orders.Shared.DTOs;
 
 
-namespace Orders.Backend.Controllers
+
+
+namespace HandyMan_.Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -23,13 +24,15 @@ namespace Orders.Backend.Controllers
         private readonly IUsersUnitOfWork _usersUnitOfWork;
         private readonly IConfiguration _configuration;
         private readonly IFileStorage _fileStorage;
+        private readonly IMailHelper _mailHelper;
         private readonly string _container;
 
-        public AccountsController(IUsersUnitOfWork usersUnitOfWork, IConfiguration configuration, IFileStorage fileStorage)
+        public AccountsController(IUsersUnitOfWork usersUnitOfWork, IConfiguration configuration, IFileStorage fileStorage,IMailHelper mailHelper)
         {
             _usersUnitOfWork = usersUnitOfWork;
             _configuration = configuration;
             _fileStorage = fileStorage;
+            _mailHelper = mailHelper;
             _container = "users";
         }
 
@@ -49,14 +52,36 @@ namespace Orders.Backend.Controllers
             if (result.Succeeded)
             {
                 await _usersUnitOfWork.AddUserToRoleAsync(user, user.UserType.ToString());
-                return Ok(BuildToken(user));
+                var response = await SendConfirmationEmailAsync(user);
+                if (response.WasSuccess)
+                {
+                    return NoContent();
+                }
 
+                return BadRequest(response.Message);
             }
 
             return BadRequest(result.Errors.FirstOrDefault());
         }
 
 
+        [HttpPost("ResedToken")]
+        public async Task<IActionResult> ResedTokenAsync([FromBody] EmailDTO model)
+        {
+            var user = await _usersUnitOfWork.GetUserAsync(model.Email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var response = await SendConfirmationEmailAsync(user);
+            if (response.WasSuccess)
+            {
+                return NoContent();
+            }
+
+            return BadRequest(response.Message);
+        }
 
         [HttpGet("ConfirmEmail")]
         public async Task<IActionResult> ConfirmEmailAsync(string userId, string token)
@@ -147,6 +172,23 @@ namespace Orders.Backend.Controllers
 
             return BadRequest("Email o contraseña incorrectos.");
         }
+
+        private async Task<ActionResponse<string>> SendConfirmationEmailAsync(User user)
+        {
+            var myToken = await _usersUnitOfWork.GenerateEmailConfirmationTokenAsync(user);
+            var tokenLink = Url.Action("ConfirmEmail", "accounts", new
+            {
+                userid = user.Id,
+                token = myToken
+            }, HttpContext.Request.Scheme, _configuration["Url Frontend"]);
+
+            return _mailHelper.SendMail(user.FullName, user.Email!,
+                $"Handyman + - Confirmación de cuenta",
+                $"<h1>Handyman - Confirmación de cuenta</h1>" +
+                $"<p>Para habilitar el usuario, por favor hacer clic 'Confirmar Email':</p>" +
+                $"<b><a href ={tokenLink}>Confirmar Email</a></b>");
+        }
+
 
         private TokenDTO BuildToken(User user)
         {
