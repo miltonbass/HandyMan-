@@ -1,11 +1,13 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Repositories;
 using HandyMan_.Shered.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using System.Net;
 
 namespace HandyMan_.Frontend.Pages.Countries
 {
+    [Authorize(Roles = "Admin")]
     public partial class CountryDetails
     {
         private Country? country;
@@ -24,6 +26,12 @@ namespace HandyMan_.Frontend.Pages.Countries
         protected override async Task OnInitializedAsync()
         {
             await LoadAsync();
+        }
+        private async Task FilterCallBack(string filter)
+        {
+            Filter = filter;
+            await ApplyFilterAsync();
+            StateHasChanged();
         }
 
         private async Task SelectedPageAsync(int page)
@@ -66,11 +74,6 @@ namespace HandyMan_.Frontend.Pages.Countries
                 return;
             }
             totalPages = responseHttp.Response;
-        }
-        private async Task CleanFilterAsync()
-        {
-            Filter = string.Empty;
-            await ApplyFilterAsync();
         }
 
         private async Task ApplyFilterAsync()

@@ -1,5 +1,4 @@
-﻿@page "/provider"
-
+﻿@page "/providers"
 <h3>Proveedores</h3>
 
 <div class="mb-3">
@@ -7,58 +6,68 @@
 </div>
 
 
-<GenericList MyList="Peoples">
-    <Body>
-        <Pagination CurrentPage="currentPage"
-                    TotalPages="totalPages"
-                    SelectedPage="SelectedPageAsync" />
-        <div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
-            <input style="width: 400px;" type="text" class="form-control" id="titulo" placeholder="Buscar proveedor..." @bind-value="Filter" />
-            <button type="button" class="btn btn-outline-primary mx-1" @onclick="ApplyFilterAsync">Filtrar</button>
-            <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync">Limpiar</button>
-        </div>
+<div class="card">
+    <div class="card-header">
+        <span>
+            <i class="bi bi-globe-americas"/> Proveedores
+            <a class="btn btn-primary btn-sm float-end" href="/provider/create"><i class="bi bi-plus-square" />Nuevo Proveedor</a>
+        </span>
+    </div>
+    <div class="card-body">
+        <GenericList MyList="Peoples">
+            <Body>
+                <Pagination CurrentPage="currentPage"
+                            TotalPages="totalPages"
+                            SelectedPage="SelectedPageAsync" />
+                <div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
+                    <input style="width: 400px;" type="text" class="form-control" id="titulo" placeholder="Buscar proveedor..." @bind-value="Filter" />
+                    <button type="button" class="btn btn-outline-primary mx-1" @onclick="ApplyFilterAsync">Filtrar</button>
+                    <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync">Limpiar</button>
+                </div>
 
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Email</th>
-                    <th>Telefono</th>
-                    <th>Tipo</th>
-                    <th>Ciudad</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var people in Peoples!)
-                {
+                <table class="table table-striped">
+                    <thead>
                         <tr>
-                            <td>
-                                @people.Name
-                            </td>
-                            <td>
-                                @people.Surname
-                            </td>
-                            <td>
-                                @people.Email
-                            </td>
-                            <td>
-                                @people.Phone
-                            </td>
-                            <td>
-                                @people.PeopleType!.Name
-                            </td>
-                            <td>
-                                @people.City!.Name
-                            </td>
-                            <td>
-                                <a class="btn btn-warning btn-sm" href="/provider/edit/@people.Id">Editar</a>
-                                        <button class="btn btn-danger btn-sm" @onclick=@(() => DeleteAsync(people))>Borrar</button>
-                            </td>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Email</th>
+                            <th>Telefono</th>
+                            <th>Tipo</th>
+                            <th>Ciudad</th>
+                            <th></th>
                         </tr>
-                }
-            </tbody>
-        </table>
-    </Body>
-</GenericList>
+                    </thead>
+                    <tbody>
+                        @foreach (var people in Peoples!)
+                        {
+                                <tr>
+                                    <td>
+                                        @people.Name
+                                    </td>
+                                    <td>
+                                        @people.Surname
+                                    </td>
+                                    <td>
+                                        @people.Email
+                                    </td>
+                                    <td>
+                                        @people.Phone
+                                    </td>
+                                    <td>
+                                        @people.PeopleType!.Name
+                                    </td>
+                                    <td>
+                                        @people.City!.Name
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-warning btn-sm" href="/provider/edit/@people.Id">Editar</a>
+                                                <button class="btn btn-danger btn-sm" @onclick=@(() => DeleteAsync(people))>Borrar</button>
+                                    </td>
+                                </tr>
+                        }
+                    </tbody>
+                </table>
+            </Body>
+        </GenericList>
+    </div>
+</div>

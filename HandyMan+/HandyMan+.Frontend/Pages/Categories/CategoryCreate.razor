@@ -1,5 +1,13 @@
 ﻿@page "/categories/create"
 
-<h3>Crear Categoría</h3>
-
-<FormWithName @ref="categoryForm" Label="Categoría:" Model="category" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+<div class="card">
+    <div class="card-header">
+        <span>
+            <i class="bi bi-globe-americas" /> Crear Categoría
+            <a class="btn btn-sm btn-success float-end" href="/Countries"><i class="bi bi-arrow-left" />  Regresar</a>
+        </span>
+    </div>
+    <div class="card-body">
+        <FormWithName @ref="categoryForm" Label="Categoría:" Model="category" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+    </div>
+</div>
