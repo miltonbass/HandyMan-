@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Orders.Frontend.Services;
+using HandyMan_.Frontend.Services;
 
 namespace HandyMan_.Frontend.Pages.Auth
 

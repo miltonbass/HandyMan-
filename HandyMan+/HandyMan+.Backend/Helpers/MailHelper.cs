@@ -2,7 +2,7 @@
 
 using MimeKit;
 
-namespace Orders.Backend.Helpers
+namespace HandyMan_.Backend.Helpers
 {
     public class MailHelper : IMailHelper
     {

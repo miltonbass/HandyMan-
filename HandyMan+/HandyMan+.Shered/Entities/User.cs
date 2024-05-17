@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Identity;
-using Orders.Shared.Enums;
+using HandyMan_.Shared.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace HandyMan_.Shered.Entities
