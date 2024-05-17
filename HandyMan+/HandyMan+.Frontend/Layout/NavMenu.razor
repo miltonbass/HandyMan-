@@ -1,4 +1,5 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿<AuthorizeView>
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">HandyMan+</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -14,6 +15,7 @@
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
             </NavLink>
         </div>
+        
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="/categories">
                 <span class="bi bi-check-square-fill-nav-menu" aria-hidden="true"></span> Categorias
@@ -21,7 +23,13 @@
         </div>
          <div class="nav-item px-3">
             <NavLink class="nav-link" href="/countries">
-                <span class="bi bi-globe-americas-fill-nav-menu" aria-hidden="true"></span> Paises
+                <span class="bi bi-globe-americas-fill-nav-menu" aria-hidden="true"></span> Paises3
+            </NavLink>
+        </div>
+        
+         <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/countries">
+                <span class="bi bi-globe-americas-fill-nav-menu" aria-hidden="true"></span> Paises123
             </NavLink>
         </div>
         <div class="nav-item px-3">
@@ -57,7 +65,7 @@
         </div>
     </nav>
 </div>
-
+</AuthorizeView>
 @code {
     private bool collapseNavMenu = true;
     private bool expandSubNav;
