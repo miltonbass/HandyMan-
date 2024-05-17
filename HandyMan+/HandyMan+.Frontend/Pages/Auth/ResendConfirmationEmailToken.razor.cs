@@ -1,9 +1,9 @@
 ﻿using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Repositories;
-using Microsoft.AspNetCore.Components;
 using HandyMan_.Shared.DTOs;
+using Microsoft.AspNetCore.Components;
 
-namespace Orders.Frontend.Pages.Auth
+namespace HandyMan_.Frontend.Pages.Auth
 {
     public partial class ResendConfirmationEmailToken
     {
