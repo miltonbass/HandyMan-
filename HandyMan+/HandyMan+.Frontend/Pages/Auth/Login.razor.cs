@@ -2,8 +2,10 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Repositories;
 using HandyMan_.Shered.DTOs;
 using Microsoft.AspNetCore.Components;
-using Orders.Frontend.Services;
-using Orders.Shared.DTOs;
+using HandyMan_.Frontend.Services;
+using HandyMan_.Shared.DTOs;
+
+
 
 namespace HandyMan_.Frontend.Pages.Auth
 {
@@ -17,10 +19,6 @@ namespace HandyMan_.Frontend.Pages.Auth
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private ILoginService LoginService { get; set; } = null!;
 
-        private async Task CloseModalAsync()
-        {
-         
-        }
 
         private async Task LoginAsync()
         {

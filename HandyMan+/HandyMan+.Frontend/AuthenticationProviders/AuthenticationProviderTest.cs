@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace Orders.Frontend.AuthenticationProviders
+namespace HandyMan_.Frontend.AuthenticationProviders
 {
     public class AuthenticationProviderTest : AuthenticationStateProvider
     {

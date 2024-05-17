@@ -63,6 +63,7 @@ builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=LocalConnec
 builder.Services.AddTransient<SeedDb>();
 
 builder.Services.AddScoped<IFileStorage, FileStorage>();
+builder.Services.AddScoped<IMailHelper, MailHelper>();
 
 builder.Services.AddScoped<IApiService, ApiService>();
 
