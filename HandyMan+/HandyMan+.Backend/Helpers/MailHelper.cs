@@ -1,6 +1,7 @@
 ﻿using HandyMan_.Shered.Responses;
-
+using MailKit.Net.Smtp;
 using MimeKit;
+
 
 namespace HandyMan_.Backend.Helpers
 {
@@ -33,13 +34,13 @@ namespace HandyMan_.Backend.Helpers
                 };
                 message.Body = bodyBuilder.ToMessageBody();
 
-               // using (var client = new SmtpClient())
-               // {
-               //     client.Connect(smtp, int.Parse(port!), false);
-               //     client.Authenticate(from, password);
-               //     client.Send(message);
-               //     client.Disconnect(true);
-               // }
+                using (var client = new SmtpClient())
+                {
+                    client.Connect(smtp, int.Parse(port!), false);
+                    client.Authenticate(from, password);
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
 
                 return new ActionResponse<string> { WasSuccess = true };
             }
