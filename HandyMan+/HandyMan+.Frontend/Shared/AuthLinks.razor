@@ -20,7 +20,7 @@
 </AuthorizeView>
 
 <MatDialog @bind-IsOpen="@dialogIsOpen">
-    <EditForm Model="loginDTO" OnValidSubmit="LoginAsync">
+    <EditForm EditContext="editContext" OnValidSubmit="LoginAsync">
         <MatDialogTitle>Entrar</MatDialogTitle>
         <MatDialogContent>
             <p>Inicia Sesión</p>

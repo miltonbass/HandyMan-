@@ -7,13 +7,15 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Repositories;
 using Orders.Frontend.Services;
 using Orders.Shared.DTOs;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace HandyMan_.Frontend.Shared
 {
     public partial class AuthLinks
     {
+        private EditContext editContext = null!;
 
-        private LoginDTO loginDTO = new();
+        private LoginDTO loginDTO { get; set; } = new LoginDTO();
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
@@ -28,6 +30,10 @@ namespace HandyMan_.Frontend.Shared
 
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
 
+        protected override void OnInitialized()
+        {
+            editContext = new(loginDTO);
+        }
 
         protected override async Task OnParametersSetAsync()
         {
