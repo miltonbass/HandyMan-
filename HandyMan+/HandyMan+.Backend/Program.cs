@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Orders.Backend.Helpers;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -63,6 +64,7 @@ builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=LocalConnec
 builder.Services.AddTransient<SeedDb>();
 
 builder.Services.AddScoped<IFileStorage, FileStorage>();
+builder.Services.AddScoped<IMailHelper, MailHelper>();
 
 builder.Services.AddScoped<IApiService, ApiService>();
 
