@@ -3,7 +3,6 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Repositories;
 using Microsoft.AspNetCore.Components;
 
-
 namespace HandyMan_.Frontend.Pages.Auth
 {
     public partial class ConfirmEmail

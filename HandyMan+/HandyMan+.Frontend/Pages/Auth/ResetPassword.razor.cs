@@ -32,7 +32,7 @@ namespace HandyMan_.Frontend.Pages.Auth
             }
 
             await SweetAlertService.FireAsync("Confirmación", "Contraseña cambiada con éxito, ahora puede ingresar con su nueva contraseña.", SweetAlertIcon.Info);
-            NavigationManager.NavigateTo("/Login");
+            Modal.Show<Login>();
         }
     }
 }

@@ -6,10 +6,6 @@ namespace HandyMan_.Backend.Repositories.Interfaces
 {
     public interface IUsersRepository
     {
-        Task<string> GeneratePasswordResetTokenAsync(User user);
-
-        Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
-
         Task<string> GenerateEmailConfirmationTokenAsync(User user);
 
         Task<IdentityResult> ConfirmEmailAsync(User user, string token);
@@ -33,6 +29,10 @@ namespace HandyMan_.Backend.Repositories.Interfaces
         Task<SignInResult> LoginAsync(LoginDTO model);
 
         Task LogoutAsync();
+
+        Task<string> GeneratePasswordResetTokenAsync(User user);
+
+        Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
 
     }
 }

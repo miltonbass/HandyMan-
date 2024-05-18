@@ -20,12 +20,29 @@ namespace HandyMan_.Frontend.Pages.Auth
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private ILoginService LoginService { get; set; } = null!;
         [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+        [CascadingParameter] IModalService Modal { get; set; } = default!;
+
 
         private async Task CloseModalAsync()
         {
             wasClose = true;
             await BlazoredModal.CloseAsync(ModalResult.Ok());
         }
+
+        private void ShowModalRecoverPassword()
+        {
+            Modal.Show<RecoverPassword>();
+        }
+        private void ShowModalResendConfirmationEmailTokenAsync()
+        {
+            Modal.Show<ResendConfirmationEmailToken>();
+        }
+
+        private void ShowModalRegister()
+        {
+            Modal.Show<Register>();
+        }
+
 
         private async Task LoginAsync()
         {
@@ -46,5 +63,10 @@ namespace HandyMan_.Frontend.Pages.Auth
             await LoginService.LoginAsync(responseHttp.Response!.Token);
             NavigationManager.NavigateTo("/");
         }
+
+
+
+
+       
     }
 }

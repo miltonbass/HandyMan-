@@ -6,82 +6,57 @@
 }
 else
 {
-    <EditForm Model="userDTO" OnValidSubmit="CreteUserAsync">
-        <DataAnnotationsValidator />
-
-        <div class="card">
-            <div class="card-header">
-                <span>
-                    <i class="bi bi-key" /> Registrar Nuevo  Usuario
-                    <button class="btn btn-sm btn-primary float-end" type="submit"><i class="bi bi-person-add" /> Registrar</button>
-                </span>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="mb-3">
-                            <label>Nombres:</label>
-                            <div>
-                                <InputText class="form-control" @bind-Value="@userDTO.FirstName" />
-                                <ValidationMessage For="@(() => userDTO.FirstName)" />
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label>Apellidos:</label>
-                            <div>
-                                <InputText class="form-control" @bind-Value="@userDTO.LastName" />
-                                <ValidationMessage For="@(() => userDTO.LastName)" />
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label>Documento:</label>
-                            <div>
-                                <InputText class="form-control" @bind-Value="@userDTO.Document" />
-                                <ValidationMessage For="@(() => userDTO.Document)" />
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label>Teléfono:</label>
-                            <div>
-                                <InputText class="form-control" @bind-Value="@userDTO.PhoneNumber" />
-                                <ValidationMessage For="@(() => userDTO.PhoneNumber)" />
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label>Dirección:</label>
-                            <div>
-                                <InputText class="form-control" @bind-Value="@userDTO.Address" />
-                                <ValidationMessage For="@(() => userDTO.Address)" />
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label>Email:</label>
-                            <div>
-                                <InputText class="form-control" @bind-Value="@userDTO.Email" />
-                                <ValidationMessage For="@(() => userDTO.Email)" />
-                            </div>
-                        </div>
+    
+   <EditForm Model="userDTO" OnValidSubmit="CreteUserAsync">
+        <DataAnnotationsValidator/>
+        <MatDialogTitle>Registrar Nuevo  Usuario</MatDialogTitle>
+        <MatDialogContent>
+            <div class="mat-layout-grid">
+                <div class="mat-layout-grid-inner">
+                    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6">
+                       <p>
+                            <MatTextField class="form-control" Label="Nombre" @bind-Value="@userDTO.FirstName" />
+                            <ValidationMessage For="@(() => userDTO.FirstName)" />
+                        </p>
+                        <p>
+                             <MatTextField class="form-control" Label="Apellido" @bind-Value="@userDTO.LastName" />
+                             <ValidationMessage For="@(() => userDTO.LastName)" />
+                        </p>
+                        <p>
+                             <MatTextField class="form-control" Label="Documento" @bind-Value="@userDTO.Document" />
+                             <ValidationMessage For="@(() => userDTO.Document)" />
+                        </p>
+                        <p>
+                            <MatTextField class="form-control" Label="Telefono" @bind-Value="@userDTO.PhoneNumber" />
+                            <ValidationMessage For="@(() => userDTO.PhoneNumber)" />
+                        </p>
+                        <p>
+                            <MatTextField class="form-control" Label="Direccion" @bind-Value="@userDTO.Address" />
+                            <ValidationMessage For="@(() => userDTO.Address)" />
+                        </p>
+                        <p>
+                            <MatTextField class="form-control" Label="Correo Electronico" @bind-Value="@userDTO.Email" />
+                            <ValidationMessage For="@(() => userDTO.Email)" />
+                        </p>
+                        
                     </div>
-                    <div class="col-6">
-                        <div class="mb-3">
-                            <label>País:</label>
-                            <div>
-                                <select class="form-select" @onchange="CountryChangedAsync">
-                                    <option value="0">-- Seleccione un país --</option>
-                                    @if (countries is not null)
+                    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6">
+                        <p>
+                            
+                           <select class="form-select" @onchange="CountryChangedAsync">
+                                <option value="0">-- Seleccione un país --</option>
+                                @if (countries is not null)
+                                {
+                                    @foreach (var country in countries)
                                     {
-                                        @foreach (var country in countries)
-                                        {
-                                            <option value="@country.Id">@country.Name</option>
-                                        }
+                                        <option value="@country.Id">@country.Name</option>
                                     }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label>Estado/Departamento:</label>
-                            <div>
-                                <select class="form-select" @onchange="StateChangedAsync">
+                                }
+                         </select>
+
+                        </p>
+                        <p>
+                              <select class="form-select" @onchange="StateChangedAsync">
                                     <option value="0">-- Seleccione un estado/departamento --</option>
                                     @if (states is not null)
                                     {
@@ -91,12 +66,10 @@ else
                                         }
                                     }
                                 </select>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label>Ciudad:</label>
-                            <div>
-                                <select class="form-select" @bind="userDTO.CityId">
+
+                        </p>
+                        <p>
+                            <select class="form-select" @bind="userDTO.CityId">
                                     <option value="0">-- Seleccione una ciudad --</option>
                                     @if (cities is not null)
                                     {
@@ -106,29 +79,31 @@ else
                                         }
                                     }
                                 </select>
-                                <ValidationMessage For="@(() => userDTO.CityId)" />
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label>Contraseña:</label>
-                            <div>
-                                <InputText type="password" class="form-control" @bind-Value="@userDTO.Password" />
-                                <ValidationMessage For="@(() => userDTO.Password)" />
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label>Confirmación de contraseña:</label>
-                            <div>
-                                <InputText type="password" class="form-control" @bind-Value="@userDTO.PasswordConfirm" />
-                                <ValidationMessage For="@(() => userDTO.PasswordConfirm)" />
-                            </div>
-                        </div>
-                        <div class="mb-3">
+                            <ValidationMessage For="@(() => userDTO.CityId)" />
+                        </p>
+                        <p>
+                             <MatTextField type="password"  Label="Contrasenia" class="form-control" @bind-Value="@userDTO.Password" />
+                             <ValidationMessage For="@(() => userDTO.Password)" />
+                        </p>
+                        <p>
+                            <MatTextField type="password"  Label="Confirmar contrasenia" class="form-control" @bind-Value="@userDTO.PasswordConfirm" />
+                            <ValidationMessage For="@(() => userDTO.PasswordConfirm)" />
+                        </p>
+                        <p>
                             <InputImg Label="Foto" ImageSelected="ImageSelected" ImageURL="@imageUrl" />
-                        </div>
+                        </p>
+                    </div>
+                    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+                    <MatDialogActions>
+                             <MatButton type="button" OnClick="CloseModalAsync">Regresar</MatButton>
+                             <MatButton type="submit">Guardar Cambios</MatButton>
+                        </MatDialogActions>
                     </div>
                 </div>
             </div>
-        </div>
-    </EditForm>
+  
+        </MatDialogContent>
+        
+ </EditForm>
+
 }

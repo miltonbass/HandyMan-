@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Components;
 using HandyMan_.Frontend.Services;
 using HandyMan_.Shared.DTOs;
 using HandyMan_.Shared.Enums;
+using Blazored.Modal.Services;
+using Blazored.Modal;
 
 namespace HandyMan_.Frontend.Pages.Auth
 {
@@ -16,11 +18,15 @@ namespace HandyMan_.Frontend.Pages.Auth
         private List<City>? cities;
         private bool loading;
         private string? imageUrl;
+        private bool wasClose;
 
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private ILoginService LoginService { get; set; } = null!;
+
+        [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
 
         protected override async Task OnInitializedAsync()
         {
@@ -108,6 +114,12 @@ namespace HandyMan_.Frontend.Pages.Auth
 
             await SweetAlertService.FireAsync("Confirmación", "Su cuenta ha sido creada con éxito. Se te ha enviado un correo electrónico con las instrucciones para activar tu usuario.", SweetAlertIcon.Info);
             NavigationManager.NavigateTo("/");
+        }
+
+        private async Task CloseModalAsync()
+        {
+            wasClose = true;
+            await BlazoredModal.CloseAsync(ModalResult.Ok());
         }
     }
 }

@@ -4,27 +4,27 @@
 {
     <Loading />
 }
-<div class="row">
-    <div class="col-6">
-        <EditForm Model="emailDTO" OnValidSubmit="ResendConfirmationEmailTokenAsync">
-            <DataAnnotationsValidator />
-            <div class="card">
-                <div class="card-header">
-                    <span>
-                        <i class="bi bi-key" /> Reenviar correo de confirmación de contraseña
-                        <button class="btn btn-sm btn-primary float-end mx-2" type="submit"><i class="bi bi-send" /> Reenviar</button>
-                    </span>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label>Email:</label>
-                        <div>
-                            <InputText class="form-control" @bind-Value="@emailDTO.Email" />
+  <EditForm Model="emailDTO" OnValidSubmit="ResendConfirmationEmailTokenAsync">
+        <DataAnnotationsValidator/>
+        <MatDialogTitle>Reenviar Correo de Confirmación de Contraseña</MatDialogTitle>
+        <MatDialogContent>
+            <div class="mat-layout-grid">
+                <div class="mat-layout-grid-inner">
+                    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+                        <p>
+                            <MatTextField class="form-control" type="text" Label="Email" @bind-Value="@emailDTO.Email" />
                             <ValidationMessage For="@(() => emailDTO.Email)" />
-                        </div>
+
+                        </p>
+
+                        <MatDialogActions>
+                             <MatButton type="button" OnClick="CloseModalAsync">Regresar</MatButton>
+                             <MatButton type="submit">Reenviar</MatButton>
+                        </MatDialogActions>
                     </div>
                 </div>
             </div>
-        </EditForm>
-    </div>
-</div>
+  
+        </MatDialogContent>
+        
+ </EditForm>
