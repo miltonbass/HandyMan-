@@ -172,6 +172,7 @@ namespace HandyMan_.Backend.Data
             await _context.SaveChangesAsync();
         }
 
+
         private async Task CheckoutServiceOrderAsync()
         {
             if (!_context.ServiceOrders.Any())
@@ -186,7 +187,6 @@ namespace HandyMan_.Backend.Data
             }
             await _context.SaveChangesAsync();
         }
-
 
         private async Task CheckCountriesAsync()
         {
