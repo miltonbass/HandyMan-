@@ -18,7 +18,9 @@ namespace HandyMan_.Frontend.Pages.Auth
         {
             loading = true;
             var responseHttp = await Repository.PostAsync("/api/accounts/ResedToken", emailDTO);
+
             loading = false;
+            
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
