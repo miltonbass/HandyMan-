@@ -1,15 +1,11 @@
-﻿<AuthorizeView>
+﻿﻿<AuthorizeView>
     <Authorized>
-        <!--<span class="d-flex align-items-center">
-            Hola, <a href="EditUser" class="nav-link btn btn-link">@context.User.Identity!.Name</a>
-        </span>-->  
-        
-        <MatAppBarSection Align="@MatAppBarSectionAlign.End">
+       <MatAppBarSection Align="@MatAppBarSectionAlign.End">
                 <MatIconButton OnClick="@OnClick" RefBack="@buttonForwardRef" Icon="settings"></MatIconButton>
                 <MatMenu @ref="Menu"  TargetForwardRef="@buttonForwardRef">
                     <MatList>
-                        <MatListItem OnClick="@OpenDialogEditUser">Actualizar Perfil</MatListItem>
-                        <MatListItem>Cambiar Contrasenia</MatListItem>
+                        <MatListItem OnClick="@(() => ShowModalEditUser())">Actualizar Perfil</MatListItem>
+                        <MatListItem OnClick="@(() => ShowChangePassword())">Cambiar Contraseña</MatListItem>
                     </MatList>
                 </MatMenu>
                 <MatBody1 style="margin-top: 1em; margin-right: 1em;">Hola, @context.User.Identity!.Name</MatBody1>
@@ -19,155 +15,18 @@
                 }
                 <MatIconButton Link="Logout" Icon="group_add"></MatIconButton>
             </MatAppBarSection>
+        <a href="Logout" class="nav-link btn btn-link">Cerrar Sesión</a>
     </Authorized>
     <NotAuthorized>
         <MatAppBarSection Align="@MatAppBarSectionAlign.End">
-            <MatIconButton Icon="person" OnClick="@OpenDialog"></MatIconButton>
-            <MatIconButton Icon="people" OnClick="@OpenDialogRegister"></MatIconButton>
+            <MatIconButton Icon="person" OnClick=@(() => ShowModal())></MatIconButton>
+            <MatIconButton Icon="people" OnClick=@(() => ShowModalRegister())></MatIconButton>
         </MatAppBarSection>
     </NotAuthorized>
 </AuthorizeView>
 
-<MatDialog @bind-IsOpen="@dialogIsOpen">
-    <EditForm Model="loginDTO" OnValidSubmit="LoginAsync">
-        <DataAnnotationsValidator/>
-        <MatDialogTitle>Entrar</MatDialogTitle>
-        <MatDialogContent>
-            <p>Inicia Sesión</p>
-            <div class="mat-layout-grid">
-                <div class="mat-layout-grid-inner">
-                    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
-                        <p>
-                            <MatTextField Label="Email" @bind-Value="loginDTO.Email"/>
-                            <ValidationMessage For="@(() => loginDTO.Email)"/>
-                        </p>
-                        <p>
-                            <MatTextField Type="password" Label="Contrasenia" @bind-Value="loginDTO.Password"/>
-                            <ValidationMessage For="@(() => loginDTO.Password)"/>
-                        </p>
-                        <MatButton type="button" OnClick="registerDialog"> ¿No eres usuario aún? Regístrate aquí</MatButton>
-                        <MatButton type="button" Link="/ResendToken"> Reenviar correo de activación de cuenta</MatButton>
-                        <MatButton type="button" Link="/RecoverPassword"> ¿Has olvidado tu contraseña?</MatButton>
-                    </div>
-                </div>
-            </div>
+
+
+
+
   
-        </MatDialogContent>
-        <MatDialogActions>
-            <MatButton OnClick="CloseDialog">No Gracias</MatButton>
-            <MatButton Type="submit" Raised="true">Entrar</MatButton>
-        </MatDialogActions>
-    </EditForm>
-</MatDialog>
-
-
-<MatDialog @bind-IsOpen="@dialogIsOpenRegister">
-    <EditForm Model="userDTO" OnValidSubmit="CreteUserAsync">
-        <DataAnnotationsValidator/>
-        <MatDialogTitle>Crear Usuario <MatButton style='float:right; margin-top: 1em' Outlined="true">Registrarme</MatButton></MatDialogTitle>
-        <MatDialogContent>
-            <p>Aqui te puedes dar de alta en nuestro sistema</p>
-            <div class="mat-layout-grid">
-                <div class="mat-layout-grid-inner">
-                    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6">
-                        <p>
-                            <MatTextField class="form-control" Label="Nombre" @bind-Value="@userDTO.FirstName" />
-                            <ValidationMessage For="@(() => userDTO.FirstName)" />
-                        </p>
-                        <p>
-                             <MatTextField class="form-control" Label="Apellido" @bind-Value="@userDTO.LastName" />
-                             <ValidationMessage For="@(() => userDTO.LastName)" />
-                        </p>
-                        <p>
-                             <MatTextField class="form-control" Label="Documento" @bind-Value="@userDTO.Document" />
-                             <ValidationMessage For="@(() => userDTO.Document)" />
-                        </p>
-                        <p>
-                            <MatTextField class="form-control" Label="Telefono" @bind-Value="@userDTO.PhoneNumber" />
-                            <ValidationMessage For="@(() => userDTO.PhoneNumber)" />
-                        </p>
-                        <p>
-                            <MatTextField class="form-control" Label="Direccion" @bind-Value="@userDTO.Address" />
-                            <ValidationMessage For="@(() => userDTO.Address)" />
-                        </p>
-                        <p>
-                            <MatTextField class="form-control" Label="Correo Electronico" @bind-Value="@userDTO.Email" />
-                            <ValidationMessage For="@(() => userDTO.Email)" />
-                        </p>
-                    </div>
-                    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6">
-                        <p>
-                            <MatSelect Outlined="true" Label="Paises" ValueExpression="@( () => CountryId )"  ValueChanged="@((string value) => CountryChangedAsync(value))">
-                                <MatOptionString Value="-1">All</MatOptionString>
-                                @if (countries is not null)
-                                {
-                                    @foreach (var item in countries)
-                                    {
-                                      <MatOptionString Value="@item.Id.ToString()">@item.Name</MatOptionString>
-                                    }
-                                }
-                            </MatSelect>
-                        </p>
-                        <p>
-                            <MatSelect Outlined="true" Label="Departamentos" ValueExpression="@( () => StateId )"  ValueChanged="@((string value) => StateChangedAsync(value))">
-                                <MatOptionString Value="-1">All</MatOptionString>
-                                @if (states is not null)
-                                {
-                                    @foreach (var state in states)
-                                    {
-                                              <MatOptionString Value="@state.Id.ToString()">@state.Name</MatOptionString>
-                                    }
-                                }
-                            </MatSelect>
-                        </p>
-                        <p>
-                            <MatSelect Outlined="true" Label="Ciudades" TValue="int" @bind-Value="userDTO.CityId">
-                                <MatOption Value="0">Seleccione ciudad</MatOption>
-                                @if (cities is not null)
-                                {
-                                    @foreach (var citi in cities)
-                                    {
-                                              <MatOption  TValue="int" Value="@citi.Id">@citi.Name</MatOption>
-                                    }
-                                }
-                            </MatSelect>
-                            <ValidationMessage For="@(() => userDTO.CityId)" />
-                        </p>
-                        <p>
-                             <MatTextField type="password"  Label="Contrasenia" class="form-control" @bind-Value="@userDTO.Password" />
-                             <ValidationMessage For="@(() => userDTO.Password)" />
-                        </p>
-                        <p>
-                            <MatTextField type="password"  Label="Confirmar contrasenia" class="form-control" @bind-Value="@userDTO.PasswordConfirm" />
-                            <ValidationMessage For="@(() => userDTO.PasswordConfirm)" />
-                        </p>
-                        <p>
-                            <InputImg Label="Foto" ImageSelected="ImageSelected" ImageURL="@imageUrl" />
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </MatDialogContent>
-        <MatDialogActions>
-            <MatButton OnClick="CloseDialogRegister">No Gracias, Lo hago despues</MatButton>
-        </MatDialogActions>
-    </EditForm>
-</MatDialog>
-        
-
-<!--EDITAR USUARIO-->
- <MatDialog @bind-IsOpen="@dialogIsOpenEditUser">
-    <MatDialogTitle>Hi</MatDialogTitle>
-    <MatDialogContent>
-        <p>What's your favorite animal?</p>
-        <MatSelect TValue="string" Label="Title">
-            <MatOptionString ></MatOptionString>
-            <MatOptionString Value="dr">Dr.</MatOptionString>
-            <MatOptionString Value="prof">Prof.</MatOptionString>
-        </MatSelect>
-    </MatDialogContent>
-    <MatDialogActions>
-        <MatButton Type="button" Raised="true">Guardar</MatButton>
-        
-    </MatDialogActions>
-</MatDialog>

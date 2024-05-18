@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components;
 using HandyMan_.Frontend.Services;
 using HandyMan_.Shared.DTOs;
 using System.Net;
+using Blazored.Modal;
 
 namespace HandyMan_.Frontend.Pages.Auth
 {
@@ -18,12 +19,15 @@ namespace HandyMan_.Frontend.Pages.Auth
         private List<State>? states;
         private List<City>? cities;
         private string? imageUrl;
+        private bool wasClose;
 
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private ILoginService LoginService { get; set; } = null!;
         [CascadingParameter] IModalService Modal { get; set; } = default!;
+
+        [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -41,7 +45,7 @@ namespace HandyMan_.Frontend.Pages.Auth
 
         private void ShowModal()
         {
-          //  Modal.Show<ChangePassword>();
+            Modal.Show<ChangePassword>();
         }
 
         private async Task LoadUserAsyc()
@@ -131,8 +135,25 @@ namespace HandyMan_.Frontend.Pages.Auth
                 return;
             }
 
+            
             await LoginService.LoginAsync(responseHttp.Response!.Token);
             NavigationManager.NavigateTo("/");
+     
+            var toast = SweetAlertService.Mixin(new SweetAlertOptions
+            {
+                Toast = true,
+                Position = SweetAlertPosition.BottomEnd,
+                ShowConfirmButton = true,
+                Timer = 3000
+            });
+            await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Usuario Actualizado.");
+
+
+        }
+        private async Task CloseModalAsync()
+        {
+            wasClose = true;
+            await BlazoredModal.CloseAsync(ModalResult.Ok());
         }
     }
 }

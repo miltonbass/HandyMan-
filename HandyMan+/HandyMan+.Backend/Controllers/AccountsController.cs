@@ -228,7 +228,7 @@ namespace HandyMan_.Backend.Controllers
             return Ok(await _usersUnitOfWork.GetUserAsync(User.Identity!.Name!));
         }
 
-
+        
         [HttpPost("Login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginDTO model)
         {

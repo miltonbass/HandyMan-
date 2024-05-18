@@ -7,8 +7,6 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Repositories;
 using HandyMan_.Frontend.Services;
 using HandyMan_.Shared.DTOs;
-using Microsoft.AspNetCore.Components.Forms;
-using System.Runtime.CompilerServices;
 using HandyMan_.Shered.Entities;
 using HandyMan_.Shared.Enums;
 using MatBlazor;
@@ -37,6 +35,7 @@ namespace HandyMan_.Frontend.Shared
         private string? photoUser;
         private bool dialogIsOpen = false;
         private bool dialogIsOpenRegister = false;
+        private bool dialogIsOpenResendEmail = false;
         private bool dialogIsOpenEditUser = false;
 
         [CascadingParameter] private Task<AuthenticationState> AuthenticationStateTask { get; set; } = null!;
@@ -104,6 +103,7 @@ namespace HandyMan_.Frontend.Shared
         void OpenDialogRegister()
         {
             dialogIsOpenRegister = true;
+
         }
 
         private async Task CreteUserAsync()
@@ -125,7 +125,9 @@ namespace HandyMan_.Frontend.Shared
             NavigationManager.NavigateTo("/");
         }
 
-        private async Task CountryChangedAsync(string e)
+
+
+    private async Task CountryChangedAsync(string e)
         {
             var selectedCountry = Convert.ToInt32(e);
             states = null;
@@ -174,6 +176,7 @@ namespace HandyMan_.Frontend.Shared
 
         void CloseDialogRegister() {
             dialogIsOpenRegister = false;
+            dialogIsOpenResendEmail = false;
             userDTO = new();
         }
 
@@ -199,6 +202,25 @@ namespace HandyMan_.Frontend.Shared
         {
             
             dialogIsOpenEditUser = true;
+        }
+
+        private void ShowModal()
+        {
+            Modal.Show<Login>();
+        }
+
+        private void ShowModalRegister()
+        {
+            Modal.Show<Register>();
+        }
+
+        private void ShowModalEditUser()
+        {
+            Modal.Show<EditUser>();
+        }
+        private void ShowChangePassword()
+        {
+            Modal.Show<ChangePassword>();
         }
     }
 }
