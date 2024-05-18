@@ -1,6 +1,5 @@
 ﻿using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
-using HandyMan_.Frontend.Pages.Auth;
 using HandyMan_.Frontend.Repositories;
 using Microsoft.AspNetCore.Components;
 
