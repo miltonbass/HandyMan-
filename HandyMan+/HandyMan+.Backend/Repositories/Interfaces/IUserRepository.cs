@@ -30,5 +30,9 @@ namespace HandyMan_.Backend.Repositories.Interfaces
 
         Task LogoutAsync();
 
+        Task<string> GeneratePasswordResetTokenAsync(User user);
+
+        Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
+
     }
 }

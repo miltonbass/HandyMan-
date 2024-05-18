@@ -1,7 +1,7 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Repositories;
 using Microsoft.AspNetCore.Components;
-using Orders.Shared.DTOs;
+using HandyMan_.Shared.DTOs;
 
 namespace HandyMan_.Frontend.Pages.Auth
 {

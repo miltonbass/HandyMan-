@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Orders.Shared.DTOs
+namespace HandyMan_.Shared.DTOs
 {
     public class ChangePasswordDTO
     {
