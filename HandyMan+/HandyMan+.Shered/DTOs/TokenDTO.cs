@@ -1,4 +1,4 @@
-﻿namespace Orders.Shared.DTOs
+﻿namespace HandyMan_.Shared.DTOs
 {
     public class TokenDTO
     {

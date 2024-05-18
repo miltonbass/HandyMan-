@@ -1,4 +1,4 @@
-﻿namespace Orders.Frontend.Services
+﻿namespace HandyMan_.Frontend.Services
 {
     public interface ILoginService
     {

@@ -1,4 +1,4 @@
-﻿namespace Orders.Frontend.Helpers
+﻿namespace HandyMan_.Frontend.Helpers
 {
     public class MultipleSelectorModel
     {
