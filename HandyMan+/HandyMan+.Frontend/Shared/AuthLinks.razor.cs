@@ -7,17 +7,17 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Repositories;
 using HandyMan_.Frontend.Services;
 using HandyMan_.Shared.DTOs;
-using Orders.Frontend.Services;
-using Orders.Shared.DTOs;
 using Microsoft.AspNetCore.Components.Forms;
-using Orders.Shared.Enums;
 using System.Runtime.CompilerServices;
 using HandyMan_.Shered.Entities;
+using HandyMan_.Shared.Enums;
+using MatBlazor;
 
 namespace HandyMan_.Frontend.Shared
 {
     public partial class AuthLinks
     {
+        MatChipSet chipset = null;
         private string CountryId = null!;
         private string StateId = null!;
         private UserDTO userDTO { get; set; } = new UserDTO();
@@ -173,6 +173,17 @@ namespace HandyMan_.Frontend.Shared
         {
             userDTO.Photo = imagenBase64;
             imageUrl = null;
+        }
+
+        void reSend() {
+            NavigationManager.NavigateTo("/ResendToken");
+            return;
+        }
+
+        void registerDialog() {
+            dialogIsOpen = false;
+            dialogIsOpenRegister = true;
+            return;
         }
     }
 }
