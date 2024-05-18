@@ -5,6 +5,13 @@
         </span>-->  
         
         <MatAppBarSection Align="@MatAppBarSectionAlign.End">
+                <MatIconButton OnClick="@OnClick" RefBack="@buttonForwardRef" Icon="settings"></MatIconButton>
+                <MatMenu @ref="Menu"  TargetForwardRef="@buttonForwardRef">
+                    <MatList>
+                        <MatListItem OnClick="@OpenDialogEditUser">Actualizar Perfil</MatListItem>
+                        <MatListItem>Cambiar Contrasenia</MatListItem>
+                    </MatList>
+                </MatMenu>
                 <MatBody1 style="margin-top: 1em; margin-right: 1em;">Hola, @context.User.Identity!.Name</MatBody1>
                 @if (!string.IsNullOrEmpty(photoUser))
                 {
@@ -27,19 +34,22 @@
         <MatDialogTitle>Entrar</MatDialogTitle>
         <MatDialogContent>
             <p>Inicia Sesión</p>
-            
-            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-4">
-                <p>
-                    <MatTextField Label="Email" @bind-Value="loginDTO.Email"/>
-                    <ValidationMessage For="@(() => loginDTO.Email)"/>
-                </p>
-                <p>
-                    <MatTextField Type="password" Label="Contrasenia" @bind-Value="loginDTO.Password"/>
-                    <ValidationMessage For="@(() => loginDTO.Password)"/>
-                </p>
-                <MatButton type="button" OnClick="registerDialog"> ¿No eres usuario aún? Regístrate aquí</MatButton>
-                <MatButton type="button" Link="/ResendToken"> Reenviar correo de activación de cuenta</MatButton>
-                <MatButton type="button" Link="/RecoverPassword"> ¿Has olvidado tu contraseña?</MatButton>
+            <div class="mat-layout-grid">
+                <div class="mat-layout-grid-inner">
+                    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+                        <p>
+                            <MatTextField Label="Email" @bind-Value="loginDTO.Email"/>
+                            <ValidationMessage For="@(() => loginDTO.Email)"/>
+                        </p>
+                        <p>
+                            <MatTextField Type="password" Label="Contrasenia" @bind-Value="loginDTO.Password"/>
+                            <ValidationMessage For="@(() => loginDTO.Password)"/>
+                        </p>
+                        <MatButton type="button" OnClick="registerDialog"> ¿No eres usuario aún? Regístrate aquí</MatButton>
+                        <MatButton type="button" Link="/ResendToken"> Reenviar correo de activación de cuenta</MatButton>
+                        <MatButton type="button" Link="/RecoverPassword"> ¿Has olvidado tu contraseña?</MatButton>
+                    </div>
+                </div>
             </div>
   
         </MatDialogContent>
@@ -144,3 +154,20 @@
     </EditForm>
 </MatDialog>
         
+
+<!--EDITAR USUARIO-->
+ <MatDialog @bind-IsOpen="@dialogIsOpenEditUser">
+    <MatDialogTitle>Hi</MatDialogTitle>
+    <MatDialogContent>
+        <p>What's your favorite animal?</p>
+        <MatSelect TValue="string" Label="Title">
+            <MatOptionString ></MatOptionString>
+            <MatOptionString Value="dr">Dr.</MatOptionString>
+            <MatOptionString Value="prof">Prof.</MatOptionString>
+        </MatSelect>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton Type="button" Raised="true">Guardar</MatButton>
+        
+    </MatDialogActions>
+</MatDialog>
