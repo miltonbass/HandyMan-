@@ -35,6 +35,7 @@ namespace HandyMan_.Frontend.Repositories
             return new HttpResponseWrapper<T>(default, true, responseHttp);
         }
 
+
         public async Task<HttpResponseWrapper<object>> PostAsync<T>(string url, T model)
         {
             var messageJson = JsonSerializer.Serialize(model);

@@ -34,6 +34,7 @@ namespace HandyMan_.Backend.Controllers
             _fileStorage = fileStorage;
             _mailHelper = mailHelper;
             _container = "users";
+            _mailHelper = mailHelper;
         }
 
 
@@ -135,6 +136,7 @@ namespace HandyMan_.Backend.Controllers
 
 
 
+
         [HttpGet("ConfirmEmail")]
         public async Task<IActionResult> ConfirmEmailAsync(string userId, string token)
         {
@@ -153,6 +155,7 @@ namespace HandyMan_.Backend.Controllers
 
             return NoContent();
         }
+
 
         [HttpPut]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -194,13 +197,6 @@ namespace HandyMan_.Backend.Controllers
             }
         }
 
-        [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> GetAsync()
-        {
-            return Ok(await _usersUnitOfWork.GetUserAsync(User.Identity!.Name!));
-        }
-
         [HttpPost("changePassword")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> ChangePasswordAsync(ChangePasswordDTO model)
@@ -225,8 +221,14 @@ namespace HandyMan_.Backend.Controllers
             return NoContent();
         }
 
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetAsync()
+        {
+            return Ok(await _usersUnitOfWork.GetUserAsync(User.Identity!.Name!));
+        }
 
-
+        
         [HttpPost("Login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginDTO model)
         {

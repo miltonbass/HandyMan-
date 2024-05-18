@@ -1,9 +1,11 @@
-ï»¿using CurrieTechnologies.Razor.SweetAlert2;
+
+using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Repositories;
 using Microsoft.AspNetCore.Components;
 using HandyMan_.Shared.DTOs;
 using Blazored.Modal.Services;
 using Blazored.Modal;
+
 
 namespace HandyMan_.Frontend.Pages.Auth
 {
@@ -32,6 +34,7 @@ namespace HandyMan_.Frontend.Pages.Auth
             }
 
             NavigationManager.NavigateTo("/");
+
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
@@ -39,13 +42,14 @@ namespace HandyMan_.Frontend.Pages.Auth
                 ShowConfirmButton = true,
                 Timer = 3000
             });
-            await toast.FireAsync(icon: SweetAlertIcon.Success, message: "ContraseÃ±a cambiada con Ã©xito.");
+            await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Contraeña cambiada cin Éxito");
         }
 
         private async Task CloseModalAsync()
         {
             wasClose = true;
             await BlazoredModal.CloseAsync(ModalResult.Ok());
+
         }
     }
 }
