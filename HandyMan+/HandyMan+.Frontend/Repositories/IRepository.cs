@@ -1,4 +1,6 @@
-﻿namespace HandyMan_.Frontend.Repositories
+﻿using HandyMan_.Frontend.Repositories;
+
+namespace HandyMan_.Frontend.Repositories
 {
     public interface IRepository
     {

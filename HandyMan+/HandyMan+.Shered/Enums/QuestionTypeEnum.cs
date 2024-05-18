@@ -1,7 +1,7 @@
-﻿using Orders.Shared.Enums;
+﻿using HandyMan_.Shared.Enums;
 using System.ComponentModel;
 
-namespace Orders.Shared.Enums
+namespace HandyMan_.Shared.Enums
 {
     public enum QuestionTypeEnum
     {

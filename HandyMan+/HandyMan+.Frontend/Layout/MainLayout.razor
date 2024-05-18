@@ -1,5 +1,6 @@
 ﻿@using MatBlazor
 @inherits LayoutComponentBase
+
 <MatAppBarContainer>
     <MatAppBar Fixed="true">
         <MatAppBarRow>
@@ -7,29 +8,48 @@
                 <MatIconButton Icon="menu" OnClick="@((e) => ButtonClicked())"></MatIconButton>
                 <MatAppBarTitle>HandyMan+</MatAppBarTitle>
             </MatAppBarSection>
-            <MatAppBarSection Align="@MatAppBarSectionAlign.End">
-                <AuthLinks/>
-            </MatAppBarSection>
+            
+            <AuthLinks/>
+            
         </MatAppBarRow>
     </MatAppBar>
      <MatAppBarContent>
+        
         <MatDrawer @bind-Opened="@Opened">
+            <AuthorizeView>
             <MatNavMenu>
-                <MatNavItem Href="/countries"><MatIcon Icon="grade"></MatIcon>&nbsp; Paises </MatNavItem>
-                <MatDivider></MatDivider>
-                <MatNavSubMenu @bind-Expanded="@navSubMenuOpenState">
-                    <MatNavSubMenuHeader>
-                        <MatNavItem><MatIcon Icon="all_inbox"></MatIcon>&nbsp; Gestion </MatNavItem>
-                    </MatNavSubMenuHeader>
-                    <MatNavSubMenuList>
-                        <MatNavItem Href="/services">Servicios</MatNavItem>
-                        <MatNavItem Href="/providers">Proveedores</MatNavItem>
-                        <MatNavItem Href="/surveyDefinitions">Encuestas</MatNavItem>
-                        <MatNavItem Href="/subscriptions">Tipos de subscripciones</MatNavItem>
+                <MatNavItem Href="/categories"><MatIcon Icon="grade"></MatIcon>&nbsp; Inicio </MatNavItem>
+                <Authorized Roles="Admin">
+                    <MatNavItem Href="/categories"><MatIcon Icon="grade"></MatIcon>&nbsp; Categorias </MatNavItem>
+
+                    <MatNavItem Href="/countries"><MatIcon Icon="grade"></MatIcon>&nbsp; Paises </MatNavItem>
+                
+                    <MatDivider></MatDivider>
+                    <MatNavSubMenu @bind-Expanded="@navSubMenuOpenState">
+                        <MatNavSubMenuHeader>
+                            <MatNavItem><MatIcon Icon="all_inbox"></MatIcon>&nbsp; Gestion </MatNavItem>
+                        </MatNavSubMenuHeader>
+                        <MatNavSubMenuList>
+                            <MatNavItem Href="/surveyDefinitions">Encuestas</MatNavItem>
+                            <MatNavItem Href="/subscriptions">Tipos de subscripciones</MatNavItem>
                        
-                    </MatNavSubMenuList>
-                </MatNavSubMenu>
+                        </MatNavSubMenuList>
+                    </MatNavSubMenu> 
+                    <MatDivider></MatDivider>
+                    <MatNavSubMenu @bind-Expanded="@navSubMenuOpenStateCore">
+                        <MatNavSubMenuHeader>
+                            <MatNavItem><MatIcon Icon="all_inbox"></MatIcon>&nbsp; Core </MatNavItem>
+                        </MatNavSubMenuHeader>
+                        <MatNavSubMenuList>
+                            <MatNavItem Href="/services">Servicios</MatNavItem>
+                            <MatNavItem Href="/providers">Proveedores</MatNavItem>
+                            <MatNavItem Href="/surveyDefinitions">Ordenes Servicio</MatNavItem>                       
+                        </MatNavSubMenuList>
+                    </MatNavSubMenu>
+               </Authorized>
             </MatNavMenu>
+            </AuthorizeView>
+             
         </MatDrawer>
         <MatDrawerContent>
            @Body
@@ -50,6 +70,7 @@
     [Inject] IJSRuntime JS { get; set; }
  
     bool navSubMenuOpenState;
+    bool navSubMenuOpenStateCore;
  
     async Task ClickMe()
     {

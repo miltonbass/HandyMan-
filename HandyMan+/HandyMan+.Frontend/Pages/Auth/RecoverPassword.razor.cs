@@ -3,9 +3,10 @@ using HandyMan_.Frontend.Repositories;
 using HandyMan_.Shared.DTOs;
 using Microsoft.AspNetCore.Components;
 
+
 namespace HandyMan_.Frontend.Pages.Auth
 {
-    public partial class ResendConfirmationEmailToken
+    public partial class RecoverPassword
     {
         private EmailDTO emailDTO = new();
         private bool loading;
@@ -14,13 +15,10 @@ namespace HandyMan_.Frontend.Pages.Auth
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
 
-        private async Task ResendConfirmationEmailTokenAsync()
+        private async Task SendRecoverPasswordEmailTokenAsync()
         {
             loading = true;
-            var responseHttp = await Repository.PostAsync("/api/accounts/ResedToken", emailDTO);
-
-            loading = false;
-            
+            var responseHttp = await Repository.PostAsync("/api/accounts/RecoverPassword", emailDTO);
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
@@ -29,8 +27,9 @@ namespace HandyMan_.Frontend.Pages.Auth
                 return;
             }
 
-            await SweetAlertService.FireAsync("Confirmación", "Se te ha enviado un correo electrónico con las instrucciones para activar tu usuario.", SweetAlertIcon.Info);
-            NavigationManager.NavigateTo("/");
+            loading = false;
+            await SweetAlertService.FireAsync("Confirmación", "Se te ha enviado un correo electrónico con las instrucciones para recuperar su contraseña.", SweetAlertIcon.Info);
+            NavigationManager.NavigateTo("/Login");
         }
     }
 }

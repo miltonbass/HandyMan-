@@ -2,7 +2,7 @@
 
 using HandyMan_.Shered.Responses;
 
-namespace Orders.Backend.Helpers
+namespace HandyMan_.Backend.Helpers
 {
     public interface IMailHelper
     {

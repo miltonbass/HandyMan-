@@ -3,7 +3,7 @@ using HandyMan_.Backend.UnitsOfWork.Interfaces;
 using HandyMan_.Shared.Entities;
 using HandyMan_.Shered.Entities;
 using Microsoft.EntityFrameworkCore;
-using Orders.Shared.Enums;
+using HandyMan_.Shared.Enums;
 
 namespace HandyMan_.Backend.Data
 {

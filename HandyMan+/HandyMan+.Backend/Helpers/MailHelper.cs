@@ -1,9 +1,10 @@
 ﻿using HandyMan_.Shered.Responses;
-
+using MailKit.Net.Smtp;
 using MimeKit;
 using MailKit.Net.Smtp;
 
-namespace Orders.Backend.Helpers
+
+namespace HandyMan_.Backend.Helpers
 {
     public class MailHelper : IMailHelper
     {

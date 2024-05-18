@@ -1,4 +1,4 @@
-using Blazored.Modal.Services;
+﻿using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Repositories;
 using Microsoft.AspNetCore.Components;
@@ -28,9 +28,8 @@ namespace HandyMan_.Frontend.Pages.Auth
                 return;
             }
 
-            await SweetAlertService.FireAsync("Confirmaci�n", "Gracias por confirmar su email, ahora puedes ingresar al sistema.", SweetAlertIcon.Info);
-
-            NavigationManager.NavigateTo("/Login");
+            await SweetAlertService.FireAsync("Confirmación", "Gracias por confirmar su email, ahora puedes ingresar al sistema.", SweetAlertIcon.Info);
+            Modal.Show<Login>();
         }
     }
 }

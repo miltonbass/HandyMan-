@@ -2,9 +2,9 @@
 using HandyMan_.Frontend.Repositories;
 using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Components;
-using Orders.Frontend.Services;
-using Orders.Shared.DTOs;
-using Orders.Shared.Enums;
+using HandyMan_.Frontend.Services;
+using HandyMan_.Shared.DTOs;
+using HandyMan_.Shared.Enums;
 
 namespace HandyMan_.Frontend.Pages.Auth
 {

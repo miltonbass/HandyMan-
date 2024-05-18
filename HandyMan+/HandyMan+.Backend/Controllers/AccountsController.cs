@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using HandyMan_.Backend.Helpers;
 using HandyMan_.Backend.UnitsOfWork.Interfaces;
+using HandyMan_.Shared.DTOs;
 using HandyMan_.Shered.DTOs;
 using HandyMan_.Shered.Entities;
 using HandyMan_.Shered.Responses;
@@ -10,11 +11,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Orders.Backend.Helpers;
-using Orders.Shared.DTOs;
 
 
-namespace Orders.Backend.Controllers
+
+
+namespace HandyMan_.Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -26,15 +27,85 @@ namespace Orders.Backend.Controllers
         private readonly IMailHelper _mailHelper;
         private readonly string _container;
 
-        public AccountsController(IUsersUnitOfWork usersUnitOfWork, IConfiguration configuration, IFileStorage fileStorage, IMailHelper mailHelper)
+        public AccountsController(IUsersUnitOfWork usersUnitOfWork, IConfiguration configuration, IFileStorage fileStorage,IMailHelper mailHelper)
         {
             _usersUnitOfWork = usersUnitOfWork;
             _configuration = configuration;
             _fileStorage = fileStorage;
+            _mailHelper = mailHelper;
             _container = "users";
             _mailHelper = mailHelper;
         }
 
+
+        [HttpPost("RecoverPassword")]
+        public async Task<IActionResult> RecoverPasswordAsync([FromBody] EmailDTO model)
+        {
+            var user = await _usersUnitOfWork.GetUserAsync(model.Email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var myToken = await _usersUnitOfWork.GeneratePasswordResetTokenAsync(user);
+            var tokenLink = Url.Action("ResetPassword", "accounts", new
+            {
+                userid = user.Id,
+                token = myToken
+            }, HttpContext.Request.Scheme, _configuration["Url Frontend"]);
+
+
+            var response = _mailHelper.SendMail(user.FullName, user.Email!,
+                $"Handyman + - Recuperación de contraseña",
+                $"<h1>Handyman+ - Recuperación de contraseña</h1>" +
+                $"<p>Para recuperar su contraseña, por favor hacer clic 'Recuperar Contraseña':</p>" +
+                $"<b><a href ={tokenLink}>Recuperar Contraseña</a></b>");
+
+
+            if (response.WasSuccess)
+            {
+                return NoContent();
+            }
+
+            return BadRequest(response.Message);
+        }
+
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPasswordAsync([FromBody] ResetPasswordDTO model)
+        {
+            var user = await _usersUnitOfWork.GetUserAsync(model.Email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var result = await _usersUnitOfWork.ResetPasswordAsync(user, model.Token, model.Password);
+            if (result.Succeeded)
+            {
+                return NoContent();
+            }
+
+            return BadRequest(result.Errors.FirstOrDefault()!.Description);
+        }
+
+
+        [HttpPost("ResedToken")]
+        public async Task<IActionResult> ResedTokenAsync([FromBody] EmailDTO model)
+        {
+            var user = await _usersUnitOfWork.GetUserAsync(model.Email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var response = await SendConfirmationEmailAsync(user);
+            if (response.WasSuccess)
+            {
+                return NoContent();
+            }
+
+            return BadRequest(response.Message);
+        }
 
 
         [HttpPost("CreateUser")]
@@ -210,7 +281,7 @@ namespace Orders.Backend.Controllers
 
             return _mailHelper.SendMail(user.FullName, user.Email!,
                 $"Handyman + - Confirmación de cuenta",
-                $"<h1>Handyman + - Confirmación de cuenta</h1>" +
+                $"<h1>Handyman - Confirmación de cuenta</h1>" +
                 $"<p>Para habilitar el usuario, por favor hacer clic 'Confirmar Email':</p>" +
                 $"<b><a href ={tokenLink}>Confirmar Email</a></b>");
         }
