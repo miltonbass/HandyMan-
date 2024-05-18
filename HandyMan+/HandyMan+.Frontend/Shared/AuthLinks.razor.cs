@@ -12,6 +12,7 @@ using System.Runtime.CompilerServices;
 using HandyMan_.Shered.Entities;
 using HandyMan_.Shared.Enums;
 using MatBlazor;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace HandyMan_.Frontend.Shared
 {
@@ -36,6 +37,7 @@ namespace HandyMan_.Frontend.Shared
         private string? photoUser;
         private bool dialogIsOpen = false;
         private bool dialogIsOpenRegister = false;
+        private bool dialogIsOpenEditUser = false;
 
         [CascadingParameter] private Task<AuthenticationState> AuthenticationStateTask { get; set; } = null!;
         [CascadingParameter] IModalService Modal { get; set; } = default!;
@@ -52,8 +54,14 @@ namespace HandyMan_.Frontend.Shared
                 photoUser = photoClaim.Value;
             }
         }
-        
-        
+
+        ForwardRef buttonForwardRef = new ForwardRef();
+        BaseMatMenu Menu;
+
+        public void OnClick(MouseEventArgs e)
+        {
+            this.Menu.OpenAsync();
+        }
 
         protected override async Task OnInitializedAsync()
         {
@@ -184,6 +192,13 @@ namespace HandyMan_.Frontend.Shared
             dialogIsOpen = false;
             dialogIsOpenRegister = true;
             return;
+        }
+
+
+        void OpenDialogEditUser()
+        {
+            
+            dialogIsOpenEditUser = true;
         }
     }
 }

@@ -19,7 +19,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, AuthenticationProviderJW
 builder.Services.AddScoped<ILoginService, AuthenticationProviderJWT>(x => x.GetRequiredService<AuthenticationProviderJWT>());
 
 
-builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5271/") }); 
+builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7002/") }); 
 builder.Services.AddScoped<IRepository, Repository>();
 
 builder.Services.AddSweetAlert2();
