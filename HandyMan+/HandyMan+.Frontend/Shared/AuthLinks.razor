@@ -1,15 +1,17 @@
 ﻿<AuthorizeView>
     <Authorized>
-        <span class="d-flex align-items-center">
+        <!--<span class="d-flex align-items-center">
             Hola, <a href="EditUser" class="nav-link btn btn-link">@context.User.Identity!.Name</a>
-        </span>        
-        @if (!string.IsNullOrEmpty(photoUser))
-        {
-                <div class="mx-2">
-                    <img src="@photoUser" width="50" height="50" style="border-radius:50%" />
-                </div>
-        }
-        <a href="Logout" class="nav-link btn btn-link">Cerrar Sesión</a>
+        </span>-->  
+        
+        <MatAppBarSection Align="@MatAppBarSectionAlign.End">
+                <MatBody1 style="margin-top: 1em; margin-right: 1em;">Hola, @context.User.Identity!.Name</MatBody1>
+                @if (!string.IsNullOrEmpty(photoUser))
+                {
+                    <img src="@photoUser" width="25" height="25" style="border-radius:50%" />
+                }
+                <MatIconButton Link="Logout" Icon="group_add"></MatIconButton>
+            </MatAppBarSection>
     </Authorized>
     <NotAuthorized>
         <MatAppBarSection Align="@MatAppBarSectionAlign.End">
@@ -35,15 +37,9 @@
                     <MatTextField Type="password" Label="Contrasenia" @bind-Value="loginDTO.Password"/>
                     <ValidationMessage For="@(() => loginDTO.Password)"/>
                 </p>
-                <MatChipSet>
-                    <MatChip Label="¿No eres usuario aún? Regístrate aquí"></MatChip>
-                </MatChipSet>
-                <MatChipSet>
-                    <a mat-raised-button color="primary" href="/ResendToken">Reenviar correo de activación de cuenta</a>
-                </MatChipSet>
-                <MatChipSet>
-                    <MatChip Label="¿Has olvidado tu contraseña?"></MatChip>
-                </MatChipSet>
+                <MatButton type="button" OnClick="registerDialog"> ¿No eres usuario aún? Regístrate aquí</MatButton>
+                <MatButton type="button" Link="/ResendToken"> Reenviar correo de activación de cuenta</MatButton>
+                <MatButton type="button"> ¿Has olvidado tu contraseña?</MatButton>
             </div>
   
         </MatDialogContent>
