@@ -1,44 +1,44 @@
 ﻿@page "/Login"
 ﻿
-     <EditForm Model="loginDTO" OnValidSubmit="LoginAsync">
-        <DataAnnotationsValidator/>
-        <MatDialogTitle>Entrar</MatDialogTitle>
-        <MatDialogContent>
-            <div class="mat-layout-grid">
-                <div class="mat-layout-grid-inner">
-                    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
-                        <p>
-                            <MatTextField Label="Email" @bind-Value="loginDTO.Email"/>
-                            <ValidationMessage For="@(() => loginDTO.Email)"/>
-                        </p>
-                        <p>
-                            <MatTextField Type="password" Label="Contrasenia" @bind-Value="loginDTO.Password"/>
-                            <ValidationMessage For="@(() => loginDTO.Password)"/>
-                        </p>
+<EditForm Model="loginDTO" OnValidSubmit="LoginAsync">
+    <DataAnnotationsValidator/>
+    <MatDialogTitle>Entrar</MatDialogTitle>
+    <MatDialogContent>
+        <div class="mat-layout-grid">
+            <div class="mat-layout-grid-inner">
+                <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+                    <p>
+                        <MatTextField Label="Email" @bind-Value="loginDTO.Email"/>
+                        <ValidationMessage For="@(() => loginDTO.Email)"/>
+                    </p>
+                    <p>
+                        <MatTextField Type="password" Label="Contrasenia" @bind-Value="loginDTO.Password"/>
+                        <ValidationMessage For="@(() => loginDTO.Password)"/>
+                    </p>
+                </div>
+                <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+                    <div> 
+                        <MatButton OnClick="ShowModalRegister"> ¿No eres usuario aún? Regístrate aquí</MatButton>
                     </div>
-                    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
-                        <div> 
-                            <MatButton OnClick="ShowModalRegister"> ¿No eres usuario aún? Regístrate aquí</MatButton>
+                    <div>
+                        <MatButton OnClick="ShowModalResendConfirmationEmailTokenAsync"> Reenviar correo de activación de cuenta</MatButton>
                         </div>
                         <div>
-                         <MatButton OnClick="ShowModalResendConfirmationEmailTokenAsync"> Reenviar correo de activación de cuenta</MatButton>
-                         </div>
-                         <div>
-                            <MatButton OnClick="ShowModalRecoverPassword">¿Has olvidado tu contraseña?</MatButton>
-                        </div>
-                    </div>
-                    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
-                      <MatDialogActions>
-                                  <MatButton OnClick="CloseModalAsync">No Gracias</MatButton>
-                                  <MatButton Type="submit" Raised="true">Entrar</MatButton>
-                        </MatDialogActions>
+                        <MatButton OnClick="ShowModalRecoverPassword">¿Has olvidado tu contraseña?</MatButton>
                     </div>
                 </div>
+                <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+                    <MatDialogActions>
+                                <MatButton OnClick="CloseModalAsync">No Gracias</MatButton>
+                                <MatButton Type="submit" Raised="true">Entrar</MatButton>
+                    </MatDialogActions>
+                </div>
             </div>
+        </div>
   
-        </MatDialogContent>
+    </MatDialogContent>
         
- </EditForm>
+</EditForm>
 
 
 
