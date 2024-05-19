@@ -37,20 +37,16 @@ namespace HandyMan_.Frontend.Pages.Services
    
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] public SweetAlertService SweetAlertService { get; set; } = null!;
-        private EditContext editContext = null!;
+        
 
         public List<Service>? Services { get; set; }
         public List<Service>? ListServices { get; set; }
 
         private List<Category>? categories;
         private List<People>? peoples;
-        private Service Service { get; set; } = new Service();
+        private Service Service { get; set; } = new();
 
-        protected override void OnInitialized()
-        {
-            editContext = new(Service);
-        }
-
+        
         protected override async Task OnInitializedAsync()
         {
             await LoadAllServiceAsync();
