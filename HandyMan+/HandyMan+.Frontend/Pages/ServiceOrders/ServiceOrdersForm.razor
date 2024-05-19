@@ -1,0 +1,22 @@
+﻿    <EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator/>
+        <MatDialogTitle>Ordenes de Servicio</MatDialogTitle>
+        <MatDialogContent>
+            <div class="mat-layout-grid">
+                <div class="mat-layout-grid-inner">
+                    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+                        <p>
+                            <MatTextField class="form-control" type="password" Label="Contraseña Actual" @bind-Value="@ServiceOrder.Detail" />
+                            <ValidationMessage For="@(() => ServiceOrder.Detail)" />
+                        </p>
+                        <MatDialogActions>
+                             <MatButton type="button" OnClick="ReturnAction">Regresar</MatButton>
+                             <MatButton type="submit">Guardar Cambios</MatButton>
+                        </MatDialogActions>
+                    </div>
+                </div>
+            </div>
+  
+        </MatDialogContent>
+        
+ </EditForm>

@@ -1,0 +1,13 @@
+﻿@page "/serviceorder/edit/{Id:int}"
+
+<h3>Editar Ordenes de Servicio</h3>
+
+@if(serviceOrder is null)
+{
+    <Loading/>
+}
+else
+{
+    <ServiceOrdersForm @ref="ServiceOrdersForm" Label="Orden Servicio: " Model="serviceOrder" OnValidSubmit="EditAsync" ReturnAction="Return" />
+
+}

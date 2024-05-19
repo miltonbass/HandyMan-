@@ -1,0 +1,47 @@
+﻿@page "/ordenservicio"
+
+<div class="card">
+    <div class="card-header">
+        <span>
+            <i class="bi bi-list-check"></i> Orden de Servicio
+            <a class="btn btn-sm btn-primary float-end" @onclick=@(() => ShowModalAsync())><i class="bi bi-plus-circle" /> Adicionar Orden Servicio</a>
+        </span>
+    </div>
+    <div class="card-body">
+        <Filter PlaceHolder="Buscar Orden Servicio..." Callback=@FilterCallBack />
+        <GenericList MyList="ServiceOrder">
+            <Body>
+                <Pagination CurrentPage="currentPage"
+                            TotalPages="totalPages"
+                            SelectedPage="SelectedPageAsync" 
+                            RecordsNumber="SelectedRecordsNumberAsync" />
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Estado</th>
+                            <th>Fecha Ejecución</th>
+                            <th>Detalle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var serviceorder in ServiceOrder!)
+                        {
+                            <tr>
+                                <td>@serviceorder.Id</td>
+                                <td>@serviceorder.State</td>
+                                <td>@serviceorder.ExecutionDate</td>
+                                <td>@serviceorder.Detail</td>
+                                <td>
+                                    <a @onclick=@(() => ShowModalAsync(serviceorder.Id, true)) class="btn btn-sm btn-warning"><i class="bi bi-pencil" /> Editar</a>
+                                    <button @onclick=@(() => DeleteAsycn(serviceorder)) class="btn btn-sm btn-danger"><i class="bi bi-trash" /> Borrar</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </Body>
+        </GenericList>
+    </div>
+</div>
