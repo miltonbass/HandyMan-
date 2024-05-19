@@ -1,10 +1,9 @@
 ﻿using HandyMan_.Backend.Helpers;
 using HandyMan_.Backend.UnitsOfWork.Interfaces;
 using HandyMan_.Shared.Entities;
-using HandyMan_.Shered.Entities;
 using Microsoft.EntityFrameworkCore;
 using HandyMan_.Shared.Enums;
-
+using HandyMan_.Shered.Entities;
 namespace HandyMan_.Backend.Data
 {
     public class SeedDb
@@ -27,6 +26,7 @@ namespace HandyMan_.Backend.Data
             await CheckCountriesFullAsync();
             await CheckCountriesAsync();
             await CheckCategoriesAsync();
+            await CheckOrderServiceDataAsync();
             await CheckSubscriptionTypesAsync();
             await CheckSurveyDataAsync();
             await CheckoutPeopleTypeAsync();
@@ -469,6 +469,548 @@ namespace HandyMan_.Backend.Data
                     QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
                     UserType = UserType.Costumer.ToString()
                 });
+
+
+
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        private async Task CheckOrderServiceDataAsync()
+        {
+            if (!_context.ServiceOrders.Any())
+            {
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Servicios de emergencia para abrir cerraduras, reemplazar llaves perdidas y mejorar la seguridad de las cerraduras"
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Reparación y reemplazo de ventanas rotas, marcos de puertas y cerraduras."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Servicios de emergencia para abrir cerraduras, reemplazar llaves perdidas y mejorar la seguridad de las cerraduras"
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Reparación y reemplazo de ventanas rotas, marcos de puertas y cerraduras."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Servicios de emergencia para abrir cerraduras, reemplazar llaves perdidas y mejorar la seguridad de las cerraduras"
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Reparación y reemplazo de ventanas rotas, marcos de puertas y cerraduras."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Servicios de emergencia para abrir cerraduras, reemplazar llaves perdidas y mejorar la seguridad de las cerraduras"
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Reparación y reemplazo de ventanas rotas, marcos de puertas y cerraduras."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Servicios de emergencia para abrir cerraduras, reemplazar llaves perdidas y mejorar la seguridad de las cerraduras"
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Reparación y reemplazo de ventanas rotas, marcos de puertas y cerraduras."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Servicios de emergencia para abrir cerraduras, reemplazar llaves perdidas y mejorar la seguridad de las cerraduras"
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Reparación y reemplazo de ventanas rotas, marcos de puertas y cerraduras."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Servicios de emergencia para abrir cerraduras, reemplazar llaves perdidas y mejorar la seguridad de las cerraduras"
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Instalación, mantenimiento y reparación de sistemas de calefacción, ventilación y aire acondicionado."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Instalación, mantenimiento y reparación de sistemas de calefacción, ventilación y aire acondicionado."
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Reparación y reemplazo de ventanas rotas, marcos de puertas y cerraduras."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Servicios de emergencia para abrir cerraduras, reemplazar llaves perdidas y mejorar la seguridad de las cerraduras"
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Reparación y reemplazo de ventanas rotas, marcos de puertas y cerraduras."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Servicios de emergencia para abrir cerraduras, reemplazar llaves perdidas y mejorar la seguridad de las cerraduras"
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Instalación, mantenimiento y reparación de sistemas de calefacción, ventilación y aire acondicionado."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Instalación, mantenimiento y reparación de sistemas de calefacción, ventilación y aire acondicionado."
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Reparación y reemplazo de ventanas rotas, marcos de puertas y cerraduras."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Instalación, mantenimiento y reparación de sistemas de calefacción, ventilación y aire acondicionado."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Servicios de emergencia para abrir cerraduras, reemplazar llaves perdidas y mejorar la seguridad de las cerraduras"
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Reparación y reemplazo de ventanas rotas, marcos de puertas y cerraduras."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Servicios de emergencia para abrir cerraduras, reemplazar llaves perdidas y mejorar la seguridad de las cerraduras"
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Reparación y reemplazo de ventanas rotas, marcos de puertas y cerraduras."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Servicios de emergencia para abrir cerraduras, reemplazar llaves perdidas y mejorar la seguridad de las cerraduras"
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Reparación y reemplazo de ventanas rotas, marcos de puertas y cerraduras."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Servicios de emergencia para abrir cerraduras, reemplazar llaves perdidas y mejorar la seguridad de las cerraduras"
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Reparación y reemplazo de ventanas rotas, marcos de puertas y cerraduras."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Servicios de emergencia para abrir cerraduras, reemplazar llaves perdidas y mejorar la seguridad de las cerraduras"
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Reparación y reemplazo de ventanas rotas, marcos de puertas y cerraduras."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Servicios de emergencia para abrir cerraduras, reemplazar llaves perdidas y mejorar la seguridad de las cerraduras"
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Reparación y reemplazo de ventanas rotas, marcos de puertas y cerraduras."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Servicios de emergencia para abrir cerraduras, reemplazar llaves perdidas y mejorar la seguridad de las cerraduras"
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Reparación y reemplazo de ventanas rotas, marcos de puertas y cerraduras."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Servicios de emergencia para abrir cerraduras, reemplazar llaves perdidas y mejorar la seguridad de las cerraduras"
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Reparación y reemplazo de ventanas rotas, marcos de puertas y cerraduras."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Servicios de emergencia para abrir cerraduras, reemplazar llaves perdidas y mejorar la seguridad de las cerraduras"
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Reparación y reemplazo de ventanas rotas, marcos de puertas y cerraduras."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Servicios de emergencia para abrir cerraduras, reemplazar llaves perdidas y mejorar la seguridad de las cerraduras"
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Reparación y reemplazo de ventanas rotas, marcos de puertas y cerraduras."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Creado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Servicios de emergencia para abrir cerraduras, reemplazar llaves perdidas y mejorar la seguridad de las cerraduras"
+                });
+
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Enproceso",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = "Reparación y reemplazo de ventanas rotas, marcos de puertas y cerraduras."
+                });
+
+                _context.ServiceOrders.Add(new ServiceOrder
+                {
+                    State = "Completado",
+                    CreationDate = null,
+                    ExecutionDate = null,
+                    Detail = " Limpieza profesional de alfombras, sofás, sillas y otras tapicerías."
+                });
+
+
+
 
 
 
