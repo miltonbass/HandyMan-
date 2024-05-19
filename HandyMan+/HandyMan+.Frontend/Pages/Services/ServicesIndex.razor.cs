@@ -46,13 +46,9 @@ namespace HandyMan_.Frontend.Pages.Services
 
         private List<Category>? categories;
         private List<People>? peoples;
-        private Service Service { get; set; } = new Service();
+        private Service Service { get; set; } = new();
 
-        protected override void OnInitialized()
-        {
-            editContext = new(Service);
-        }
-
+        
         protected override async Task OnInitializedAsync()
         {
             await LoadAllServiceAsync();

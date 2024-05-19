@@ -1,39 +1,42 @@
 ﻿@page "/servicesview"
-@layout NoMenuLayout
 
 
-<!-- Parte superior derecha: Botones Login y Register -->
-    <div class="d-flex justify-content-end mt-3 me-3">
-        <button class="btn btn-light me-2">Login</button>
-        <button class="btn btn-light">Register</button>
-    </div>
-
-    <!-- Barra de búsqueda -->
-    <div class="input-group mt-3 mb-3 justify-content-center">
-        <input type="text" class="form-control rounded-pill border-dark" placeholder="Buscar..." aria-label="Buscar">
-        <button class="btn btn-outline-secondary rounded-pill" type="button">
-            <i class="fas fa-search"></i>
-        </button>
-    </div>
-
-    <!-- Grid con cards -->
-    <div class="container mt-5">
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <!-- Ejemplo de card (puedes repetir este bloque para cada card) -->
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://via.placeholder.com/150" class="card-img-top img-fluid" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Producto 1</h5>
-                        <p class="card-text">Descripción corta del producto.</p>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between align-items-center">
-                        <span class="badge bg-primary rounded-pill">Categoría</span>
-                        <span class="badge bg-secondary rounded-pill">Precio: $99.99</span>
-                        <a href="#" class="text-decoration-none">Agregar</a>
-                    </div>
+ <div class="mat-layout-grid">
+    <div class="mat-layout-grid-inner">
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-2"></div>
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-8">
+             <MatTextField @bind-Value="search" Label="buscar"></MatTextField>
+        </div>
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-2"></div>
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-4">
+             <MatCard class="demo-mat-card">
+                <div class="demo-mat-card-content">
+                    <MatHeadline6 class="demo-mat-card-clean-margin">
+                        Our Changing Planet
+                    </MatHeadline6>
+                    <MatSubtitle2 class="demo-mat-card-clean-margin">
+                        by Kurt Wagner
+                    </MatSubtitle2>
                 </div>
-            </div>
-            <!-- Fin del ejemplo de card -->
+                <MatCardContent>
+                    <MatCardMedia Wide="true" ImageUrl="https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg"></MatCardMedia>
+                    <MatBody2 class="demo-mat-card-content demo-mat-card-clean-margin">
+                        Visit ten places on our planet that are undergoing the biggest changes today.
+                    </MatBody2>
+                </MatCardContent>
+                <MatCardActions>
+                    <MatCardActionButtons>
+                        <MatButton>Read</MatButton>
+                        <MatButton>Bookmark</MatButton>
+                    </MatCardActionButtons>
+ 
+                    <MatCardActionIcons>
+                        <MatIconButton Icon="@MatIconNames.Favorite"></MatIconButton>
+                        <MatIconButton Icon="@MatIconNames.Dashboard"></MatIconButton>
+                    </MatCardActionIcons>
+                </MatCardActions>
+            </MatCard>
         </div>
     </div>
+</div>
+

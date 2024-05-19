@@ -89,25 +89,6 @@ namespace HandyMan_.Backend.Controllers
         }
 
 
-        [HttpPost("ResedToken")]
-        public async Task<IActionResult> ResedTokenAsync([FromBody] EmailDTO model)
-        {
-            var user = await _usersUnitOfWork.GetUserAsync(model.Email);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var response = await SendConfirmationEmailAsync(user);
-            if (response.WasSuccess)
-            {
-                return NoContent();
-            }
-
-            return BadRequest(response.Message);
-        }
-
-
         [HttpPost("CreateUser")]
         public async Task<IActionResult> CreateUser([FromBody] UserDTO model)
         {
@@ -154,6 +135,24 @@ namespace HandyMan_.Backend.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpPost("ResedToken")]
+        public async Task<IActionResult> ResedTokenAsync([FromBody] EmailDTO model)
+        {
+            var user = await _usersUnitOfWork.GetUserAsync(model.Email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var response = await SendConfirmationEmailAsync(user);
+            if (response.WasSuccess)
+            {
+                return NoContent();
+            }
+
+            return BadRequest(response.Message);
         }
 
 

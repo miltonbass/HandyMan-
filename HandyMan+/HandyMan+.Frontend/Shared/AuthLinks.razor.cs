@@ -16,7 +16,7 @@ namespace HandyMan_.Frontend.Shared
 {
     public partial class AuthLinks
     {
-        MatChipSet chipset = null;
+       
         private string CountryId = null!;
         private string StateId = null!;
         private UserDTO userDTO { get; set; } = new UserDTO();

@@ -32,6 +32,7 @@ namespace HandyMan_.Backend.Data
             await CheckoutPeopleTypeAsync();
             await CheckRolesAsync();
             await CheckUserAsync("0001", "user", "admin", "admin@yopmail.com", "318 4756753", "Avenida siempre viva 123", "admin.jpg", UserType.Admin);
+            await CheckUserAsync("0001", "user", "admin", "lagm1290+1@gmail.com", "318 4756753", "Avenida siempre viva 123", "admin.jpg", UserType.Admin);
             await CheckUserAsync("0002", "User", "asistant", "asistant@yopmail.com", "111 111 111", "Avenida 2", "specialist.jpg", UserType.Specialist);
             await CheckUserAsync("0003", "User", "provider", "provider@yopmail.com", "111 111 111", "Avenida 3", "provider.jpg", UserType.Provider);
             await CheckUserAsync("0003", "User", "costumer", "costumer@yopmail.com", "111 111 111", "Avenida 3", "costumer.jpg", UserType.Costumer);
