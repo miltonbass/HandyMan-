@@ -23,6 +23,8 @@ builder.Services.AddScoped<ILoginService, AuthenticationProviderJWT>(x => x.GetR
 builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7002/") }); 
 builder.Services.AddScoped<IRepository, Repository>();
 
+
+
 builder.Services.AddSweetAlert2();
 builder.Services.AddBlazoredModal();
 
