@@ -21,9 +21,9 @@
                             <div>
                 <label for="paginationAmount">Cantidad Paginado</label>
                 <select id="paginationAmount" class="form-control" value="10" @onchange="HandleChange">
-                            @foreach (var userType in Values)
+                            @foreach (var recordsNumber in Values)
                             {
-                                    <option value="@userType">@userType</option>
+                                    <option value="@recordsNumber">@recordsNumber</option>
                             }
                 </select>
             </div>
