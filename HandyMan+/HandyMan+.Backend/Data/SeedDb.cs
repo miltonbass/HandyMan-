@@ -32,11 +32,12 @@ namespace HandyMan_.Backend.Data
             await CheckoutPeopleTypeAsync();
             await CheckRolesAsync();
             await CheckUserAsync("0001", "user", "admin", "admin@yopmail.com", "318 4756753", "Avenida siempre viva 123", "admin.jpg", UserType.Admin);
+            await CheckUserAsync("0001", "user", "admin", "lagm1290+1@gmail.com", "318 4756753", "Avenida siempre viva 123", "admin.jpg", UserType.Admin);
             await CheckUserAsync("0002", "User", "asistant", "asistant@yopmail.com", "111 111 111", "Avenida 2", "specialist.jpg", UserType.Specialist);
             await CheckUserAsync("0003", "User", "provider", "provider@yopmail.com", "111 111 111", "Avenida 3", "provider.jpg", UserType.Provider);
             await CheckUserAsync("0003", "User", "costumer", "costumer@yopmail.com", "111 111 111", "Avenida 3", "costumer.jpg", UserType.Costumer);
 
-            //await CheckoutPeopleAsync();
+            await CheckoutPeopleAsync();
             //await CheckoutServiceAsync();
             //await CheckoutServiceOrderAsync();
         }
@@ -142,16 +143,105 @@ namespace HandyMan_.Backend.Data
             {
                 _context.Peoples.Add(new People
                 {
-                    Identification = "56232222",
-                    Name = "Tecnico aldo",
-                    Surname = "The best",
-                    Email = "tec_aldo@yopmail.com",
-                    PeopleTypeId = 2,
+                    Identification = "11111111",
+                    Name = "Ana Garcia",
+                    Surname = "Garcia",
+                    Email = "anagarcia@example.com",
+                    PeopleTypeId = 1,
                     CityId = 1,
-                    PeopleType = null,
-                    City = null,
-                    Service = null
                 });
+
+                _context.Peoples.Add(new People
+                {
+                    Identification = "22222222",
+                    Name = "Pedro Martinez",
+                    Surname = "Martinez",
+                    Email = "pedromartinez@example.com",
+                    PeopleTypeId = 1,
+                    CityId = 1,
+                });
+
+
+                _context.Peoples.Add(new People
+                {
+                    Identification = "33333333",
+                    Name = "Laura Fernandez",
+                    Surname = "Fernandez",
+                    Email = "laurafernandez@example.com",
+                    PeopleTypeId = 1,
+                    CityId = 1,
+                });
+
+                _context.Peoples.Add(new People
+                {
+                    Identification = "44444444",
+                    Name = "Roberto Sanchez",
+                    Surname = "Sanchez",
+                    Email = "robertosanchez@example.com",
+                    PeopleTypeId = 1,
+                    CityId = 1,
+                });
+
+                _context.Peoples.Add(new People
+                {
+                    Identification = "55555555",
+                    Name = "Elena Ramirez",
+                    Surname = "Ramirez",
+                    Email = "elenaramirez@example.com",
+                    PeopleTypeId = 1,
+                    CityId = 1,
+                });
+
+                _context.Peoples.Add(new People
+                {
+                    Identification = "66666666",
+                    Name = "Jorge Gonzalez",
+                    Surname = "Gonzalez",
+                    Email = "jorgegonzalez@example.com",
+                    PeopleTypeId = 1,
+                    CityId = 1,
+                });
+
+                _context.Peoples.Add(new People
+                {
+                    Identification = "77777777",
+                    Name = "Carmen Rodriguez",
+                    Surname = "Rodriguez",
+                    Email = "carmenrodriguez@example.com",
+                    PeopleTypeId = 1,
+                    CityId = 1,
+                });
+
+                _context.Peoples.Add(new People
+                {
+                    Identification = "88888888",
+                    Name = "Daniel Perez",
+                    Surname = "Perez",
+                    Email = "danielperez@example.com",
+                    PeopleTypeId = 1,
+                    CityId = 1,
+                });
+
+                _context.Peoples.Add(new People
+                {
+                    Identification = "99999999",
+                    Name = "Sofia Fernandez",
+                    Surname = "Fernandez",
+                    Email = "sofiafernandez@example.com",
+                    PeopleTypeId = 1,
+                    CityId = 1,
+                });
+
+                _context.Peoples.Add(new People
+                {
+                    Identification = "10101010",
+                    Name = "Alejandro Gonzalez",
+                    Surname = "Gonzalez",
+                    Email = "alejandrogonzalez@example.com",
+                    PeopleTypeId = 1,
+                    CityId = 1,
+                });
+
             }
             await _context.SaveChangesAsync();
         }

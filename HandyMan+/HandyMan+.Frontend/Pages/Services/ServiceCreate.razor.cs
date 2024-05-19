@@ -1,3 +1,5 @@
+using Blazored.Modal.Services;
+using Blazored.Modal;
 using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Repositories;
 using HandyMan_.Shered.Entities;
@@ -5,6 +7,9 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Diagnostics.Metrics;
 using System.Reflection;
+using HandyMan_.Frontend.Shared;
+using System.Runtime.CompilerServices;
+using HandyMan_.Frontend.Pages.Auth;
 
 namespace HandyMan_.Frontend.Pages.Services
 {
@@ -12,11 +17,16 @@ namespace HandyMan_.Frontend.Pages.Services
     {
 
         private EditContext editContext = null!;
+        private bool wasClose;
+        private bool loading;
         [Inject] private IRepository Repository { get; set; } = null!;
 
         private Service? Service { get; set; } = new Service();
         [Inject] public SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
+
+        [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+        [CascadingParameter] IModalService Modal { get; set; } = default!;
 
         private List<Category>? categories;
 
@@ -59,7 +69,10 @@ namespace HandyMan_.Frontend.Pages.Services
 
         private async Task CreateAsync()
         {
+            loading = true;
             var responseHttp = await Repository.PostAsync("/api/services", Service);
+            loading = false;
+
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
@@ -82,6 +95,13 @@ namespace HandyMan_.Frontend.Pages.Services
         {
             NavigationManager.NavigateTo("/services");
         }
+        private async Task CloseModalAsync()
+        {
+            wasClose = true;
+            await BlazoredModal.CloseAsync(ModalResult.Ok());
+        }
+
+       
 
 
     }
