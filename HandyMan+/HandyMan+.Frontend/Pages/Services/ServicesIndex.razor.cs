@@ -1,5 +1,7 @@
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Repositories;
+using HandyMan_.Frontend.Shared;
 using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -29,15 +31,15 @@ namespace HandyMan_.Frontend.Pages.Services
             dialogIsOpen = false;
         }
 
-        
-
-       
-
+      
         [Inject] private IRepository Repository { get; set; } = null!;
    
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] public SweetAlertService SweetAlertService { get; set; } = null!;
-        
+
+        [CascadingParameter] IModalService Modal { get; set; } = default!;
+
+        private EditContext editContext = null!;
 
         public List<Service>? Services { get; set; }
         public List<Service>? ListServices { get; set; }
@@ -158,6 +160,14 @@ namespace HandyMan_.Frontend.Pages.Services
             });
             await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro borrado con éxito.");
         }
-        
+
+
+      
+
+        private void ShowModal()
+        {
+            Modal.Show<ServiceCreate>();
+        }
+
     }
 }

@@ -1,17 +1,20 @@
 ﻿@page "/services/create"
 
-<div class="card">
-        <div class="card-header">
-            <span>
-                <i class="bi bi-globe-americas" /> Crear Servicio
-            </span>
-        </div>
-        <div class="card-body">
-        <EditForm EditContext="editContext" OnValidSubmit="CreateAsync">
-            <DataAnnotationsValidator />
-             <div class="mb-3">
-                <label>Categoria</label>
-                <div>
+@if (loading)
+{
+    <Loading/>
+}
+else
+{
+                  
+        <EditForm EditContext="editContext" OnSubmit="CreateAsync">
+        <DataAnnotationsValidator/>
+        <MatDialogTitle>Crear Servicio</MatDialogTitle>
+        <MatDialogContent>
+            <div class="mat-layout-grid">
+                <div class="mat-layout-grid-inner">
+                    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+                <p> 
                     <select class="form-select" @bind="Service!.CategoryId">
                         <option value="0">-- Seleccione una categoria --</option>
                         @if (categories is not null)
@@ -23,47 +26,45 @@
                         }
                     </select>
                     <ValidationMessage For="@(() => Service!.CategoryId)" />
-                </div>
-            </div>
-             <div class="mb-3">
-                <label>Proveedor</label>
-                <div>
+                 
+                </p>
+                <p>
                     <select class="form-select" @bind="Service!.PeopleId">
-                        <option value="0">-- Seleccione una categoria --</option>
-                        @if (categories is not null)
-                        {
-                            @foreach (var people in peoples!)
+                       <option value="0">-- Seleccione un proveedor --</option>
+                            @if (categories is not null)
                             {
-                                        <option value="@people.Id">@people.Name</option>
+                                @foreach (var people in peoples!)
+                                {
+                                      <option value="@people.Id">@people.Name</option>
+                                }
                             }
-                        }
-                    </select>
-                    <ValidationMessage For="@(() => Service!.PeopleId)" />
-                </div>
-            </div>
-             <div class="mb-3">
-                <label>Nombre</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="Service!.Name" />
+                     </select>
+       
+                     <ValidationMessage For="@(() => Service!.PeopleId)" />
+                </p>
+                        
+                <p>
+                    <MatTextField class="form-control" type="text" Label="Nombre" @bind-Value="Service!.Name" />
                     <ValidationMessage For="@(() => Service.Name)" />
+                </p>
+                <p>
+                  <MatTextField class="form-control" type="text" Label="Detalle" @bind-Value="Service!.Detail" />
+                   <ValidationMessage For="@(() => Service.Detail)" />
+            </p>
+            <p>
+              <MatTextField class="form-control" type="text" Label="Valor" @bind-Value="Service!.Price" />
+              <ValidationMessage For="@(() => Service.Price)" />
+           </p>
+                      
+                        <MatDialogActions>
+                             <MatButton type="button" OnClick="CloseModalAsync">Regresar</MatButton>
+                             <MatButton type="submit">Guardar Cambios</MatButton>
+                        </MatDialogActions>
+                    </div>
                 </div>
             </div>
-             <div class="mb-3">
-                <label>Detalle</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="Service!.Detail" />
-                    <ValidationMessage For="@(() => Service.Detail)" />
-                </div>
-            </div>
-             <div class="mb-3">
-                <label>Precio</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="Service!.Price" />
-                    <ValidationMessage For="@(() => Service.Price)" />
-                </div>
-            </div>
-            <button class="btn btn-primary" type="submit">Guardar Cambios</button>
-            <button class="btn btn-success" @onclick="Return">Regresar</button>
-        </EditForm>
-    </div>
-</div>
+  
+        </MatDialogContent>
+        
+ </EditForm>
+}
