@@ -11,9 +11,24 @@
         <Filter PlaceHolder="Buscar Categoria..." Callback=@FilterCallBack />
         <GenericList MyList="Categories">
             <Body>
-                <Pagination CurrentPage="currentPage"
+                 <div style="display: flex; align-items: center; justify-content: space-between;">
+
+                            <Pagination CurrentPage="currentPage"
                             TotalPages="totalPages"
                             SelectedPage="SelectedPageAsync" />
+
+                            <div>
+                <label for="paginationAmount">Cantidad Paginado</label>
+                <select id="paginationAmount" class="form-control" value="10" @onchange="HandleChange">
+                            @foreach (var recordsNumber in Values)
+                            {
+                                        <option value="@recordsNumber">@recordsNumber</option>
+                            }
+                </select>
+            </div>
+
+
+                </div>
 
                 <table class="table table-striped">
                     <thead>

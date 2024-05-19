@@ -11,10 +11,22 @@
         <Filter PlaceHolder="Buscar Orden Servicio..." Callback=@FilterCallBack />
         <GenericList MyList="ServiceOrder">
             <Body>
-                <Pagination CurrentPage="currentPage"
+                  <div style="display: flex; align-items: center; justify-content: space-between;">
+
+                            <Pagination CurrentPage="currentPage"
                             TotalPages="totalPages"
-                            SelectedPage="SelectedPageAsync" 
-                            RecordsNumber="SelectedRecordsNumberAsync" />
+                            SelectedPage="SelectedPageAsync" />
+
+                            <div>
+                <label for="paginationAmount">Cantidad Paginado</label>
+                <select id="paginationAmount" class="form-control" value="10" @onchange="HandleChange">
+                            @foreach (var userType in Values)
+                            {
+                                    <option value="@userType">@userType</option>
+                            }
+                </select>
+            </div>
+          </div>
 
                 <table class="table table-striped">
                     <thead>
