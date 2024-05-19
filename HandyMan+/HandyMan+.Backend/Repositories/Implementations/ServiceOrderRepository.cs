@@ -1,10 +1,12 @@
-﻿using HandyMan_.Backend.Data;
-using HandyMan_.Backend.Helpers;
+﻿using Microsoft.EntityFrameworkCore;
+using HandyMan_.Backend.Data;
 using HandyMan_.Backend.Repositories.Interfaces;
-using HandyMan_.Shered.DTOs;
-using HandyMan_.Shered.Entities;
+using HandyMan_.Shared.Entities;
 using HandyMan_.Shered.Responses;
-using Microsoft.EntityFrameworkCore;
+using HandyMan_.Shered.DTOs;
+using HandyMan_.Backend.Helpers;
+using HandyMan_.Shered.Entities;
+
 
 namespace HandyMan_.Backend.Repositories.Implementations
 {
@@ -17,45 +19,39 @@ namespace HandyMan_.Backend.Repositories.Implementations
             _context = context;
         }
 
-        public override async Task<ActionResponse<IEnumerable<ServiceOrder>>> GetAsync()
+        public async Task<IEnumerable<ServiceOrder>> GetComboAsync()
         {
-            var service_order = await _context.ServiceOrders
-                .OrderBy(x => x.State)
+            return await _context.ServiceOrders
+                .OrderBy(x => x.Id)
                 .ToListAsync();
-            return new ActionResponse<IEnumerable<ServiceOrder>>
-            {
-                WasSuccess = true,
-                Result = service_order
-            };
         }
 
         public override async Task<ActionResponse<IEnumerable<ServiceOrder>>> GetAsync(PaginationDTO pagination)
         {
-            var queryable = _context.ServiceOrders
-                .Include(c => c.State)
-                .AsQueryable();
+            var queryable = _context.ServiceOrders.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
-                queryable = queryable.Where(x => x.State.ToLower().Contains(pagination.Filter.ToLower()));
+                queryable = queryable.Where(x => x.Detail.ToLower().Contains(pagination.Filter.ToLower()));
             }
 
             return new ActionResponse<IEnumerable<ServiceOrder>>
             {
                 WasSuccess = true,
                 Result = await queryable
-                    .OrderBy(x => x.State)
+                    .OrderBy(x => x.Id)
                     .Paginate(pagination)
                     .ToListAsync()
             };
         }
+
         public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
         {
             var queryable = _context.ServiceOrders.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
-                queryable = queryable.Where(x => x.State.ToLower().Contains(pagination.Filter.ToLower()));
+                queryable = queryable.Where(x => x.Detail.ToLower().Contains(pagination.Filter.ToLower()));
             }
 
             double count = await queryable.CountAsync();
@@ -67,6 +63,5 @@ namespace HandyMan_.Backend.Repositories.Implementations
             };
         }
 
-        
     }
 }

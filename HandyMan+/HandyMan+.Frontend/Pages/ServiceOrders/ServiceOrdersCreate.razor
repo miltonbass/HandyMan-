@@ -1,0 +1,5 @@
+﻿@page "/serviceorder/create"
+
+<h3>Crear Ordenes de Servicio</h3>
+
+<ServiceOrdersForm  @ref="ServiceOrdersForm" ServiceOrderEntity="ServiceOrderEntity" OnValidSubmit="CreateAsync" ReturnAction="Return" />
