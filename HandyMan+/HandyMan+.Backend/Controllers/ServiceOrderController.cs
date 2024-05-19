@@ -1,5 +1,6 @@
 ﻿using HandyMan_.Backend.UnitsOfWork.Implementations;
 using HandyMan_.Backend.UnitsOfWork.Interfaces;
+using HandyMan_.Shared.Entities;
 using HandyMan_.Shered.DTOs;
 using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,16 +14,24 @@ namespace HandyMan_.Backend.Controllers
     [Route("api/[controller]")]
     public class ServiceOrderController : GenericController<ServiceOrder>
     {
-        private readonly IServiceOrderUnitOfWork _serviceorderUnitOfWork;
+        private readonly IServiceOrderUnitOfWork _serviceOrderUnitOfWork;
 
-        public ServiceOrderController(IGenericUnitOfWork<ServiceOrder> unitOfWork, IServiceOrderUnitOfWork serviceorderUnitOfWork) : base(unitOfWork)
+        public ServiceOrderController(IGenericUnitOfWork<ServiceOrder> unitOfWork, IServiceOrderUnitOfWork serviceOrderUnitOfWork) : base(unitOfWork)
         {
-            _serviceorderUnitOfWork = serviceorderUnitOfWork;
+            _serviceOrderUnitOfWork = serviceOrderUnitOfWork;
         }
+
+        [AllowAnonymous]
+        [HttpGet("combo")]
+        public async Task<IActionResult> GetComboAsync()
+        {
+            return Ok(await _serviceOrderUnitOfWork.GetComboAsync());
+        }
+
         [HttpGet]
         public override async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
         {
-            var response = await _serviceorderUnitOfWork.GetAsync(pagination);
+            var response = await _serviceOrderUnitOfWork.GetAsync(pagination);
             if (response.WasSuccess)
             {
                 return Ok(response.Result);
@@ -33,12 +42,15 @@ namespace HandyMan_.Backend.Controllers
         [HttpGet("totalPages")]
         public override async Task<IActionResult> GetPagesAsync([FromQuery] PaginationDTO pagination)
         {
-            var action = await _serviceorderUnitOfWork.GetTotalPagesAsync(pagination);
+            var action = await _serviceOrderUnitOfWork.GetTotalPagesAsync(pagination);
             if (action.WasSuccess)
             {
                 return Ok(action.Result);
             }
             return BadRequest();
         }
+
+
     }
 }
+

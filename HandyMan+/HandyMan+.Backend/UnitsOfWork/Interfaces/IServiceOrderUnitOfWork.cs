@@ -1,4 +1,5 @@
-﻿using HandyMan_.Shered.DTOs;
+﻿using HandyMan_.Shared.Entities;
+using HandyMan_.Shered.DTOs;
 using HandyMan_.Shered.Entities;
 using HandyMan_.Shered.Responses;
 
@@ -10,5 +11,6 @@ namespace HandyMan_.Backend.UnitsOfWork.Interfaces
         Task<ActionResponse<IEnumerable<ServiceOrder>>> GetAsync(PaginationDTO pagination);
         Task<ActionResponse<IEnumerable<ServiceOrder>>> GetAsync();
         Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
+        Task<IEnumerable<ServiceOrder>> GetComboAsync();
     }
 }
