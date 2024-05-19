@@ -18,7 +18,7 @@
         <MatDrawer @bind-Opened="@Opened">
             <AuthorizeView Roles="Admin">
                 <MatNavMenu>
-                    <MatNavItem Href="/categories"><MatIcon Icon="grade"></MatIcon>&nbsp; Inicio </MatNavItem>
+                    <MatNavItem Href="/"><MatIcon Icon="grade"></MatIcon>&nbsp; Inicio </MatNavItem>
                 
                         <MatNavItem Href="/categories"><MatIcon Icon="grade"></MatIcon>&nbsp; Categorias </MatNavItem>
 
@@ -50,9 +50,29 @@
                 </MatNavMenu>
             </AuthorizeView>
             <AuthorizeView Roles="Costumer">
-                <MatNavItem Href="/categories"><MatIcon Icon="grade"></MatIcon>&nbsp; Inicio </MatNavItem>
-                 <MatNavItem Href="/countries"><MatIcon Icon="favorite"></MatIcon>&nbsp; Favoritos </MatNavItem>
-                  <MatNavItem Href="/countries"><MatIcon Icon="grade"></MatIcon>&nbsp; Servicios Contratados </MatNavItem>
+                <MatNavItem Href="/#"><MatIcon Icon="grade"></MatIcon>&nbsp; Inicio </MatNavItem>
+                 <MatNavItem Href="/#"><MatIcon Icon="favorite"></MatIcon>&nbsp; Favoritos </MatNavItem>
+                  <MatNavItem Href="/#"><MatIcon Icon="grade"></MatIcon>&nbsp; Servicios Contratados </MatNavItem>
+            </AuthorizeView>
+            <AuthorizeView Roles="Specialist">
+                <MatNavItem Href="/#"><MatIcon Icon="grade"></MatIcon>&nbsp; Inicio </MatNavItem>
+                 <MatNavItem Href="/#"><MatIcon Icon="favorite"></MatIcon>&nbsp; Ordenes </MatNavItem>
+                  <MatNavItem Href="/#"><MatIcon Icon="grade"></MatIcon>&nbsp; Clientes </MatNavItem>
+            </AuthorizeView>
+            <AuthorizeView Roles="Provider">
+                <MatNavItem Href="/#"><MatIcon Icon="grade"></MatIcon>&nbsp; Inicio </MatNavItem>
+                 <MatNavItem Href="/#"><MatIcon Icon="favorite"></MatIcon>&nbsp; Ordenes </MatNavItem>
+                  <MatNavItem Href="/#"><MatIcon Icon="grade"></MatIcon>&nbsp; Ordenes Ejecutadas </MatNavItem>
+            </AuthorizeView>
+            <AuthorizeView Roles="ProviderPremium">
+                <MatNavItem Href="/#"><MatIcon Icon="grade"></MatIcon>&nbsp; Inicio </MatNavItem>
+                 <MatNavItem Href="/#"><MatIcon Icon="favorite"></MatIcon>&nbsp; Favoritos </MatNavItem>
+                  <MatNavItem Href="/#"><MatIcon Icon="grade"></MatIcon>&nbsp; Servicios Contratados </MatNavItem>
+            </AuthorizeView>
+            <AuthorizeView Roles="CostumerPremium">
+                <MatNavItem Href="/#"><MatIcon Icon="grade"></MatIcon>&nbsp; Inicio </MatNavItem>
+                 <MatNavItem Href="/#"><MatIcon Icon="favorite"></MatIcon>&nbsp; Favoritos </MatNavItem>
+                  <MatNavItem Href="/#"><MatIcon Icon="grade"></MatIcon>&nbsp; Servicios Contratados </MatNavItem>
             </AuthorizeView>
              
         </MatDrawer>

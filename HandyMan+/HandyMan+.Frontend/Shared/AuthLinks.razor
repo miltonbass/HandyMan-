@@ -18,8 +18,13 @@
     </Authorized>
     <NotAuthorized>
         <MatAppBarSection Align="@MatAppBarSectionAlign.End">
-            <MatIconButton Icon="person" OnClick=@(() => ShowModal())></MatIconButton>
-            <MatIconButton Icon="people" OnClick=@(() => ShowModalRegister())></MatIconButton>
+            
+            <MatIconButton Icon="person" OnClick=@(() => ShowModal())>
+                <MatBody1 style="margin-top: 1em; margin-right: 1em;" >Iniciar Sesion</MatBody1>
+            </MatIconButton>
+            <MatIconButton Icon="people" OnClick=@(() => ShowModalRegister())>
+                <MatBody1 style="margin-top: 1em; margin-right: 1em;">Registro</MatBody1>
+            </MatIconButton>
         </MatAppBarSection>
     </NotAuthorized>
 </AuthorizeView>
