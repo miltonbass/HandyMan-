@@ -181,5 +181,11 @@ namespace HandyMan_.Frontend.Pages.ServiceOrders
             });
             await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro borrado con éxito.");
         }
+
+        private async Task CleanFilterAsync()
+        {
+            Filter = string.Empty;
+            await ApplyFilterAsync();
+        }
     }
 }
