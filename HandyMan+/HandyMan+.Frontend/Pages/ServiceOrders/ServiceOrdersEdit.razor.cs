@@ -8,6 +8,7 @@ using HandyMan_.Shared.Entities;
 using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using System.Net;
 
 namespace HandyMan_.Frontend.Pages.ServiceOrders
@@ -15,41 +16,43 @@ namespace HandyMan_.Frontend.Pages.ServiceOrders
     [Authorize(Roles = "Admin")]
     public partial class ServiceOrdersEdit
     {
-        private ServiceOrder? serviceOrder;
-        private ServiceOrdersForm? ServiceOrdersForm;
-
+        [Parameter] public int id { get; set; }
+        private ServiceOrder ServiceOrder { get; set; }
+        private EditContext editContext;
 
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] public SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-        [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
-        [EditorRequired, Parameter] public int Id { get; set; }
-
-        protected override async Task OnParametersSetAsync()
+        protected override async Task OnInitializedAsync()
         {
-            var responseHttp = await Repository.GetAsync<ServiceOrder>($"/api/serviceorder/{Id}");
+           var responseHttp = await Repository.GetAsync<ServiceOrder>($"api/serviceorder/{id}");
+
             if (responseHttp.Error)
             {
-                if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+                if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
-                    NavigationManager.NavigateTo("/serviceorder");
+                    NavigationManager.NavigateTo("services");
                 }
                 else
                 {
-                    var messsage = await responseHttp.GetErrorMessageAsync();
-                    await SweetAlertService.FireAsync("Error", messsage, SweetAlertIcon.Error);
+                    var messageError = await responseHttp.GetErrorMessageAsync();
+                    await SweetAlertService.FireAsync("Error", messageError, SweetAlertIcon.Error);
                 }
             }
             else
             {
-                serviceOrder = responseHttp.Response;
+                ServiceOrder = responseHttp.Response;
+            }
+            if (ServiceOrder != null)
+            {
+                editContext = new EditContext(ServiceOrder);
             }
         }
 
-        private async Task EditAsync()
+        private async Task UpdateAsync()
         {
-            var responseHttp = await Repository.PutAsync("/api/serviceorder", serviceOrder);
+            var responseHttp = await Repository.PutAsync($"/api/serviceorder/{id}", ServiceOrder);
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
@@ -57,8 +60,9 @@ namespace HandyMan_.Frontend.Pages.ServiceOrders
                 return;
             }
 
-            await BlazoredModal.CloseAsync(ModalResult.Ok());
-            Return();
+            Console.WriteLine($"Estado: {ServiceOrder.State}");
+            Console.WriteLine($"Fecha Ejecución: {ServiceOrder.ExecutionDate}");
+            Console.WriteLine($"Detalle: {ServiceOrder.Detail}");
 
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
@@ -67,12 +71,13 @@ namespace HandyMan_.Frontend.Pages.ServiceOrders
                 ShowConfirmButton = true,
                 Timer = 3000
             });
-            await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Cambios guardados con éxito.");
+            await toast.FireAsync(icon: SweetAlertIcon.Success, title: "Registro actualizado con éxito.");
+
+            Return();
         }
 
         private void Return()
         {
-            ServiceOrdersForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo("/serviceorder");
         }
     }

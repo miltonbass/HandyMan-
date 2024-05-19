@@ -8,21 +8,17 @@ namespace HandyMan_.Frontend.Pages.ServiceOrders
 {
     public partial class ServiceOrdersCreate
     {
-        private EditContext editContext = null!;
-        [Inject] private IRepository Repository { get; set; } = null!;
+        private ServiceOrder ServiceOrder { get; set; } = new ServiceOrder();
+        private EditContext editContext;
 
-        private ServiceOrder? ServiceOrder { get; set; } = new ServiceOrder();
+        [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] public SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
-
-
-        protected override async Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
-            editContext = new(ServiceOrder!);
-
+            editContext = new EditContext(ServiceOrder);
         }
-
 
         private async Task CreateAsync()
         {
@@ -34,7 +30,10 @@ namespace HandyMan_.Frontend.Pages.ServiceOrders
                 return;
             }
 
-            Return();
+            Console.WriteLine($"Estado: {ServiceOrder.State}");
+            Console.WriteLine($"Fecha Ejecución: {ServiceOrder.ExecutionDate}");
+            Console.WriteLine($"Detalle: {ServiceOrder.Detail}");
+
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
@@ -42,7 +41,9 @@ namespace HandyMan_.Frontend.Pages.ServiceOrders
                 ShowConfirmButton = true,
                 Timer = 3000
             });
-            await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro creado con éxito.");
+            await toast.FireAsync(icon: SweetAlertIcon.Success, title: "Registro creado con éxito.");
+
+            Return();
         }
 
         private void Return()
