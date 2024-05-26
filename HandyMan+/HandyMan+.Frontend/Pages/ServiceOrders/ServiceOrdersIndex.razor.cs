@@ -15,6 +15,7 @@ namespace HandyMan_.Frontend.Pages.ServiceOrders
     {
         private int currentPage = 1;
         private int totalPages;
+        public List<int> Values = [5, 10, 15, 20, 25, 50, 100];
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
@@ -26,6 +27,13 @@ namespace HandyMan_.Frontend.Pages.ServiceOrders
         [CascadingParameter] IModalService Modal { get; set; } = default!;
 
         public List<ServiceOrder>? ServiceOrder { get; set; }
+
+
+        private async Task HandleChange(ChangeEventArgs e)
+        {
+            RecordsNumber = Convert.ToInt32(e.Value);
+            await LoadAsync();
+        }
 
         protected override async Task OnInitializedAsync()
         {

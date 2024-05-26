@@ -16,9 +16,22 @@
     <div class="card-body">
         <GenericList MyList="Peoples">
             <Body>
-                <Pagination CurrentPage="currentPage"
+               <div style="display: flex; align-items: center; justify-content: space-between;">
+
+                            <Pagination CurrentPage="currentPage"
                             TotalPages="totalPages"
                             SelectedPage="SelectedPageAsync" />
+
+                            <div>
+                <label for="paginationAmount">Cantidad Paginado</label>
+                <select id="paginationAmount" class="form-control" value="10" @onchange="HandleChange">
+                        @foreach (var recordsNumber in Values)
+                        {
+                                    <option value="@recordsNumber">@recordsNumber</option>
+                        }
+                </select>
+            </div>
+                </div>
                 <div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
                     <input style="width: 400px;" type="text" class="form-control" id="titulo" placeholder="Buscar proveedor..." @bind-value="Filter" />
                     <button type="button" class="btn btn-outline-primary mx-1" @onclick="ApplyFilterAsync">Filtrar</button>
