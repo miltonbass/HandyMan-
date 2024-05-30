@@ -1,104 +1,94 @@
+using Blazored.Modal;
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
+using HandyMan_.Frontend.Pages.Auth;
 using HandyMan_.Frontend.Repositories;
 using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Components;
+using Org.BouncyCastle.Math;
 
 namespace HandyMan_.Frontend.Pages.Provider
 {
     public partial class ProviderIndex
     {
-        private int currentPage = 1;
-        private int totalPages;
+
+        private List<Country>? countries;
+        private List<Country>? paises;
+        private List<User> users;
+        public string data { get; set; } = null!;
+        public List<User>? Users { get; set; }
+        private User User { get; set; } = new();
 
         [Inject] private IRepository Repository { get; set; } = null!;
-
-        [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
-        [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
+        [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] public SweetAlertService SweetAlertService { get; set; } = null!;
 
+        [CascadingParameter] IModalService Modal { get; set; } = default!;
 
-        public List<People>? Peoples { get; set; }
 
+        bool dialogIsOpen = false;
+
+
+        void OpenDialog()
+        {
+
+            dialogIsOpen = true;
+
+        }
+
+        void OkClick()
+        {
+            dialogIsOpen = false;
+        }
 
         protected override async Task OnInitializedAsync()
         {
-            await LoadAsync();
+            await LoadCountriesAsync();
+            await LoadAllUsersAsync();
         }
 
-        private async Task SelectedPageAsync(int page)
+        private async Task LoadAllUsersAsync()
         {
-            currentPage = page;
-            await LoadAsync(page);
-        }
-
-        private async Task LoadAsync(int page = 1)
-        {
-            if (!string.IsNullOrWhiteSpace(Page))
-            {
-                page = Convert.ToInt32(Page);
-            }
-
-            var ok = await LoadListAsync(page);
-            if (ok)
-            {
-                await LoadPagesAsync();
-            }
-        }
-        private async Task<bool> LoadListAsync(int page)
-        {
-            var url = $"api/peoples?page={page}";
-            if (!string.IsNullOrEmpty(Filter))
-            {
-                url += $"&filter={Filter}";
-            }
-
-            var responseHttp = await Repository.GetAsync<List<People>>(url);
+            var url = $"api/accounts/GetAllUsers";
+            var responseHttp = await Repository.GetAsync<List<User>>(url);
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
                 await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-                return false;
             }
-            Peoples = responseHttp.Response;
-            return true;
+            users = responseHttp.Response;
         }
 
-        private async Task LoadPagesAsync()
+        private async Task LoadCountriesAsync()
         {
-            var url = "api/peoples/totalPages";
-            if (!string.IsNullOrEmpty(Filter))
-            {
-                url += $"?filter={Filter}";
-            }
-
-            var responseHttp = await Repository.GetAsync<int>(url);
+            var responseHttp = await Repository.GetAsync<List<Country>>("/api/countries/combo");
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
                 await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 return;
             }
-            totalPages = responseHttp.Response;
-        }
-        private async Task CleanFilterAsync()
-        {
-            Filter = string.Empty;
-            await ApplyFilterAsync();
+
+            countries = responseHttp.Response;
+
         }
 
-        private async Task ApplyFilterAsync()
+        private void ShowModal()
         {
-            int page = 1;
-            await LoadAsync(page);
-            await SelectedPageAsync(page);
+            
+            var parameters = new ModalParameters()
+            .Add(nameof(countries), countries);
+            Modal.Show<ProviderCreate>();
+            
         }
-        private async Task DeleteAsync(People people)
+       
+        private async Task DeleteAsync(User people)
         {
             var result = await SweetAlertService.FireAsync(new SweetAlertOptions
             {
                 Title = "Confirmación",
-                Text = $"¿Esta seguro que quieres borrar el proveedor: {people.Name}?",
+                Text = $"¿Esta seguro que quieres borrar el proveedor: ?",
                 Icon = SweetAlertIcon.Question,
                 ShowCancelButton = true
             });
@@ -125,7 +115,7 @@ namespace HandyMan_.Frontend.Pages.Provider
                 return;
             }
 
-            await LoadAsync();
+           
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,

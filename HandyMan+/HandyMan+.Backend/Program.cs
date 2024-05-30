@@ -75,7 +75,7 @@ builder.Services.AddScoped<ICountriesRepository, CountriesRepository>();
 builder.Services.AddScoped<IStatesRepository, StatesRepository>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 
-builder.Services.AddScoped<IPeopleRepository, PeopleRepository>();
+//builder.Services.AddScoped<IPeopleRepository, PeopleRepository>();
 builder.Services.AddScoped<IServicesRepository, ServicesRepository>();
 
 builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitOfWork<>));
@@ -84,7 +84,7 @@ builder.Services.AddScoped<ICategoriesUnitOfWork, CategoriesUnitOfWork>();
 builder.Services.AddScoped<ICountriesUnitOfWork, CountriesUnitOfWork>();
 builder.Services.AddScoped<IStatesUnitOfWork, StatesUnitOfWork>();
 
-builder.Services.AddScoped<IPeopleUnitOfWork, PeopleUnitOfWork>();
+//builder.Services.AddScoped<IPeopleUnitOfWork, PeopleUnitOfWork>();
 builder.Services.AddScoped<IServicesUnitOfWork, ServicesUnitOfWork>();
 
 builder.Services.AddScoped<IServiceOrderRepository, ServiceOrderRepository>();

@@ -33,7 +33,7 @@ namespace HandyMan_.Backend.Repositories.Implementations
         {
             var queryable = _context.Services
                 .Include(c => c.Category)
-                .Include(p => p.People)
+                .Include(u => u.UserId)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
@@ -71,7 +71,7 @@ namespace HandyMan_.Backend.Repositories.Implementations
         {
             var service = await _context.Services
                  .Include(c => c.Category!)
-                 .Include(p => p.People)
+                 .Include(u => u.UserId)
                  .FirstOrDefaultAsync(c => c.Id == id);
 
             if (service == null)
@@ -88,6 +88,14 @@ namespace HandyMan_.Backend.Repositories.Implementations
                 WasSuccess = true,
                 Result = service
             };
+        }
+
+        public async Task<IEnumerable<Service>> GetAllServices()
+        {
+            return await _context.Services
+                .Include(c => c.Category)
+                .Include(u => u.User)
+                .ToListAsync();
         }
     }
 }

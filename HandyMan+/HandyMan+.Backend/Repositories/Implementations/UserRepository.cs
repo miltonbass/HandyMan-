@@ -2,6 +2,7 @@
 using HandyMan_.Backend.Repositories.Interfaces;
 using HandyMan_.Shered.DTOs;
 using HandyMan_.Shered.Entities;
+using HandyMan_.Shered.Responses;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -108,5 +109,10 @@ namespace HandyMan_.Backend.Repositories.Implementations
             return await _userManager.ResetPasswordAsync(user, token, password);
         }
 
+        public async Task<IEnumerable<User>> GetAllUser()
+        {
+            var user = await _context.Users.ToListAsync();
+            return user;
+        }
     }
 }

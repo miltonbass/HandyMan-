@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HandyMan_.Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class Users : Migration
+    public partial class AddUsersEntities : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -49,20 +49,6 @@ namespace HandyMan_.Backend.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Countries", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PeopleTypes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Detail = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PeopleTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -213,37 +199,6 @@ namespace HandyMan_.Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Peoples",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Identification = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PeopleTypeId = table.Column<int>(type: "int", nullable: false),
-                    CityId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Peoples", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Peoples_Cities_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Cities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Peoples_PeopleTypes_PeopleTypeId",
-                        column: x => x.PeopleTypeId,
-                        principalTable: "PeopleTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
@@ -334,25 +289,26 @@ namespace HandyMan_.Backend.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Photo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Detail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PeopleId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Services", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Services_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
+                        name: "FK_Services_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Services_Peoples_PeopleId",
-                        column: x => x.PeopleId,
-                        principalTable: "Peoples",
+                        name: "FK_Services_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -420,38 +376,14 @@ namespace HandyMan_.Backend.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Peoples_CityId",
-                table: "Peoples",
-                column: "CityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Peoples_Identification",
-                table: "Peoples",
-                column: "Identification",
-                unique: true,
-                filter: "[Identification] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Peoples_PeopleTypeId",
-                table: "Peoples",
-                column: "PeopleTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PeopleTypes_Name",
-                table: "PeopleTypes",
-                column: "Name",
-                unique: true,
-                filter: "[Name] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Services_CategoryId",
                 table: "Services",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Services_PeopleId",
+                name: "IX_Services_UserId",
                 table: "Services",
-                column: "PeopleId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_States_CountryId_Name",
@@ -506,13 +438,7 @@ namespace HandyMan_.Backend.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Peoples");
-
-            migrationBuilder.DropTable(
                 name: "Cities");
-
-            migrationBuilder.DropTable(
-                name: "PeopleTypes");
 
             migrationBuilder.DropTable(
                 name: "States");

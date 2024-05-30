@@ -29,7 +29,7 @@ namespace HandyMan_.Backend.Data
             await CheckOrderServiceDataAsync();
             await CheckSubscriptionTypesAsync();
             await CheckSurveyDataAsync();
-            await CheckoutPeopleTypeAsync();
+            
             await CheckRolesAsync();
             await CheckUserAsync("0001", "user", "admin", "admin@yopmail.com", "318 4756753", "Avenida siempre viva 123", "admin.jpg", UserType.Admin);
             await CheckUserAsync("0002", "User", "asistant", "asistant@yopmail.com", "111 111 111", "Avenida 2", "specialist.jpg", UserType.Specialist);
@@ -127,36 +127,10 @@ namespace HandyMan_.Backend.Data
 
             await _context.SaveChangesAsync();
         }
-        private async Task CheckoutPeopleTypeAsync()
-        {
-            if (!_context.PeopleTypes.Any())
-            {
-                _context.PeopleTypes.Add(new PeopleType { Name = "Proveedor" });
-            }
-            await _context.SaveChangesAsync();
-        }
 
-        private async Task CheckoutPeopleAsync()
-        {
-            if (!_context.Peoples.Any())
-            {
-                _context.Peoples.Add(new People
-                {
-                    Identification = "56232222",
-                    Name = "Tecnico aldo",
-                    Surname = "The best",
-                    Email = "tec_aldo@yopmail.com",
-                    PeopleTypeId = 2,
-                    CityId = 1,
-                    PeopleType = null,
-                    City = null,
-                    Service = null
-                });
-            }
-            await _context.SaveChangesAsync();
-        }
+        
 
-        private async Task CheckoutServiceAsync()
+        /*private async Task CheckoutServiceAsync()
         {
             if (!_context.Services.Any())
             {
@@ -188,7 +162,7 @@ namespace HandyMan_.Backend.Data
                 });
             }
             await _context.SaveChangesAsync();
-        }
+        }*/
 
         private async Task CheckCountriesAsync()
         {

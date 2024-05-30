@@ -10,12 +10,13 @@ namespace HandyMan_.Shered.Entities
     public class Service
     {
         public int Id { get; set; }
+        public string? Photo { get; set; }
         [Required(ErrorMessage = "El campo {0} es requerido.")]
         [Range(1, int.MaxValue, ErrorMessage = "Debes seleccionar un {0}.")]
+        [Display(Name = "Categoria")]
         public int CategoryId { get; set; }
 
-        [Display(Name = "Categoría")]
-        [Required(ErrorMessage = "El campo {0} es requerido.")]
+        
         public Category? Category { get; set; }
 
         [Display(Name = "Nombre")]
@@ -27,11 +28,12 @@ namespace HandyMan_.Shered.Entities
         [Display(Name = "Precio")]
         [Required(ErrorMessage = "El campo {0} es requerido.")]
         public string Price { get; set; } = null!;
-        [Range(1, int.MaxValue, ErrorMessage = "Debes seleccionar un {0}.")]
+        
         [Display(Name = "Proveedor")]
-        public int PeopleId { get; set; }
         [Required(ErrorMessage = "El campo {0} es requerido.")]
-        [Display(Name = "Proveedor")]
-        public People? People { get; set; }
+        public string? UserId { get; set; }
+       
+       
+        public User? User { get; set; }
     }
 }

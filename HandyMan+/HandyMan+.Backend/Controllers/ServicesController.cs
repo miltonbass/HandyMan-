@@ -40,5 +40,12 @@ namespace HandyMan_.Backend.Controllers
             }
             return BadRequest();
         }
+
+        [HttpGet("GetAllServices")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetAllServices()
+        {
+            return Ok(await _serviceUnitOfWork.GetAllServices());
+        }
     }
 }

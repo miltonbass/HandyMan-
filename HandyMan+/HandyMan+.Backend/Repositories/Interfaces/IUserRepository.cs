@@ -1,5 +1,6 @@
 ﻿using HandyMan_.Shered.DTOs;
 using HandyMan_.Shered.Entities;
+using HandyMan_.Shered.Responses;
 using Microsoft.AspNetCore.Identity;
 
 namespace HandyMan_.Backend.Repositories.Interfaces
@@ -33,6 +34,8 @@ namespace HandyMan_.Backend.Repositories.Interfaces
         Task<string> GeneratePasswordResetTokenAsync(User user);
 
         Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
+
+        Task<IEnumerable<User>> GetAllUser();
 
     }
 }

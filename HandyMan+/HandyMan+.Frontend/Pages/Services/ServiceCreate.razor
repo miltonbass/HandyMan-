@@ -1,69 +1,72 @@
 ﻿@page "/services/create"
 
-<div class="card">
-        <div class="card-header">
-            <span>
-                <i class="bi bi-globe-americas" /> Crear Servicio
-            </span>
-        </div>
-        <div class="card-body">
-        <EditForm EditContext="editContext" OnValidSubmit="CreateAsync">
-            <DataAnnotationsValidator />
-             <div class="mb-3">
-                <label>Categoria</label>
-                <div>
+
+@if (loading)
+{
+    <Loading />
+}
+else
+{
+<EditForm Model="Service" OnValidSubmit="CreateAsync">
+        <DataAnnotationsValidator />
+            <MatDialogTitle>Registrar Servicio</MatDialogTitle>
+            <MatDialogContent>
+                <div class="mat-layout-grid">
+        <div class="mat-layout-grid-inner">
+            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6">
+                <p>
                     <select class="form-select" @bind="Service!.CategoryId">
-                        <option value="0">-- Seleccione una categoria --</option>
-                        @if (categories is not null)
+                    <option value="0">-- Seleccione una categoria --</option>
+                    @if (categories is not null)
+                    {
+                        @foreach (var category in categories)
                         {
-                            @foreach (var category in categories)
-                            {
-                                <option value="@category.Id">@category.Name</option>
-                            }
+                            <option value="@category.Id">@category.Name</option>
                         }
-                    </select>
-                    <ValidationMessage For="@(() => Service!.CategoryId)" />
-                </div>
-            </div>
-             <div class="mb-3">
-                <label>Proveedor</label>
-                <div>
-                    <select class="form-select" @bind="Service!.PeopleId">
-                        <option value="0">-- Seleccione una categoria --</option>
-                        @if (categories is not null)
+                    }
+                </select>
+                <ValidationMessage For="@(() => Service!.CategoryId)" />
+                </p>
+                <p>
+                    <select class="form-select" @bind="Service!.UserId">
+                    <option value="">-- Seleccione un proveedor --</option>
+                    @if (users is not null)
+                    {
+                        @foreach (var user in users!)
                         {
-                            @foreach (var people in peoples!)
-                            {
-                                        <option value="@people.Id">@people.Name</option>
-                            }
+                            <option value="@user.Id">@user.LastName</option>
                         }
-                    </select>
-                    <ValidationMessage For="@(() => Service!.PeopleId)" />
+                    }
+                </select>
+                <ValidationMessage For="@(() => Service!.UserId)" />
+                </p>
+                <p>
+                    <MatTextField type="text"  Label="Nombre Servicio" class="form-control" @bind-Value="@Service.Name" />
+                        <ValidationMessage For="@(() =>  Service.Name)" />
+                </p>
+                <p>
+                    <MatTextField type="text"  Label="Detalle Servicio" class="form-control" @bind-Value="@Service.Detail" />
+                        <ValidationMessage For="@(() =>  Service.Detail)" />
+                </p>
+                <p>
+                    <MatTextField type="text"  Label="Precio Servicio" class="form-control" @bind-Value="@Service.Price" />
+                        <ValidationMessage For="@(() =>  Service.Price)" />
+                </p>
+                <p>
+                   <InputImg Label="Foto" ImageSelected="ImageSelected" ImageURL="@imageUrl" />
+                </p>
                 </div>
-            </div>
-             <div class="mb-3">
-                <label>Nombre</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="Service!.Name" />
-                    <ValidationMessage For="@(() => Service.Name)" />
+                <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+                    <MatDialogActions>
+                        <MatButton OnClick="CloseModalAsync">No Gracias</MatButton>
+                        <MatButton Type="submit">Guardar Cambios</MatButton>
+                    </MatDialogActions>
                 </div>
-            </div>
-             <div class="mb-3">
-                <label>Detalle</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="Service!.Detail" />
-                    <ValidationMessage For="@(() => Service.Detail)" />
                 </div>
-            </div>
-             <div class="mb-3">
-                <label>Precio</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="Service!.Price" />
-                    <ValidationMessage For="@(() => Service.Price)" />
                 </div>
-            </div>
-            <button class="btn btn-primary" type="submit">Guardar Cambios</button>
-            <button class="btn btn-success" @onclick="Return">Regresar</button>
-        </EditForm>
-    </div>
-</div>
+            </MatDialogContent>
+    </EditForm>
+    
+
+}
+

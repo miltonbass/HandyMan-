@@ -228,7 +228,14 @@ namespace HandyMan_.Backend.Controllers
             return Ok(await _usersUnitOfWork.GetUserAsync(User.Identity!.Name!));
         }
 
-        
+        [HttpGet("GetAllUsers")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetAllUserAsync()
+        {
+            return Ok(await _usersUnitOfWork.GetAllUser());
+        }
+
+
         [HttpPost("Login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginDTO model)
         {
