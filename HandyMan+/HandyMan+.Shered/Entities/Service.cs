@@ -29,9 +29,8 @@ namespace HandyMan_.Shered.Entities
         [Display(Name = "Detalle")]
         [Required(ErrorMessage = "El campo {0} es requerido.")]
 
-        public string Price { get; set; } = null!;
-        [Display(Name = "Precio")]
-        [Required(ErrorMessage = "El campo {0} es requerido.")]
+        
+        
         public string Price { get; set; } = null!;
         
         [Display(Name = "Proveedor")]
