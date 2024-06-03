@@ -37,7 +37,7 @@ namespace HandyMan_.Backend.Data
             await CheckUserAsync("0003", "User", "provider", "provider@yopmail.com", "111 111 111", "Avenida 3", "provider.jpg", UserType.Provider);
             await CheckUserAsync("0003", "User", "costumer", "costumer@yopmail.com", "111 111 111", "Avenida 3", "costumer.jpg", UserType.Costumer);
 
-            await CheckoutPeopleAsync();
+            //await CheckoutPeopleAsync();
             //await CheckoutServiceAsync();
             //await CheckoutServiceOrderAsync();
         }

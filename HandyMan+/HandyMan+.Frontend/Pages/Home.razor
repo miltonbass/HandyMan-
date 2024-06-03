@@ -6,6 +6,16 @@
 }
 else
 {
+        <div class="d-flex align-items-center justify-content-between">
+            <AuthorizeView>
+                <Authorized>
+                    @if (counter > 0)
+                    {
+                        <a href="/Cart/ShowCart" class="btn btn-primary"><i class="bi bi-cart-fill" /> Ver Carro de Compras (@counter)</a>
+                    }
+                </Authorized>
+            </AuthorizeView>
+        </div>
      <div class="mat-layout-grid">
         <div class="mat-layout-grid-inner">
             @foreach (var service in ListServices!)
@@ -29,7 +39,7 @@ else
                     <MatCardActions>
                         <MatCardActionButtons>
                             <MatButton>Detalle</MatButton>
-                            <MatButton>Agregar a Cesta</MatButton>
+                            <MatButton OnClick=@(() => AddToCartAsync(service.Id))>Agregar a Cesta</MatButton>
                         </MatCardActionButtons>
  
                         <MatCardActionIcons>

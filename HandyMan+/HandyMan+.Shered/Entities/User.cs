@@ -43,5 +43,7 @@ namespace HandyMan_.Shered.Entities
         public string FullName => $"{FirstName} {LastName}";
 
         public ICollection<Service>? Service { get; set; }
+
+        public ICollection<TemporalOrder>? TemporalOrders { get; set; }
     }
 }
