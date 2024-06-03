@@ -16,8 +16,7 @@ namespace HandyMan_.Frontend.Pages.Services
         [EditorRequired, Parameter] public int Id { get; set; }
         private List<Category>? categories;
 
-        private List<People>? peoples;
-
+        
         private async Task LoadCategoriesAsync()
         {
             var responseHttp = await Repository.GetAsync<List<Category>>("/api/categories/combo");
@@ -30,24 +29,13 @@ namespace HandyMan_.Frontend.Pages.Services
 
             categories = responseHttp.Response;
         }
-        private async Task LoadProvidersAsync()
-        {
-            var responseHttp = await Repository.GetAsync<List<People>>("/api/peoples/combo");
-            if (responseHttp.Error)
-            {
-                var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-                return;
-            }
-
-            peoples = responseHttp.Response;
-        }
+        
         protected async override Task OnParametersSetAsync()
         {
             editContext = new(Service!);
 
             await LoadCategoriesAsync();
-            await LoadProvidersAsync();
+            
 
             var responseHttp = await Repository.GetAsync<Service>($"api/services/{Id}");
 

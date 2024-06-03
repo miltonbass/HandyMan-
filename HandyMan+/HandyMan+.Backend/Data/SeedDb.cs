@@ -29,7 +29,7 @@ namespace HandyMan_.Backend.Data
             await CheckOrderServiceDataAsync();
             await CheckSubscriptionTypesAsync();
             await CheckSurveyDataAsync();
-            await CheckoutPeopleTypeAsync();
+            
             await CheckRolesAsync();
             await CheckUserAsync("0001", "user", "admin", "admin@yopmail.com", "318 4756753", "Avenida siempre viva 123", "admin.jpg", UserType.Admin);
             await CheckUserAsync("0001", "user", "admin", "lagm1290+1@gmail.com", "318 4756753", "Avenida siempre viva 123", "admin.jpg", UserType.Admin);
@@ -128,125 +128,10 @@ namespace HandyMan_.Backend.Data
 
             await _context.SaveChangesAsync();
         }
-        private async Task CheckoutPeopleTypeAsync()
-        {
-            if (!_context.PeopleTypes.Any())
-            {
-                _context.PeopleTypes.Add(new PeopleType { Name = "Proveedor" });
-            }
-            await _context.SaveChangesAsync();
-        }
 
-        private async Task CheckoutPeopleAsync()
-        {
-            if (!_context.Peoples.Any())
-            {
-                _context.Peoples.Add(new People
-                {
-                    Identification = "11111111",
-                    Name = "Ana Garcia",
-                    Surname = "Garcia",
-                    Email = "anagarcia@example.com",
-                    PeopleTypeId = 1,
-                    CityId = 1,
-                });
+        
 
-                _context.Peoples.Add(new People
-                {
-                    Identification = "22222222",
-                    Name = "Pedro Martinez",
-                    Surname = "Martinez",
-                    Email = "pedromartinez@example.com",
-                    PeopleTypeId = 1,
-                    CityId = 1,
-                });
-
-
-                _context.Peoples.Add(new People
-                {
-                    Identification = "33333333",
-                    Name = "Laura Fernandez",
-                    Surname = "Fernandez",
-                    Email = "laurafernandez@example.com",
-                    PeopleTypeId = 1,
-                    CityId = 1,
-                });
-
-                _context.Peoples.Add(new People
-                {
-                    Identification = "44444444",
-                    Name = "Roberto Sanchez",
-                    Surname = "Sanchez",
-                    Email = "robertosanchez@example.com",
-                    PeopleTypeId = 1,
-                    CityId = 1,
-                });
-
-                _context.Peoples.Add(new People
-                {
-                    Identification = "55555555",
-                    Name = "Elena Ramirez",
-                    Surname = "Ramirez",
-                    Email = "elenaramirez@example.com",
-                    PeopleTypeId = 1,
-                    CityId = 1,
-                });
-
-                _context.Peoples.Add(new People
-                {
-                    Identification = "66666666",
-                    Name = "Jorge Gonzalez",
-                    Surname = "Gonzalez",
-                    Email = "jorgegonzalez@example.com",
-                    PeopleTypeId = 1,
-                    CityId = 1,
-                });
-
-                _context.Peoples.Add(new People
-                {
-                    Identification = "77777777",
-                    Name = "Carmen Rodriguez",
-                    Surname = "Rodriguez",
-                    Email = "carmenrodriguez@example.com",
-                    PeopleTypeId = 1,
-                    CityId = 1,
-                });
-
-                _context.Peoples.Add(new People
-                {
-                    Identification = "88888888",
-                    Name = "Daniel Perez",
-                    Surname = "Perez",
-                    Email = "danielperez@example.com",
-                    PeopleTypeId = 1,
-                    CityId = 1,
-                });
-
-                _context.Peoples.Add(new People
-                {
-                    Identification = "99999999",
-                    Name = "Sofia Fernandez",
-                    Surname = "Fernandez",
-                    Email = "sofiafernandez@example.com",
-                    PeopleTypeId = 1,
-                    CityId = 1,
-                });
-
-                _context.Peoples.Add(new People
-                {
-                    Identification = "10101010",
-                    Name = "Alejandro Gonzalez",
-                    Surname = "Gonzalez",
-                    Email = "alejandrogonzalez@example.com",
-                    PeopleTypeId = 1,
-                    CityId = 1,
-                });
-
-            }
-            await _context.SaveChangesAsync();
-        }
-
-        private async Task CheckoutServiceAsync()
+        /*private async Task CheckoutServiceAsync()
         {
             if (!_context.Services.Any())
             {
@@ -278,7 +163,7 @@ namespace HandyMan_.Backend.Data
                 });
             }
             await _context.SaveChangesAsync();
-        }
+        }*/
 
         private async Task CheckCountriesAsync()
         {

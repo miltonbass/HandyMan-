@@ -1,108 +1,116 @@
 ﻿@page "/provider/create"
 
-<div class="card">
-    <div class="card-header">
-        <span>
-            <i class="bi bi-globe-americas" /> Crear Proveedor
-        </span>
-    </div>
-    <div class="card-body">
-        <EditForm EditContext="editContext" OnValidSubmit="CreateAsync">
-            <DataAnnotationsValidator />
-             <div class="mb-3">
-                <label>Identificacion</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="People!.Identification" />
-                    <ValidationMessage For="@(() => People.Identification)" />
-                </div>
-            </div>
-            <div class="mb-3">
-                <label>Nombre</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="People!.Name" />
-                    <ValidationMessage For="@(() => People.Name)" />
-                </div>
-            </div>
-            <div class="mb-3">
-                <label>Apellido</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="People!.Surname" />
-                    <ValidationMessage For="@(() => People.Surname)" />
-                </div>
-            </div>
-            <div class="mb-3">
-                <label>Correo Electronico</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="People!.Email" />
-                    <ValidationMessage For="@(() => People.Email)" />
-                </div>
-            </div>
-            <div class="mb-3">
-                <label>Tipo Persona</label>
-                <div>
-                    <select class="form-select" @bind="People.PeopleTypeId">
-                        <option value="0">-- Seleccione una categoria --</option>
-                        @if (peoplesTypes is not null)
-                        {
-                            @foreach (var peoplesType in peoplesTypes!)
-                            {
-                             <option value="@peoplesType.Id">@peoplesType.Name</option>
-                            }
-                        }
-                    </select>
-                    <ValidationMessage For="@(() => People.PeopleTypeId)" />
-                </div>
-            </div>
-            <div class="mb-3">
-                <label>Pais</label>
-               <div>
-                <select class="form-select" @onchange="CountryChangedAsync">
-                    <option value="0">-- Seleccione un país --</option>
-                    @if (countries is not null)
-                    {
-                        @foreach (var country in countries)
-                        {
-                            <option value="@country.Id">@country.Name</option>
-                        }
-                    }
-                </select>
-            </div>
-            </div>
-            <div class="mb-3">
-                <label>Departamento</label>
-                <div>
-                    <select class="form-select" @onchange="StateChangedAsync">
-                        <option value="0">-- Seleccione un estado/departamento --</option>
-                        @if (states is not null)
-                        {
-                            @foreach (var state in states)
-                            {
-                                <option value="@state.Id">@state.Name</option>
-                            }
-                        }
-                    </select>
-                </div>
-            </div>
-            <div class="mb-3">
-                <label>Ciudad</label>
-                <div>
-                    <select class="form-select" @bind="People.CityId">
-                        <option value="0">-- Seleccione una ciudad --</option>
-                        @if (cities is not null)
-                        {
-                            @foreach (var city in cities)
-                            {
-                                <option value="@city.Id">@city.Name</option>
-                            }
-                        }
-                    </select>
-                    <ValidationMessage For="@(() => People.CityId)" />
-                </div>   
-            </div>
-            <button class="btn btn-primary" type="submit">Guardar Cambios</button>
-            <button class="btn btn-success" @onclick="Return">Regresar</button>
-        </EditForm>
-    </div>
-</div>
 
+@if (loading)
+{
+        <Loading />
+}
+else
+{
+<EditForm Model="userDTO" OnValidSubmit="CreteUserAsync">
+    <DataAnnotationsValidator/>
+    <MatDialogTitle>Registrar Usuarios | Proveedor</MatDialogTitle>
+    <MatDialogContent>
+        <div class="mat-layout-grid">
+            <div class="mat-layout-grid-inner">
+                <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6">
+                    <p>
+                        <MatTextField class="form-control" Label="Nombre" @bind-Value="@userDTO.FirstName" />
+                        <ValidationMessage For="@(() => userDTO.FirstName)" />
+                    </p>
+                    <p>
+                            <MatTextField class="form-control" Label="Apellido" @bind-Value="@userDTO.LastName" />
+                            <ValidationMessage For="@(() => userDTO.LastName)" />
+                    </p>
+                    <p>
+                            <MatTextField class="form-control" Label="Documento" @bind-Value="@userDTO.Document" />
+                            <ValidationMessage For="@(() => userDTO.Document)" />
+                    </p>
+                    <p>
+                        <MatTextField class="form-control" Label="Telefono" @bind-Value="@userDTO.PhoneNumber" />
+                        <ValidationMessage For="@(() => userDTO.PhoneNumber)" />
+                    </p>
+                    <p>
+                        <MatTextField class="form-control" Label="Direccion" @bind-Value="@userDTO.Address" />
+                        <ValidationMessage For="@(() => userDTO.Address)" />
+                    </p>
+                    <p>
+                        <MatTextField class="form-control" Label="Correo Electronico" @bind-Value="@userDTO.Email" />
+                        <ValidationMessage For="@(() => userDTO.Email)" />
+                    </p>
+                </div>
+                <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6">
+                    <p>
+                        <select class="form-select" @onchange="CountryChangedAsync">
+                                <option value="0">-- Seleccione un país --</option>
+                                @if (countries is not null)
+                                {
+                                    @foreach (var country in countries)
+                                    {
+                                        <option value="@country.Id">@country.Name</option>
+                                    }
+                                }
+                         </select>
+
+                    </p>
+                    <p>
+                       
+                        <select class="form-select" @onchange="StateChangedAsync">
+                            <option value="0">-- Seleccione un estado/departamento --</option>
+                            @if (states is not null)
+                            {
+                                @foreach (var state in states)
+                                {
+                                    <option value="@state.Id">@state.Name</option>
+                                }
+                            }
+                        </select>
+                    </p>
+                    <p>
+                        <select class="form-select" @bind="userDTO.CityId">
+                            <option value="0">-- Seleccione una ciudad --</option>
+                            @if (cities is not null)
+                            {
+                                @foreach (var city in cities)
+                                {
+                                    <option value="@city.Id">@city.Name</option>
+                                }
+                            }
+                        </select>
+                        <ValidationMessage For="@(() => userDTO.CityId)" />
+                    </p>
+                    <p>
+                        <select  class="form-select" @bind="userDTO.UserType">
+                                @foreach (var value in UserType)
+                            {
+                                <option value="@value">@value</option>
+                            }
+                        </select>
+                    </p>
+                    <p>
+                            <MatTextField type="password"  Label="Contrasenia" class="form-control" @bind-Value="@userDTO.Password" />
+                            <ValidationMessage For="@(() => userDTO.Password)" />
+                    </p>
+                    <p>
+                        <MatTextField type="password"  Label="Confirmar contrasenia" class="form-control" @bind-Value="@userDTO.PasswordConfirm" />
+                        <ValidationMessage For="@(() => userDTO.PasswordConfirm)" />
+                    </p>
+                    <p>
+                        <InputImg Label="Foto" ImageSelected="ImageSelected" ImageURL="@imageUrl" />
+                    </p>
+                </div>
+                <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+                <MatDialogActions>
+                  <MatButton type="button" OnClick="CloseModalAsync">No Gracias</MatButton>
+                  <MatButton type="submit">Guardar Cambios</MatButton>
+                 </MatDialogActions>
+                </div>
+            </div>
+        </div>
+
+    </MatDialogContent>
+
+</EditForm>
+
+}
 

@@ -28,17 +28,11 @@
              <div class="mb-3">
                 <label>Proveedor</label>
                 <div>
-                    <select class="form-select" @bind="Service!.PeopleId">
+                    <select class="form-select" @bind="Service!.UserId">
                         <option value="0">-- Seleccione una categoria --</option>
-                        @if (categories is not null)
-                        {
-                            @foreach (var people in peoples!)
-                            {
-                                        <option value="@people.Id">@people.Name</option>
-                            }
-                        }
+                        
                     </select>
-                    <ValidationMessage For="@(() => Service!.PeopleId)" />
+                    <ValidationMessage For="@(() => Service!.UserId)" />
                 </div>
             </div>
              <div class="mb-3">

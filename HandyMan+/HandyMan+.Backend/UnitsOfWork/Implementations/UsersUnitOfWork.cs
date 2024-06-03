@@ -43,6 +43,6 @@ namespace HandyMan_.Backend.UnitsOfWork.Implementations
 
         public async Task<IdentityResult> ResetPasswordAsync(User user, string token, string password) => await _usersRepository.ResetPasswordAsync(user, token, password);
 
-
+        public async Task<IEnumerable<User>> GetAllUser() => await _usersRepository.GetAllUser();
     }
 }
