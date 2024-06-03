@@ -14,7 +14,7 @@
                     <img src="@photoUser" width="25" height="25" style="border-radius:50%" />
                 }
                 <MatIconButton Link="Logout" Icon="group_add"></MatIconButton>
-                <MatIconButton Icon="shopping_cart" OnClick=@(() => ShowModalRegister())>
+                <MatIconButton Icon="shopping_cart" OnClick=@(() => ShowModalRegister())></MatIconButton>
             </MatAppBarSection>
     </Authorized>
     <NotAuthorized>
@@ -27,7 +27,7 @@
                 <MatBody1 style="margin-top: 1em; margin-right: 1em;">Registro</MatBody1>
             </MatIconButton>
             <MatIconButton Icon="shopping_cart" OnClick=@(() => ShowModalRegister())>
-            </MatIconButton>
+            </MatIconButton> (2)
         </MatAppBarSection>
     </NotAuthorized>
 </AuthorizeView>

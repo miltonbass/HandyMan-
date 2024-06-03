@@ -60,13 +60,13 @@ builder.Services.AddSwaggerGen(c =>
         });
 });
 
-builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=LocalConnection"));
+builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=LocalConnection"), ServiceLifetime.Transient);
 builder.Services.AddTransient<SeedDb>();
-
 builder.Services.AddScoped<IFileStorage, FileStorage>();
 builder.Services.AddScoped<IMailHelper, MailHelper>();
-
 builder.Services.AddScoped<IApiService, ApiService>();
+
+//Repository
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
@@ -74,24 +74,21 @@ builder.Services.AddScoped<ICitiesRepository, CitiesRepository>();
 builder.Services.AddScoped<ICountriesRepository, CountriesRepository>();
 builder.Services.AddScoped<IStatesRepository, StatesRepository>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
-
-//builder.Services.AddScoped<IPeopleRepository, PeopleRepository>();
+builder.Services.AddScoped<ITemporalOrdersRepository, TemporalOrdersRepository>();
 builder.Services.AddScoped<IServicesRepository, ServicesRepository>();
+builder.Services.AddScoped<IServiceOrderRepository, ServiceOrderRepository>();
+builder.Services.AddScoped<ISurveyDefinitionsRepository, SurveyDefinitionsRepository>();
 
+//Unit of work
 builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitOfWork<>));
 builder.Services.AddScoped<ICitiesUnitOfWork, CitiesUnitOfWork>();
 builder.Services.AddScoped<ICategoriesUnitOfWork, CategoriesUnitOfWork>();
 builder.Services.AddScoped<ICountriesUnitOfWork, CountriesUnitOfWork>();
 builder.Services.AddScoped<IStatesUnitOfWork, StatesUnitOfWork>();
-
-//builder.Services.AddScoped<IPeopleUnitOfWork, PeopleUnitOfWork>();
+builder.Services.AddScoped<ITemporalOrdersUnitOfWork, TemporalOrdersUnitOfWork>();
 builder.Services.AddScoped<IServicesUnitOfWork, ServicesUnitOfWork>();
-
-builder.Services.AddScoped<IServiceOrderRepository, ServiceOrderRepository>();
 builder.Services.AddScoped<IServiceOrderUnitOfWork, ServiceOrderUnitOfWork>();
-builder.Services.AddScoped<ISurveyDefinitionsRepository, SurveyDefinitionsRepository>();
 builder.Services.AddScoped<ISurveyDefinitionsUnitOfWork, SurveyDefinitionsUnitOfWork>();
-
 builder.Services.AddScoped<ISubscriptionTypeRepository, SubscriptionTypeRepository>();
 builder.Services.AddScoped<ISubscriptionUnitOfWork, SubscriptionUnitOfWork>();
 builder.Services.AddScoped<IUsersUnitOfWork, UsersUnitOfWork>();

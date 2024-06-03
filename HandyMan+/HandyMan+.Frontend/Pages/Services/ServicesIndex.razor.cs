@@ -38,12 +38,7 @@ namespace HandyMan_.Frontend.Pages.Services
            
         }
 
-        private void ShowModal()
-        {
-            Modal.Show<ServiceCreate>();
-
-        }
-        
+                
         private async Task LoadAllServiceAsync()
         {
             var url = $"api/services/GetAllServices";

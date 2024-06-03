@@ -17,9 +17,7 @@ namespace HandyMan_.Shered.Entities
         [Display(Name = "Categoria")]
         public int CategoryId { get; set; }
 
-        
         public Category? Category { get; set; }
-
 
         public string Name { get; set; } = null!;
         [Display(Name = "Nombre")]
@@ -30,9 +28,6 @@ namespace HandyMan_.Shered.Entities
         [Required(ErrorMessage = "El campo {0} es requerido.")]
 
         public string Price { get; set; } = null!;
-        [Display(Name = "Precio")]
-        [Required(ErrorMessage = "El campo {0} es requerido.")]
-        public string Price { get; set; } = null!;
         
         [Display(Name = "Proveedor")]
         [Required(ErrorMessage = "El campo {0} es requerido.")]
@@ -40,6 +35,8 @@ namespace HandyMan_.Shered.Entities
        
        
         public User? User { get; set; }
+
+        public ICollection<TemporalOrder>? TemporalOrders { get; set; }
     }
 
 }
