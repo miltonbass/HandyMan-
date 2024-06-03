@@ -97,5 +97,16 @@ namespace HandyMan_.Backend.Repositories.Implementations
                 .Include(u => u.User)
                 .ToListAsync();
         }
+
+        public async Task<ActionResponse<Service>> AddServicePhotoAsync(Service Service)
+        {
+            _context.Add(Service);
+            await _context.SaveChangesAsync();
+            return new ActionResponse<Service>
+            {
+                WasSuccess = true,
+                Result = Service
+            };
+        }
     }
 }

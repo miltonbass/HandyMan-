@@ -66,13 +66,13 @@ namespace HandyMan_.Frontend.Pages.Services
 
         private void ImageSelected(string imagenBase64)
         {
-            Service.Photo = imagenBase64;
+            Service!.Photo = imagenBase64;
             imageUrl = null;
         }
 
         private async Task CreateAsync()
         {
-            var responseHttp = await Repository.PostAsync("/api/services", Service);
+            var responseHttp = await Repository.PostAsync("/api/services/AddServicePhoto", Service);
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();

@@ -13,28 +13,7 @@ namespace HandyMan_.Frontend.Pages.Services
 {
     [Authorize(Roles = "Admin")]
     public partial class ServicesIndex
-    {
-        /** 
-            Dialog modal
-         */
-        bool dialogIsOpen = false;
-        
-
-        void OpenDialog()
-        {
-            
-            dialogIsOpen = true;
-            
-        }
-
-        void OkClick()
-        {
-            dialogIsOpen = false;
-        }
-
-
-      
-
+    {   
 
         [Inject] private IRepository Repository { get; set; } = null!;
    
@@ -55,8 +34,6 @@ namespace HandyMan_.Frontend.Pages.Services
         protected override async Task OnInitializedAsync()
         {
             await LoadAllServiceAsync();
-           
-            
            
         }
 

@@ -22,5 +22,7 @@ namespace HandyMan_.Backend.UnitsOfWork.Implementations
         public override async Task<ActionResponse<Service>> GetAsync(int id) => await _serviceRepository.GetAsync(id);
 
         public Task<IEnumerable<Service>> GetAllServices() => _serviceRepository.GetAllServices();
+
+        public Task<ActionResponse<Service>> AddServicePhotoAsync(Service Service) => _serviceRepository.AddServicePhotoAsync(Service);
     }
 }

@@ -12,5 +12,6 @@ namespace HandyMan_.Backend.UnitsOfWork.Interfaces
         Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
 
         Task<IEnumerable<Service>> GetAllServices();
+        Task<ActionResponse<Service>> AddServicePhotoAsync(Service Service);
     }
 }
