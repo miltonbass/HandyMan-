@@ -1,43 +1,63 @@
-﻿@page "/ordenservicio"
+﻿@page "/serviceorder"
+
+<h3>Ordenes de Servicio</h3>
 
 <div class="card">
     <div class="card-header">
         <span>
-            <i class="bi bi-list-check"></i> Orden de Servicio
-            <a class="btn btn-sm btn-primary float-end" @onclick=@(() => ShowModalAsync())><i class="bi bi-plus-circle" /> Adicionar Orden Servicio</a>
+            <i class="bi bi-globe-americas"/> Ordenes de Servicio
+            <a class="btn btn-primary btn-sm float-end" href="/serviceorder/create"><i class="bi bi-plus-square" />Nueva Orden de Servcio</a>
         </span>
     </div>
     <div class="card-body">
-        <Filter PlaceHolder="Buscar Orden Servicio..." Callback=@FilterCallBack />
         <GenericList MyList="ServiceOrder">
             <Body>
-                <Pagination CurrentPage="currentPage"
+                   <div style="display: flex; align-items: center; justify-content: space-between;">
+
+                            <Pagination CurrentPage="currentPage"
                             TotalPages="totalPages"
-                            SelectedPage="SelectedPageAsync" 
-                            RecordsNumber="SelectedRecordsNumberAsync" />
+                            SelectedPage="SelectedPageAsync" />
+
+                            <div>
+                <label for="paginationAmount">Cantidad Paginado</label>
+                <select id="paginationAmount" class="form-control" value="10" @onchange="HandleChange">
+                            @foreach (var recordsNumber in Values)
+                            {
+                                    <option value="@recordsNumber">@recordsNumber</option>
+                            }
+                </select>
+            </div>
+          </div>
+                <div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
+                    <input style="width: 400px;" type="text" class="form-control" id="titulo" placeholder="Buscar Orden Servicio..." @bind-value="Filter" />
+                    <button type="button" class="btn btn-outline-primary mx-1" @onclick="ApplyFilterAsync">Filtrar</button>
+                    <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync">Limpiar</button>
+                </div>
 
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Id</th>
+                         <th>Id</th>
                             <th>Estado</th>
                             <th>Fecha Ejecución</th>
                             <th>Detalle</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var serviceorder in ServiceOrder!)
+                            
                         {
-                            <tr>
+                                <tr>
                                 <td>@serviceorder.Id</td>
                                 <td>@serviceorder.State</td>
                                 <td>@serviceorder.ExecutionDate</td>
                                 <td>@serviceorder.Detail</td>
-                                <td>
-                                    <a @onclick=@(() => ShowModalAsync(serviceorder.Id, true)) class="btn btn-sm btn-warning"><i class="bi bi-pencil" /> Editar</a>
-                                    <button @onclick=@(() => DeleteAsycn(serviceorder)) class="btn btn-sm btn-danger"><i class="bi bi-trash" /> Borrar</button>
-                                </td>
-                            </tr>
+                                    <td>
+                                        <a class="btn btn-warning btn-sm" href="/serviceorder/edit/@serviceorder.Id">Editar</a>
+                                                <button class="btn btn-danger btn-sm" @onclick=@(() => DeleteAsycn(serviceorder))>Borrar</button>
+                                    </td>
+                                </tr>
                         }
                     </tbody>
                 </table>

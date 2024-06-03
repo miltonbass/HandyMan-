@@ -11,6 +11,7 @@ namespace HandyMan_.Frontend.Pages.Countries
     {
         private int currentPage = 1;
         private int totalPages;
+        public int RecordsNumber { get; set; } = 10;
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
@@ -18,7 +19,17 @@ namespace HandyMan_.Frontend.Pages.Countries
         [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
 
+        public List<int> Values = [5, 10, 15, 20, 25, 50, 100];
+
         public List<Country>? Countries { get; set; }
+
+        private async Task HandleChange(ChangeEventArgs e)
+        {
+            RecordsNumber = Convert.ToInt32(e.Value);
+            await LoadAsync();
+
+
+        }
 
         protected override async Task OnInitializedAsync()
         {
@@ -55,6 +66,7 @@ namespace HandyMan_.Frontend.Pages.Countries
         private async Task<bool> LoadListAsync(int page)
         {
             var url = $"api/countries?page={page}";
+            url += $"&recordsNumber={RecordsNumber}";
             if (!string.IsNullOrEmpty(Filter))
             {
                 url += $"&filter={Filter}";
@@ -74,6 +86,7 @@ namespace HandyMan_.Frontend.Pages.Countries
         private async Task LoadPagesAsync()
         {
             var url = "api/countries/totalPages";
+            url += $"?recordsNumber={RecordsNumber}";
             if (!string.IsNullOrEmpty(Filter))
             {
                 url += $"?filter={Filter}";

@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Diagnostics.Metrics;
 using System.Reflection;
+using HandyMan_.Frontend.Shared;
+using System.Runtime.CompilerServices;
+using HandyMan_.Frontend.Pages.Auth;
 using HandyMan_.Shared.DTOs;
 
 namespace HandyMan_.Frontend.Pages.Services
@@ -73,6 +76,8 @@ namespace HandyMan_.Frontend.Pages.Services
         private async Task CreateAsync()
         {
             var responseHttp = await Repository.PostAsync("/api/services/AddServicePhoto", Service);
+            loading = false;
+
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
@@ -91,6 +96,8 @@ namespace HandyMan_.Frontend.Pages.Services
             });
             await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro creado con éxito.");
         }
+
+       
 
        
 

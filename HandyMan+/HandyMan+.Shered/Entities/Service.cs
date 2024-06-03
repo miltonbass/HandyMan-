@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HandyMan_.Shared.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -19,12 +20,16 @@ namespace HandyMan_.Shered.Entities
         
         public Category? Category { get; set; }
 
+
+        public string Name { get; set; } = null!;
         [Display(Name = "Nombre")]
         [Required(ErrorMessage = "El campo {0} es requerido.")]
-        public string Name { get; set; } = null!;
+
+        public string Detail { get; set; } = null!;
         [Display(Name = "Detalle")]
         [Required(ErrorMessage = "El campo {0} es requerido.")]
-        public string Detail { get; set; } = null!;
+
+        public string Price { get; set; } = null!;
         [Display(Name = "Precio")]
         [Required(ErrorMessage = "El campo {0} es requerido.")]
         public string Price { get; set; } = null!;
@@ -36,4 +41,5 @@ namespace HandyMan_.Shered.Entities
        
         public User? User { get; set; }
     }
+
 }

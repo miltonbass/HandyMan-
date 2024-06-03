@@ -1,5 +1,42 @@
 ﻿@page "/serviceorder/create"
 
 <h3>Crear Ordenes de Servicio</h3>
-
-<ServiceOrdersForm  @ref="ServiceOrdersForm" ServiceOrderEntity="ServiceOrderEntity" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+<div class="card">
+    <div class="card-header">
+        <span>
+            <i class="bi bi-globe-americas"></i> Crear Orden Servicio
+        </span>
+    </div>
+    <div class="card-body">
+        <EditForm EditContext="editContext" OnValidSubmit="CreateAsync">
+            <DataAnnotationsValidator />
+            <div class="mb-3">
+                <label for="state">Estado</label>
+                <div>
+                    <select id="state" class="form-select" @bind="ServiceOrder.State">
+                        <option value="Creado">Creado</option>
+                        <option value="En Progreso">En Progreso</option>
+                        <option value="Completado">Completado</option>
+                    </select>
+                    <ValidationMessage For="@(() => ServiceOrder.State)" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="executionDate">Fecha Ejecución</label>
+                <div>
+                    <InputDate id="executionDate" class="form-control" @bind-Value="ServiceOrder.ExecutionDate" />
+                    <ValidationMessage For="@(() => ServiceOrder.ExecutionDate)" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="detail">Detalle</label>
+                <div>
+                    <InputText id="detail" class="form-control" @bind-Value="ServiceOrder.Detail" />
+                    <ValidationMessage For="@(() => ServiceOrder.Detail)" />
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+            <button class="btn btn-success" @onclick="Return">Regresar</button>
+        </EditForm>
+    </div>
+</div>

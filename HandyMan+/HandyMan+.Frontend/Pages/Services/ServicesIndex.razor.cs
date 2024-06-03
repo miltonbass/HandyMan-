@@ -3,6 +3,7 @@ using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Pages.Provider;
 using HandyMan_.Frontend.Repositories;
+using HandyMan_.Frontend.Shared;
 using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -97,6 +98,14 @@ namespace HandyMan_.Frontend.Pages.Services
             });
             await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro borrado con éxito.");
         }
-        
+
+
+      
+
+        private void ShowModal()
+        {
+            Modal.Show<ServiceCreate>();
+        }
+
     }
 }
