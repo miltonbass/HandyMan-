@@ -10,36 +10,43 @@ using System.Reflection;
 using HandyMan_.Frontend.Shared;
 using System.Runtime.CompilerServices;
 using HandyMan_.Frontend.Pages.Auth;
+using HandyMan_.Shared.DTOs;
 
 namespace HandyMan_.Frontend.Pages.Services
 {
     public partial class ServiceCreate
     {
+        private List<User> users;
 
-        private EditContext editContext = null!;
-        private bool wasClose;
         private bool loading;
         [Inject] private IRepository Repository { get; set; } = null!;
 
-        private Service? Service { get; set; } = new Service();
+        private Service? Service = new();
+        private string? imageUrl;
         [Inject] public SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
         [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
-        [CascadingParameter] IModalService Modal { get; set; } = default!;
 
         private List<Category>? categories;
 
-        private List<People>? peoples;
-
-        protected override void OnInitialized()
-        {
-            editContext = new(Service!);
-        }
         protected override async Task OnInitializedAsync()
         {
             await LoadCategoriesAsync();
-            await LoadProvidersAsync();
+            
+            await LoadAllUsersAsync();
+        }
+
+        private async Task LoadAllUsersAsync()
+        {
+            var url = $"api/accounts/GetAllUsers";
+            var responseHttp = await Repository.GetAsync<List<User>>(url);
+            if (responseHttp.Error)
+            {
+                var message = await responseHttp.GetErrorMessageAsync();
+                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            }
+            users = responseHttp.Response!;
         }
         private async Task LoadCategoriesAsync()
         {
@@ -54,23 +61,21 @@ namespace HandyMan_.Frontend.Pages.Services
             categories = responseHttp.Response;
         }
 
-        private async Task LoadProvidersAsync()
+        private async Task CloseModalAsync()
         {
-            var responseHttp = await Repository.GetAsync<List<People>>("/api/peoples/combo");
-            if (responseHttp.Error)
-            {
-                var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-                return;
-            }
 
-            peoples = responseHttp.Response;
+            await BlazoredModal.CloseAsync(ModalResult.Ok());
+        }
+
+        private void ImageSelected(string imagenBase64)
+        {
+            Service!.Photo = imagenBase64;
+            imageUrl = null;
         }
 
         private async Task CreateAsync()
         {
-            loading = true;
-            var responseHttp = await Repository.PostAsync("/api/services", Service);
+            var responseHttp = await Repository.PostAsync("/api/services/AddServicePhoto", Service);
             loading = false;
 
             if (responseHttp.Error)
@@ -80,7 +85,8 @@ namespace HandyMan_.Frontend.Pages.Services
                 return;
             }
 
-            Return();
+            Service = new();
+            await CloseModalAsync();
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
@@ -91,15 +97,7 @@ namespace HandyMan_.Frontend.Pages.Services
             await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro creado con éxito.");
         }
 
-        private void Return()
-        {
-            NavigationManager.NavigateTo("/services");
-        }
-        private async Task CloseModalAsync()
-        {
-            wasClose = true;
-            await BlazoredModal.CloseAsync(ModalResult.Ok());
-        }
+       
 
        
 

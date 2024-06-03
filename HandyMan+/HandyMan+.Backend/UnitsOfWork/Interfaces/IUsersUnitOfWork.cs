@@ -15,6 +15,7 @@ namespace HandyMan_.Backend.UnitsOfWork.Interfaces
 
         Task<IdentityResult> AddUserAsync(User user, string password);
 
+
         Task CheckRoleAsync(string roleName);
 
         Task AddUserToRoleAsync(User user, string roleName);
@@ -34,5 +35,7 @@ namespace HandyMan_.Backend.UnitsOfWork.Interfaces
         Task<string> GeneratePasswordResetTokenAsync(User user);
 
         Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
+
+        Task<IEnumerable<User>> GetAllUser();
     }
 }

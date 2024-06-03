@@ -21,7 +21,6 @@ namespace HandyMan_.Shered.Entities
 
         public State? State { get; set; }
 
-        public ICollection<People>? Peoples { get; set; }
     }
 }
 

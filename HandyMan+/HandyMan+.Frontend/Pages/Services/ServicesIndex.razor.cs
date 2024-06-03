@@ -1,5 +1,7 @@
+using Blazored.Modal;
 using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
+using HandyMan_.Frontend.Pages.Provider;
 using HandyMan_.Frontend.Repositories;
 using HandyMan_.Frontend.Shared;
 using HandyMan_.Shered.Entities;
@@ -12,26 +14,8 @@ namespace HandyMan_.Frontend.Pages.Services
 {
     [Authorize(Roles = "Admin")]
     public partial class ServicesIndex
-    {
-        /** 
-            Dialog modal
-         */
-        bool dialogIsOpen = false;
-        
+    {   
 
-        void OpenDialog()
-        {
-            
-            dialogIsOpen = true;
-            
-        }
-
-        void OkClick()
-        {
-            dialogIsOpen = false;
-        }
-
-      
         [Inject] private IRepository Repository { get; set; } = null!;
    
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
@@ -39,76 +23,30 @@ namespace HandyMan_.Frontend.Pages.Services
 
         [CascadingParameter] IModalService Modal { get; set; } = default!;
 
-        private EditContext editContext = null!;
 
         public List<Service>? Services { get; set; }
         public List<Service>? ListServices { get; set; }
 
         private List<Category>? categories;
-        private List<People>? peoples;
-        private Service Service { get; set; } = new();
-
         
+        private Service Service { get; set; } = new();
+        
+
         protected override async Task OnInitializedAsync()
         {
             await LoadAllServiceAsync();
-            await LoadCategoriesAsync();
-            await LoadProvidersAsync();
            
         }
 
-        private async Task CreateAsync()
+        private void ShowModal()
         {
-            var responseHttp = await Repository.PostAsync("/api/services", Service);
-            if (responseHttp.Error)
-            {
-                var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message);
-                return;
-            }
-            Service = new Service();
-            dialogIsOpen = false;
+            Modal.Show<ServiceCreate>();
 
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro creado con éxito.");
         }
-
-        private async Task LoadCategoriesAsync()
-        {
-            var responseHttp = await Repository.GetAsync<List<Category>>("/api/categories/combo");
-            if (responseHttp.Error)
-            {
-                var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-                return;
-            }
-
-            categories = responseHttp.Response;
-        }
-
-        private async Task LoadProvidersAsync()
-        {
-            var responseHttp = await Repository.GetAsync<List<People>>("/api/peoples/combo");
-            if (responseHttp.Error)
-            {
-                var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-                return;
-            }
-
-            peoples = responseHttp.Response;
-        }
-
         
         private async Task LoadAllServiceAsync()
         {
-            var url = $"api/services/full";
+            var url = $"api/services/GetAllServices";
             var responseHttp = await Repository.GetAsync<List<Service>>(url);
             if (responseHttp.Error)
             {

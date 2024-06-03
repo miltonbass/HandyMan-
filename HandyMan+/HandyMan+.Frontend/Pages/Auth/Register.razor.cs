@@ -12,6 +12,8 @@ namespace HandyMan_.Frontend.Pages.Auth
 {
     public partial class Register
     {
+        private int StateIdTmp;
+
         private UserDTO userDTO = new();
         private List<Country>? countries;
         private List<State>? states;

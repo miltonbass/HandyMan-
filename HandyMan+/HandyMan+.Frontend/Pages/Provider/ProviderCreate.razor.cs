@@ -1,34 +1,50 @@
+using Blazored.Modal.Services;
+using Blazored.Modal;
 using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Repositories;
+using HandyMan_.Shared.DTOs;
+using HandyMan_.Shared.Enums;
 using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using System;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HandyMan_.Frontend.Pages.Provider
 {
     public partial class ProviderCreate
     {
-        private EditContext editContext = null!;
-        [Inject] private IRepository Repository { get; set; } = null!;
 
-        private People? People { get; set; } = new People();
-        [Inject] public SweetAlertService SweetAlertService { get; set; } = null!;
-        [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-
-        private List<PeopleType>? peoplesTypes;
-
-        private List<Country>? countries;
+        
+        private UserDTO userDTO = new();
+        public List<Country>? countries;
         private List<State>? states;
         private List<City>? cities;
-
+        private bool loading;
+        private string? imageUrl;
+        private EditContext editContext = null!;
+        [Inject] private IRepository Repository { get; set; } = null!;
+        [Inject] public SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private NavigationManager NavigationManager { get; set; } = null!;
+        private IEnumerable<UserType> UserType => Enum.GetValues(typeof(UserType)).Cast<UserType>();
+        [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
         protected override async Task OnInitializedAsync()
         {
-            editContext = new(People!);
-            await LoadProvidersAsync();
             await LoadCountriesAsync();
         }
 
+        private async Task CloseModalAsync()
+        {
+           
+            await BlazoredModal.CloseAsync(ModalResult.Ok());
+        }
+
+        private void ImageSelected(string imagenBase64)
+        {
+            userDTO.Photo = imagenBase64;
+            imageUrl = null;
+        }
         private async Task LoadCountriesAsync()
         {
             var responseHttp = await Repository.GetAsync<List<Country>>("/api/countries/combo");
@@ -41,14 +57,16 @@ namespace HandyMan_.Frontend.Pages.Provider
 
             countries = responseHttp.Response;
         }
+
         private async Task CountryChangedAsync(ChangeEventArgs e)
         {
             var selectedCountry = Convert.ToInt32(e.Value!);
             states = null;
             cities = null;
-            
+            userDTO.CityId = 0;
             await LoadStatesAsyn(selectedCountry);
         }
+
         private async Task LoadStatesAsyn(int countryId)
         {
             var responseHttp = await Repository.GetAsync<List<State>>($"/api/states/combo/{countryId}");
@@ -61,13 +79,15 @@ namespace HandyMan_.Frontend.Pages.Provider
 
             states = responseHttp.Response;
         }
+
         private async Task StateChangedAsync(ChangeEventArgs e)
         {
             var selectedState = Convert.ToInt32(e.Value!);
             cities = null;
-            
+            userDTO.CityId = 0;
             await LoadCitiesAsyn(selectedState);
         }
+
         private async Task LoadCitiesAsyn(int stateId)
         {
             var responseHttp = await Repository.GetAsync<List<City>>($"/api/cities/combo/{stateId}");
@@ -81,9 +101,13 @@ namespace HandyMan_.Frontend.Pages.Provider
             cities = responseHttp.Response;
         }
 
-        private async Task LoadProvidersAsync()
+        private async Task CreteUserAsync()
         {
-            var responseHttp = await Repository.GetAsync<List<PeopleType>>("/api/peopletypes/full");
+            userDTO.UserName = userDTO.Email;
+            loading = true;
+            var responseHttp = await Repository.PostAsync<UserDTO>("/api/accounts/CreateUser", userDTO);
+            loading = false;
+
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
@@ -91,33 +115,11 @@ namespace HandyMan_.Frontend.Pages.Provider
                 return;
             }
 
-            peoplesTypes = responseHttp.Response;
+            await BlazoredModal.CloseAsync(ModalResult.Ok());
+            userDTO = new();
+            await SweetAlertService.FireAsync("Confirmación", "Cuenta ha sido creada con éxito. Se te ha enviado un correo electrónico con las instrucciones para activar el usuario.", SweetAlertIcon.Info);
+            NavigationManager.NavigateTo("/");
         }
 
-        private async Task CreateAsync()
-        {
-            var responseHttp = await Repository.PostAsync("/api/peoples", People);
-            if (responseHttp.Error)
-            {
-                var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message);
-                return;
-            }
-
-            Return();
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro creado con éxito.");
-        }
-
-        private void Return()
-        {
-            NavigationManager.NavigateTo("/provider");
-        }
     }
 }

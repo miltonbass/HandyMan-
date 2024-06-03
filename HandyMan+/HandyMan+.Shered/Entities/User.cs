@@ -41,5 +41,7 @@ namespace HandyMan_.Shered.Entities
 
         [Display(Name = "Usuario")]
         public string FullName => $"{FirstName} {LastName}";
+
+        public ICollection<Service>? Service { get; set; }
     }
 }
