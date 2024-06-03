@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HandyMan_.Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240519120953_AddUpdateservice")]
-    partial class AddUpdateservice
+    [Migration("20240603214910_AddTemporalOrder")]
+    partial class AddTemporalOrder
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -158,74 +158,6 @@ namespace HandyMan_.Backend.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("HandyMan_.Shered.Entities.People", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Identification")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PeopleTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("Identification")
-                        .IsUnique()
-                        .HasFilter("[Identification] IS NOT NULL");
-
-                    b.HasIndex("PeopleTypeId");
-
-                    b.ToTable("Peoples");
-                });
-
-            modelBuilder.Entity("HandyMan_.Shered.Entities.PeopleType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Detail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasFilter("[Name] IS NOT NULL");
-
-                    b.ToTable("PeopleTypes");
-                });
-
             modelBuilder.Entity("HandyMan_.Shered.Entities.Service", b =>
                 {
                     b.Property<int>("Id")
@@ -245,18 +177,22 @@ namespace HandyMan_.Backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PeopleId")
-                        .HasColumnType("int");
+                    b.Property<string>("Photo")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Price")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("PeopleId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Services");
                 });
@@ -308,6 +244,29 @@ namespace HandyMan_.Backend.Migrations
                         .IsUnique();
 
                     b.ToTable("States");
+                });
+
+            modelBuilder.Entity("HandyMan_.Shered.Entities.TemporalOrder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServiceId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TemporalOrders");
                 });
 
             modelBuilder.Entity("HandyMan_.Shered.Entities.User", b =>
@@ -550,25 +509,6 @@ namespace HandyMan_.Backend.Migrations
                     b.Navigation("State");
                 });
 
-            modelBuilder.Entity("HandyMan_.Shered.Entities.People", b =>
-                {
-                    b.HasOne("HandyMan_.Shered.Entities.City", "City")
-                        .WithMany("Peoples")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("HandyMan_.Shered.Entities.PeopleType", "PeopleType")
-                        .WithMany("People")
-                        .HasForeignKey("PeopleTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("City");
-
-                    b.Navigation("PeopleType");
-                });
-
             modelBuilder.Entity("HandyMan_.Shered.Entities.Service", b =>
                 {
                     b.HasOne("HandyMan_.Shered.Entities.Category", "Category")
@@ -577,15 +517,15 @@ namespace HandyMan_.Backend.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("HandyMan_.Shered.Entities.People", "People")
+                    b.HasOne("HandyMan_.Shered.Entities.User", "User")
                         .WithMany("Service")
-                        .HasForeignKey("PeopleId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Category");
 
-                    b.Navigation("People");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HandyMan_.Shered.Entities.State", b =>
@@ -597,6 +537,24 @@ namespace HandyMan_.Backend.Migrations
                         .IsRequired();
 
                     b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("HandyMan_.Shered.Entities.TemporalOrder", b =>
+                {
+                    b.HasOne("HandyMan_.Shered.Entities.Service", "Service")
+                        .WithMany("TemporalOrders")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("HandyMan_.Shered.Entities.User", "User")
+                        .WithMany("TemporalOrders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Service");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HandyMan_.Shered.Entities.User", b =>
@@ -666,29 +624,26 @@ namespace HandyMan_.Backend.Migrations
                     b.Navigation("Services");
                 });
 
-            modelBuilder.Entity("HandyMan_.Shered.Entities.City", b =>
-                {
-                    b.Navigation("Peoples");
-                });
-
             modelBuilder.Entity("HandyMan_.Shered.Entities.Country", b =>
                 {
                     b.Navigation("States");
                 });
 
-            modelBuilder.Entity("HandyMan_.Shered.Entities.People", b =>
+            modelBuilder.Entity("HandyMan_.Shered.Entities.Service", b =>
                 {
-                    b.Navigation("Service");
-                });
-
-            modelBuilder.Entity("HandyMan_.Shered.Entities.PeopleType", b =>
-                {
-                    b.Navigation("People");
+                    b.Navigation("TemporalOrders");
                 });
 
             modelBuilder.Entity("HandyMan_.Shered.Entities.State", b =>
                 {
                     b.Navigation("Cities");
+                });
+
+            modelBuilder.Entity("HandyMan_.Shered.Entities.User", b =>
+                {
+                    b.Navigation("Service");
+
+                    b.Navigation("TemporalOrders");
                 });
 #pragma warning restore 612, 618
         }

@@ -243,6 +243,29 @@ namespace HandyMan_.Backend.Migrations
                     b.ToTable("States");
                 });
 
+            modelBuilder.Entity("HandyMan_.Shered.Entities.TemporalOrder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServiceId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TemporalOrders");
+                });
+
             modelBuilder.Entity("HandyMan_.Shered.Entities.User", b =>
                 {
                     b.Property<string>("Id")
@@ -513,6 +536,24 @@ namespace HandyMan_.Backend.Migrations
                     b.Navigation("Country");
                 });
 
+            modelBuilder.Entity("HandyMan_.Shered.Entities.TemporalOrder", b =>
+                {
+                    b.HasOne("HandyMan_.Shered.Entities.Service", "Service")
+                        .WithMany("TemporalOrders")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("HandyMan_.Shered.Entities.User", "User")
+                        .WithMany("TemporalOrders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Service");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("HandyMan_.Shered.Entities.User", b =>
                 {
                     b.HasOne("HandyMan_.Shered.Entities.City", "City")
@@ -585,6 +626,11 @@ namespace HandyMan_.Backend.Migrations
                     b.Navigation("States");
                 });
 
+            modelBuilder.Entity("HandyMan_.Shered.Entities.Service", b =>
+                {
+                    b.Navigation("TemporalOrders");
+                });
+
             modelBuilder.Entity("HandyMan_.Shered.Entities.State", b =>
                 {
                     b.Navigation("Cities");
@@ -593,6 +639,8 @@ namespace HandyMan_.Backend.Migrations
             modelBuilder.Entity("HandyMan_.Shered.Entities.User", b =>
                 {
                     b.Navigation("Service");
+
+                    b.Navigation("TemporalOrders");
                 });
 #pragma warning restore 612, 618
         }

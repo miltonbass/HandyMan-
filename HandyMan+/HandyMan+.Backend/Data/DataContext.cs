@@ -21,6 +21,8 @@ namespace HandyMan_.Backend.Data
 
         public DbSet<SurveyDefinitionEntity> SurveyDefinitions { get; set; }
 
+        public DbSet<TemporalOrder> TemporalOrders { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
