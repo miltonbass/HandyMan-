@@ -87,7 +87,7 @@ namespace HandyMan_.Backend.Repositories.Implementations
                 };
             }
 
-            
+            temporalOrder.UserId = user.Id;
             try
             {
                 _context.Add(temporalOrder);
