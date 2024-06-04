@@ -45,5 +45,7 @@ namespace HandyMan_.Shered.Entities
         public ICollection<Service>? Service { get; set; }
 
         public ICollection<TemporalOrder>? TemporalOrders { get; set; }
+
+        public ICollection<Order>? Orders { get; set; }
     }
 }

@@ -37,6 +37,8 @@ namespace HandyMan_.Shered.Entities
         public User? User { get; set; }
 
         public ICollection<TemporalOrder>? TemporalOrders { get; set; }
+
+        public ICollection<OrderDetail>? OrderDetails { get; set; }
     }
 
 }

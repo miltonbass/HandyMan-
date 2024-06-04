@@ -1,6 +1,11 @@
 ﻿@page "/ShowCart"
-
-<MatDialogTitle>Servicios a contratar</MatDialogTitle>
+@if (loading)
+{
+    <Loading />
+}
+else
+{
+    <MatDialogTitle>Servicios a contratar</MatDialogTitle>
 <MatDialogContent>
 <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
     <div class="mat-h6">
@@ -29,3 +34,4 @@
     </MatDialogActions>
 </div>
 </MatDialogContent>
+}
