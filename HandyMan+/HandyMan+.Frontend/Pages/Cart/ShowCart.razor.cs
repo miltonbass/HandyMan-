@@ -13,6 +13,7 @@ namespace HandyMan_.Frontend.Pages.Cart
     {
         private int counter = 0;
         private bool isAuthenticated;
+        private bool loading;
         public List<TemporalOrder>? temporalOrders { get; set; }
 
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
@@ -29,8 +30,10 @@ namespace HandyMan_.Frontend.Pages.Cart
 
         private async Task LoadCounterAsync()
         {
-           
+            loading = true;
+
             var responseHttp = await Repository.GetAsync<int>("/api/temporalOrders/count");
+            loading = false;
             if (responseHttp.Error)
             {
                 return;
