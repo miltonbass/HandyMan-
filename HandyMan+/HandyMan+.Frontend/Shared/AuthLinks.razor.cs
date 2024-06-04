@@ -11,6 +11,7 @@ using HandyMan_.Shered.Entities;
 using HandyMan_.Shared.Enums;
 using MatBlazor;
 using Microsoft.AspNetCore.Components.Web;
+using HandyMan_.Frontend.Pages.Cart;
 
 namespace HandyMan_.Frontend.Shared
 {
@@ -212,6 +213,11 @@ namespace HandyMan_.Frontend.Shared
         private void ShowModalRegister()
         {
             Modal.Show<Register>();
+        }
+
+        private void ShowCartModal()
+        {
+            Modal.Show<ShowCart>();
         }
 
         private void ShowModalEditUser()
