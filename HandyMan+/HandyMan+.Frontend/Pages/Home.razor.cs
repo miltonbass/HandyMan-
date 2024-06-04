@@ -1,6 +1,7 @@
 using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Pages.Auth;
+using HandyMan_.Frontend.Pages.Cart;
 using HandyMan_.Frontend.Repositories;
 using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Components;
@@ -100,6 +101,11 @@ namespace HandyMan_.Frontend.Pages
                 Timer = 3000
             });
             await toast2.FireAsync(icon: SweetAlertIcon.Success, message: "Producto agregado al carro de compras.");
+        }
+
+        private void ShowCartModal()
+        {
+            Modal.Show<ShowCart>();
         }
     }
     
