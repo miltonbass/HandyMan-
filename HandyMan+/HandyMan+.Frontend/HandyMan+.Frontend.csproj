@@ -7,13 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Pages\NewFolder\**" />
     <Compile Remove="Shared\Interfaces\**" />
-    <Content Remove="Pages\NewFolder\**" />
     <Content Remove="Shared\Interfaces\**" />
-    <EmbeddedResource Remove="Pages\NewFolder\**" />
     <EmbeddedResource Remove="Shared\Interfaces\**" />
-    <None Remove="Pages\NewFolder\**" />
     <None Remove="Shared\Interfaces\**" />
   </ItemGroup>
 
