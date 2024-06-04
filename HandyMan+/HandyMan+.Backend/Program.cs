@@ -78,6 +78,7 @@ builder.Services.AddScoped<ITemporalOrdersRepository, TemporalOrdersRepository>(
 builder.Services.AddScoped<IServicesRepository, ServicesRepository>();
 builder.Services.AddScoped<IServiceOrderRepository, ServiceOrderRepository>();
 builder.Services.AddScoped<ISurveyDefinitionsRepository, SurveyDefinitionsRepository>();
+builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
 
 //Unit of work
 builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitOfWork<>));
@@ -92,6 +93,7 @@ builder.Services.AddScoped<ISurveyDefinitionsUnitOfWork, SurveyDefinitionsUnitOf
 builder.Services.AddScoped<ISubscriptionTypeRepository, SubscriptionTypeRepository>();
 builder.Services.AddScoped<ISubscriptionUnitOfWork, SubscriptionUnitOfWork>();
 builder.Services.AddScoped<IUsersUnitOfWork, UsersUnitOfWork>();
+builder.Services.AddScoped<IOrdersUnitOfWork, OrdersUnitOfWork>();
 
 builder.Services.AddIdentity<User, IdentityRole>(x =>
 {
