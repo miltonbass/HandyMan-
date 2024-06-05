@@ -64,6 +64,7 @@ builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=LocalConnec
 builder.Services.AddTransient<SeedDb>();
 builder.Services.AddScoped<IFileStorage, FileStorage>();
 builder.Services.AddScoped<IMailHelper, MailHelper>();
+builder.Services.AddScoped<IOrdersHelper, OrdersHelper>();
 builder.Services.AddScoped<IApiService, ApiService>();
 
 //Repository
@@ -94,6 +95,7 @@ builder.Services.AddScoped<ISubscriptionTypeRepository, SubscriptionTypeReposito
 builder.Services.AddScoped<ISubscriptionUnitOfWork, SubscriptionUnitOfWork>();
 builder.Services.AddScoped<IUsersUnitOfWork, UsersUnitOfWork>();
 builder.Services.AddScoped<IOrdersUnitOfWork, OrdersUnitOfWork>();
+
 
 builder.Services.AddIdentity<User, IdentityRole>(x =>
 {
