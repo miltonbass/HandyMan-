@@ -43,7 +43,7 @@ namespace HandyMan_.Backend.Helpers
             }
 
             var temporalOrders = actionTemporalOrders.Result as List<TemporalOrder>;
-            var response = await CheckInventoryAsync(temporalOrders!);
+            var response = new ActionResponse<bool>() { WasSuccess = true };
             if (!response.WasSuccess)
             {
                 return response;
@@ -54,7 +54,8 @@ namespace HandyMan_.Backend.Helpers
                 Date = DateTime.UtcNow,
                 User = user,
                 OrderDetails = new List<OrderDetail>(),
-                OrderStatus = OrderStatus.Created
+                OrderStatus = OrderStatus.Created,
+                Total = 0,
             };
 
             foreach (var temporalOrder in temporalOrders!)
