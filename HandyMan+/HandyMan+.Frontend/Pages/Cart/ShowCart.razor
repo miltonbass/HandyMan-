@@ -20,17 +20,19 @@ else
         <th>#</th>
         <th>Servicio</th>
         <th>Precio</th>
+        <th></th>
     </MatTableHeader>
     <MatTableRow>
         <td> <img src="@context.Service!.Photo" style="width:100px;" /></td>
         <td>@context.Service.Name</td>
         <td>@context.Service.Price</td>
+        <td><MatIconButton Icon="cancel"></MatIconButton></td>
     </MatTableRow>
 </MatTable>
 <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
     <MatDialogActions>
                 <MatButton Type="button" OnClick="@(() => CloseCartModal())">Servicios</MatButton>
-                <MatButton Type="submit" Raised="true">Confirmar Solicitud</MatButton>
+                <MatButton Type="submit" OnClick="@(() => ConfirmOrderAsync())"  Raised="true">Confirmar Solicitud</MatButton>
     </MatDialogActions>
 </div>
 </MatDialogContent>
