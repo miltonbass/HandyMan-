@@ -1,4 +1,7 @@
+using Blazored.Modal;
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
+using HandyMan_.Frontend.Pages.Services;
 using HandyMan_.Frontend.Repositories;
 using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Components;
@@ -17,8 +20,10 @@ namespace HandyMan_.Frontend.Pages.Categories
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
+        [CascadingParameter] IModalService Modal { get; set; } = default!;
 
         public List<Category>? Categories { get; set; }
+        public List<Category>? ListCategories { get; set; }
 
         public List<int> Values = [5, 10, 15, 20, 25, 50, 100];
 
@@ -30,10 +35,31 @@ namespace HandyMan_.Frontend.Pages.Categories
 
         }
 
+
         protected override async Task OnInitializedAsync()
         {
+            await LoadAllCategoryAsync();
             await LoadAsync();
+
         }
+
+
+        private async Task LoadAllCategoryAsync()
+        {
+            var url = $"api/categories/GetAllCategories";
+            var responseHttp = await Repository.GetAsync<List<Category>>(url);
+            if (responseHttp.Error)
+            {
+                var message = await responseHttp.GetErrorMessageAsync();
+                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            }
+            ListCategories = responseHttp.Response;
+        }
+
+
+
+
+    
         private async Task FilterCallBack(string filter)
         {
             Filter = filter;
@@ -146,6 +172,28 @@ namespace HandyMan_.Frontend.Pages.Categories
                 Timer = 3000
             });
             await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro borrado con éxito.");
+            Return();
         }
+
+        private void Return()
+        {
+            NavigationManager.NavigateTo("/categories");
+        }
+
+        private async Task ShowModal(int id = 0, bool isEdit = false)
+        {
+            IModalReference modalReference;
+
+            if (isEdit)
+            {
+                Modal.Show<CategoryEdit>(string.Empty, new ModalParameters().Add("Id", id));
+            }
+            else
+            {
+                Modal.Show<CategoryCreate>();
+            }
+
+        }
+
     }
 }

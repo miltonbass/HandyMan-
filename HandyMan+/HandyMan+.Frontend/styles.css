@@ -1,0 +1,18 @@
+﻿.mat-table th,
+.mat-table td {
+    width: 12.5%; /* Como hay 8 columnas, 100% / 8 = 12.5% */
+    text-align: center;
+    vertical-align: middle;
+}
+
+    .mat-table th img,
+    .mat-table td img {
+        display: block;
+        margin: 0 auto;
+    }
+
+.mat-table {
+    width: 100%;
+    table-layout: fixed; /* Asegura que todas las columnas tengan el mismo tamaño */
+    background-color:red;
+}

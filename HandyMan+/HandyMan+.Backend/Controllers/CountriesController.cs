@@ -50,6 +50,7 @@ namespace HandyMan_.Backend.Controllers
         [HttpGet("{id}")]
         public override async Task<IActionResult> GetAsync(int id)
         {
+
             var response = await _countriesUnitOfWork.GetAsync(id);
             if (response.WasSuccess)
             {

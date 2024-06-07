@@ -1,30 +1,34 @@
+using Blazored.Modal.Services;
+using Blazored.Modal;
 using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Repositories;
 using HandyMan_.Frontend.Shared;
 using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Components;
+using System.Runtime.CompilerServices;
 
 namespace HandyMan_.Frontend.Pages.Categories
 {
     public partial class CategoryCreate
     {
-        private Category category = new();
-        private FormWithName<Category>? categoryForm;
+        private Category Category = new();
+
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService sweetAlertService { get; set; } = null!;
         [Inject] private NavigationManager navigationManager { get; set; } = null!;
 
+        private bool loading;
+
+        [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
         private async Task CreateAsync()
         {
-            var responseHttp = await Repository.PostAsync("/api/categories", category);
-            if (responseHttp.Error)
-            {
-                var message = await responseHttp.GetErrorMessageAsync();
-                await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-                return;
-            }
+            var responseHttp = await Repository.PostAsync("/api/categories/", Category);
+            loading = false;
 
-            Return();
+       
+            Category = new();
+            await CloseModalAsync();
             var toast = sweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
@@ -35,9 +39,14 @@ namespace HandyMan_.Frontend.Pages.Categories
             await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro creado con éxito.");
         }
 
+        private async Task CloseModalAsync()
+        {
+
+            await BlazoredModal.CloseAsync(ModalResult.Ok());
+        }
+
         private void Return()
         {
-            categoryForm!.FormPostedSuccessfully = true;
             navigationManager.NavigateTo("/categories");
         }
     }

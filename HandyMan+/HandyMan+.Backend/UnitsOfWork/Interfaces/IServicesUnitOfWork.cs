@@ -6,12 +6,15 @@ namespace HandyMan_.Backend.UnitsOfWork.Interfaces
 {
     public interface IServicesUnitOfWork
     {
-        Task<ActionResponse<Service>> GetAsync(int id);
-        Task<ActionResponse<IEnumerable<Service>>> GetAsync(PaginationDTO pagination);
-        Task<ActionResponse<IEnumerable<Service>>> GetAsync();
-        Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
 
+        Task<ActionResponse<Service>> GetAsync(int id);
+        Task<ActionResponse<IEnumerable<Service>>> GetAsync();
+        Task<ActionResponse<IEnumerable<Service>>> GetAsync(PaginationDTO pagination);
+        Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
         Task<IEnumerable<Service>> GetAllServices();
         Task<ActionResponse<Service>> AddServicePhotoAsync(Service Service);
+        Task<ActionResponse<Service>> UpdateAsync(Service service);
+
+
     }
 }

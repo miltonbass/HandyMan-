@@ -1,5 +1,4 @@
 ﻿@page "/services"
-
 <div class="mat-layout-grid">
     <div class="mat-layout-grid-inner"> 
         <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
@@ -7,12 +6,13 @@
                 Servicios <MatButton Icon="add"OnClick=@(() => ShowModal())></MatButton>
             </div>
         </div>
+
         <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
             <MatTable Items="@ListServices" LoadInitialData="true" Striped="true" RequestApiOnlyOnce="true" AllowSelection="true" RowCListServiceslass="tester"
                   FilterByColumnName="Name" DebounceMilliseconds="150" class="mat-elevation-z5">
                 <MatTableHeader>
                     <th>Id</th>
-                    <th>Imagen</th>
+                    <th>Imagen.....</th>
                     <th>Categoria</th>
                     <th>Nombre</th>
                     <th>Detalle</th>
@@ -29,15 +29,14 @@
                     <td>@context.Price</td>
                     <td>@context.User.LastName</td>
                     <td>
-                        <MatButton Icon="border_color"></MatButton>
-                        <MatButton Icon="delete"></MatButton>
+                        <MatButton  Icon="border_color" OnClick="@(() => ShowModal(@context.Id, isEdit: true))"></MatButton>
+                        <MatButton Icon="delete" @onclick=@(() => DeleteAsync(@context))></MatButton>
                     </td>
                 </MatTableRow>
             </MatTable>
         </div>
-    </div>
-</div>
 
-
+     </div>
+  </div>
 
 

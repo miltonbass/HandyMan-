@@ -1,3 +1,5 @@
+using Blazored.Modal.Services;
+using Blazored.Modal;
 using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Repositories;
 using HandyMan_.Shered.Entities;
@@ -13,10 +15,14 @@ namespace HandyMan_.Frontend.Pages.Services
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-        [EditorRequired, Parameter] public int Id { get; set; }
-        private List<Category>? categories;
 
-        
+        [EditorRequired, Parameter] public int Id { get; set; }
+        [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+        private List<Category>? categories;
+        private bool loading;
+        private string? imageUrl;
+
+
         private async Task LoadCategoriesAsync()
         {
             var responseHttp = await Repository.GetAsync<List<Category>>("/api/categories/combo");
@@ -29,9 +35,10 @@ namespace HandyMan_.Frontend.Pages.Services
 
             categories = responseHttp.Response;
         }
-        
+
         protected async override Task OnParametersSetAsync()
         {
+
             editContext = new(Service!);
 
             await LoadCategoriesAsync();
@@ -57,9 +64,26 @@ namespace HandyMan_.Frontend.Pages.Services
             }
         }
 
+        private void ImageSelected(string imagenBase64)
+        {
+            Service!.Photo = imagenBase64;
+            imageUrl = null;
+        }
+
+        private async Task CloseModalAsync()
+        {
+
+            await BlazoredModal.CloseAsync(ModalResult.Ok());
+        }
+
         private async Task EditAsync()
         {
-            var responseHttp = await Repository.PutAsync("api/services", Service);
+            
+           // var responseHttp = await Repository.PutAsync("api/services", Service);
+            var responseHttp = await Repository.PutAsync($"api/services/{Service.Id}", Service);
+
+
+            loading = false;
 
             if (responseHttp.Error)
             {
@@ -67,8 +91,8 @@ namespace HandyMan_.Frontend.Pages.Services
                 await SweetAlertService.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
                 return;
             }
-
-            Return();
+            await CloseModalAsync();
+            
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
@@ -77,11 +101,12 @@ namespace HandyMan_.Frontend.Pages.Services
                 Timer = 3000
             });
             await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Cambios guardados con éxito.");
+            Return();
         }
 
         private void Return()
         {
-            NavigationManager.NavigateTo("services");
+            NavigationManager.NavigateTo("/services");
         }
     }
 }
