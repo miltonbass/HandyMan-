@@ -79,7 +79,8 @@ namespace HandyMan_.Backend.Helpers
                 await _temporalOrdersUnitOfWork.DeleteAsync(temporalOrder.Id);
             }
 
-            await _ordersUnitOfWork.AddAsync(order);
+            //await _ordersUnitOfWork.AddAsync(order);
+            _ = _ordersUnitOfWork.AddOrderAsync(order);
             return response;
         }
 
