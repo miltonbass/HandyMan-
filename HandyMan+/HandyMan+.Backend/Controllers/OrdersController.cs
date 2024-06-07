@@ -1,6 +1,7 @@
 ﻿using HandyMan_.Backend.Helpers;
 using HandyMan_.Backend.UnitsOfWork.Interfaces;
 using HandyMan_.Shered.DTOs;
+using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -75,6 +76,12 @@ namespace HandyMan_.Backend.Controllers
             }
 
             return BadRequest(response.Message);
+        }
+
+        [HttpPost("save")]
+        public void PostAddOrder(Order order) 
+        {
+            _ordersUnitOfWork.AddOrderAsync(order);
         }
     }
 }

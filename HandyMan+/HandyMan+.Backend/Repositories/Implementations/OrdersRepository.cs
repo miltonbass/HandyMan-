@@ -132,5 +132,32 @@ namespace HandyMan_.Backend.Repositories.Implementations
                 Result = order
             };
         }
+
+        
+
+        private ActionResponse<Order> DbUpdateExceptionActionResponse()
+        {
+
+            return new ActionResponse<Order>
+            {
+                WasSuccess = false,
+                Message = "Ya existe el registro que estas intentando crear."
+            };
+        }
+
+        private ActionResponse<Order> ExceptionActionResponse(Exception exception)
+        {
+            return new ActionResponse<Order>
+            {
+                WasSuccess = false,
+                Message = exception.Message
+            };
+        }
+
+        public async Task AddOrderAsync(Order order)
+        {
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+        }
     }
 }

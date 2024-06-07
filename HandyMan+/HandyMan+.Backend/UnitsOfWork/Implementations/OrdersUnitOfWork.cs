@@ -22,5 +22,7 @@ namespace HandyMan_.Backend.UnitsOfWork.Implementations
 
 
         public override async Task<ActionResponse<Order>> GetAsync(int id) => await _ordersRepository.GetAsync(id);
+
+        public Task AddOrderAsync(Order order) => _ordersRepository.AddOrderAsync(order);
     }
 }
