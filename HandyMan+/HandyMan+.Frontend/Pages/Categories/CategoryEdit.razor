@@ -1,20 +1,34 @@
 ﻿@page "/categories/edit/{Id:int}"
 
-<div class="card">
-    <div class="card-header">
-        <span>
-            <i class="bi bi-globe-americas" /> Editar Categoría
-        </span>
-    </div>
-    <div class="card-body">
+@if (loading)
+{
+    <Loading />
+}
+else
+{
+<EditForm EditContext="editContext" OnSubmit="EditAsync">
+        <DataAnnotationsValidator />
+            <MatDialogTitle>Editar Categoria</MatDialogTitle>
+            <MatDialogContent>
+                <div class="mat-layout-grid">
+        <div class="mat-layout-grid-inner">
+            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6">
+                 <p>
+                    <MatTextField type="text"  Label="Nombre Categoria" class="form-control" @bind-Value="@Category.Name" />
+                        <ValidationMessage For="@(() =>  Category.Name)" />
+                </p>
+                
+                </div>
+                <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+                    <MatDialogActions>
+                        <MatButton Type="button" OnClick="CloseModalAsync">No Gracias</MatButton>
+                        <MatButton Type="submit">Guardar Cambios</MatButton>
+                    </MatDialogActions>
+                </div>
+                </div>
+                </div>
+            </MatDialogContent>
+    </EditForm>
+    
 
-        @if (category is null)
-        {
-                <Loading/>
-        }
-        else
-        {
-                    <FormWithName @ref="categoryForm" Label="Categoría:" Model="category" OnValidSubmit="EditAsync" ReturnAction="Return" />
-        }
-    </div>
-</div>
+}

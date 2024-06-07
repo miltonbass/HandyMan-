@@ -1,44 +1,46 @@
 using Blazored.Modal;
 using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
+using HandyMan_.Frontend.Pages.Categories;
 using HandyMan_.Frontend.Pages.Provider;
+using HandyMan_.Frontend.Pages.ServiceOrders;
 using HandyMan_.Frontend.Repositories;
 using HandyMan_.Frontend.Shared;
 using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using System.Net;
 using System.Reflection;
 
 namespace HandyMan_.Frontend.Pages.Services
 {
     [Authorize(Roles = "Admin")]
     public partial class ServicesIndex
-    {   
+    {
 
         [Inject] private IRepository Repository { get; set; } = null!;
-   
+
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] public SweetAlertService SweetAlertService { get; set; } = null!;
 
         [CascadingParameter] IModalService Modal { get; set; } = default!;
 
-
         public List<Service>? Services { get; set; }
         public List<Service>? ListServices { get; set; }
 
         private List<Category>? categories;
-        
+
         private Service Service { get; set; } = new();
-        
+
 
         protected override async Task OnInitializedAsync()
         {
             await LoadAllServiceAsync();
-           
+
         }
 
-                
+
         private async Task LoadAllServiceAsync()
         {
             var url = $"api/services/GetAllServices";
@@ -83,7 +85,7 @@ namespace HandyMan_.Frontend.Pages.Services
                 return;
             }
 
-           
+
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
@@ -92,15 +94,32 @@ namespace HandyMan_.Frontend.Pages.Services
                 Timer = 3000
             });
             await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro borrado con éxito.");
+            Return();
         }
 
-
-      
-
-        private void ShowModal()
+        private void Return()
         {
-            Modal.Show<ServiceCreate>();
+            NavigationManager.NavigateTo("/services");
         }
+
+
+
+
+        private async Task ShowModal(int id = 0, bool isEdit = false)
+        {
+            IModalReference modalReference;
+
+            if (isEdit)
+            {
+                Modal.Show<ServiceEdit>(string.Empty, new ModalParameters().Add("Id", id));
+            }
+            else
+            {
+                Modal.Show<ServiceCreate>();
+            }
+
+        }
+
 
     }
 }
