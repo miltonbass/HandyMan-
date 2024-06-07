@@ -1,13 +1,25 @@
 ﻿@page "/categories/create"
 
-<div class="card">
-    <div class="card-header">
-        <span>
-            <i class="bi bi-globe-americas" /> Crear Categoría
-            <a class="btn btn-sm btn-success float-end" href="/Countries"><i class="bi bi-arrow-left" />  Regresar</a>
-        </span>
-    </div>
-    <div class="card-body">
-        <FormWithName @ref="categoryForm" Label="Categoría:" Model="category" OnValidSubmit="CreateAsync" ReturnAction="Return" />
-    </div>
-</div>
+<EditForm Model="Category" OnValidSubmit="CreateAsync" ReturnAction="Return">
+        <DataAnnotationsValidator />
+            <MatDialogTitle>Nueva Categoria</MatDialogTitle>
+            <MatDialogContent>
+                <div class="mat-layout-grid">
+        <div class="mat-layout-grid-inner">
+            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6">
+                 <p>
+                    <MatTextField type="text"  Label="Nombre Categoria" class="form-control" @bind-Value="@Category.Name" />
+                        <ValidationMessage For="@(() =>  Category.Name)" />
+                </p>
+                
+                </div>
+                <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+                    <MatDialogActions>
+                        <MatButton Type="button" OnClick="CloseModalAsync">No Gracias</MatButton>
+                        <MatButton Type="submit">Guardar Cambios</MatButton>
+                    </MatDialogActions>
+                </div>
+                </div>
+                </div>
+            </MatDialogContent>
+    </EditForm>

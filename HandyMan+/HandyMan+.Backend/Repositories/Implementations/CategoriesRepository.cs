@@ -24,6 +24,12 @@ namespace HandyMan_.Backend.Repositories.Implementations
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Category>> GetAllCategories()
+        {
+            return await _context.Categories.ToListAsync();
+        }
+
+
 
         public override async Task<ActionResponse<IEnumerable<Category>>> GetAsync(PaginationDTO pagination)
         {

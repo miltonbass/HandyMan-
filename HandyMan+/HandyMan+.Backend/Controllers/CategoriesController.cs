@@ -1,4 +1,5 @@
-﻿using HandyMan_.Backend.UnitsOfWork.Interfaces;
+﻿using HandyMan_.Backend.UnitsOfWork.Implementations;
+using HandyMan_.Backend.UnitsOfWork.Interfaces;
 using HandyMan_.Shered.DTOs;
 using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -45,6 +46,14 @@ namespace HandyMan_.Backend.Controllers
         public async Task<IActionResult> GetComboAsync()
         {
             return Ok(await _categoriesUnitOfWork.GetComboAsync());
+        }
+
+        [HttpGet("GetAllCategories")]
+        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetAllCategories()
+        {
+            return Ok(await _categoriesUnitOfWork.GetAllCategories());
         }
     }
 }

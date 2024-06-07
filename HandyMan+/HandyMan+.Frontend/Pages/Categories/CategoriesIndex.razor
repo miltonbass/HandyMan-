@@ -1,56 +1,35 @@
 ﻿@page "/categories"
 
-<div class="card">
-    <div class="card-header">
-        <span>
-            <i class="bi bi-globe-americas"/> Categorías
-            <a class="btn btn-primary btn-sm float-end" href="/categories/create"><i class="bi bi-plus-square" />Nueva Categoría</a>
-        </span>
-    </div>
-    <div class="card-body">
-        <Filter PlaceHolder="Buscar Categoria..." Callback=@FilterCallBack />
-        <GenericList MyList="Categories">
-            <Body>
-                 <div style="display: flex; align-items: center; justify-content: space-between;">
-
-                            <Pagination CurrentPage="currentPage"
-                            TotalPages="totalPages"
-                            SelectedPage="SelectedPageAsync" />
-
-                            <div>
-                <label for="paginationAmount">Cantidad Paginado</label>
-                <select id="paginationAmount" class="form-control" value="10" @onchange="HandleChange">
-                            @foreach (var recordsNumber in Values)
-                            {
-                                        <option value="@recordsNumber">@recordsNumber</option>
-                            }
-                </select>
+<div class="mat-layout-grid">
+    <div class="mat-layout-grid-inner"> 
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+            <div class="mat-h4">
+                categorias <MatButton Icon="add"OnClick=@(() => ShowModal())></MatButton>
             </div>
+        </div>
 
-
-                </div>
-
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Categoría</th>
-                            <th style="width:180px"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var category in Categories!)
-                        {
-                                <tr>
-                                    <td>@category.Name</td>
-                                    <td>
-                                        <a href="/categories/edit/@category.Id" class="btn btn-warning">Editar</a>
-                                        <button @onclick=@(() => DeleteAsycn(category)) class="btn btn-danger">Borrar</button>
-                                    </td>
-                                </tr>
-                        }
-                    </tbody>
-                </table>
-            </Body>
-        </GenericList>
+<div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+    <MatTable Items="@ListCategories" LoadInitialData="true" Striped="true" RequestApiOnlyOnce="true" AllowSelection="true" RowClass="tester"
+              FilterByColumnName="Name" DebounceMilliseconds="150" class="mat-elevation-z5 mat-table">
+        <MatTableHeader>
+            <th>Id</th>
+            <th>Categoría</th>
+            <th>Acciones</th>
+        </MatTableHeader>
+        <MatTableRow>
+            <td>@context.Id</td>
+            <td>@context.Name</td>
+            <td>
+                <MatButton Icon="border_color" OnClick="@(() => ShowModal(@context.Id, isEdit: true))"></MatButton>
+                <MatButton Icon="delete" OnClick="@(() => DeleteAsycn(@context))"></MatButton>
+            </td>
+        </MatTableRow>
+    </MatTable>
     </div>
-</div>
+   </div>
+ </div>
+
+
+
+
+

@@ -7,8 +7,8 @@ using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-//*
+using System.Threading.Tasks;
+
 namespace HandyMan_.Backend.Controllers
 {
     [ApiController]
@@ -20,12 +20,15 @@ namespace HandyMan_.Backend.Controllers
         private readonly IFileStorage _fileStorage;
         private readonly IServicesUnitOfWork _serviceUnitOfWork;
 
+        
         public ServicesController(IGenericUnitOfWork<Service> unitOfWork, IServicesUnitOfWork serviceUnitOfWork, IFileStorage fileStorage) : base(unitOfWork)
         {
             _fileStorage = fileStorage;
             _serviceUnitOfWork = serviceUnitOfWork;
             _container = "users";
         }
+        
+
         [HttpGet]
         public override async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
         {
@@ -58,7 +61,8 @@ namespace HandyMan_.Backend.Controllers
 
         [HttpPost("AddServicePhoto")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> AddServicePhoto([FromBody] Service service) {
+        public async Task<IActionResult> AddServicePhoto([FromBody] Service service)
+        {
             if (!string.IsNullOrEmpty(service.Photo))
             {
                 var photoService = Convert.FromBase64String(service.Photo);
@@ -70,8 +74,39 @@ namespace HandyMan_.Backend.Controllers
                 return Ok(action.Result);
             }
             return BadRequest();
-
         }
 
+        [HttpGet("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public override async Task<IActionResult> GetAsync(int id)
+        {
+            var response = await _serviceUnitOfWork.GetAsync(id);
+
+            if (response.WasSuccess)
+            {
+                return Ok(response.Result);
+            }
+            return NotFound(response.Message);
+        }
+
+
+        [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> UpdateAsync(int id, [FromBody] Service service)
+        {
+            if (id != service.Id)
+            {
+                return BadRequest("El ID del servicio no coincide.");
+            }
+
+            var response = await _serviceUnitOfWork.UpdateAsync(service);
+
+            if (response.WasSuccess)
+            {
+                return Ok(response.Result);
+            }
+
+            return BadRequest(response.Message);
+        }
     }
 }

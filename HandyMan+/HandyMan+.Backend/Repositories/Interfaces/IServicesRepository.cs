@@ -14,5 +14,6 @@ namespace HandyMan_.Backend.Repositories.Interfaces
         Task<IEnumerable<Service>> GetAllServices();
 
         Task<ActionResponse<Service>> AddServicePhotoAsync(Service Service);
+        Task<ActionResponse<Service>> UpdateAsync(Service service);
     }
 }
