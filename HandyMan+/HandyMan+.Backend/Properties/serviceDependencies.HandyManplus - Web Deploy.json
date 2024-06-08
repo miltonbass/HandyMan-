@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "storage1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/HandyManplus/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsAzureStorage_8D2B751F42, /subscriptions/168e7389-161c-4583-aebd-54d810ff1192/resourcegroups/HandyMan_ITM/providers/Microsoft.Web/sites/HandyManplus/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsAzureStorage_8762D93CE4",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/handiman",
+      "type": "storage.azure",
+      "connectionId": "ConnectionStrings:AzureStorage",
+      "dynamicId": null
+    },
+    "apis1": {
+      "ignored": "true",
+      "type": "apis.azure"
+    },
+    "identityapp1": {
+      "ignored": "true",
+      "type": "identityapp"
+    },
+    "mssql1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/HandyManplus/providers/Microsoft.ServiceLinker/linkers/ConnectionStrings_DFBFCB1E2F",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/handymanplusdbserver/databases/HandyManplusBackend_db",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings",
+      "dynamicId": null
+    }
+  }
+}
