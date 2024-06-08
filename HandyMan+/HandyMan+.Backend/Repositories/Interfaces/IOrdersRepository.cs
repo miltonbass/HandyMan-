@@ -14,6 +14,6 @@ namespace HandyMan_.Backend.Repositories.Interfaces
 
         Task<ActionResponse<Order>> UpdateFullAsync(string email, OrderDTO orderDTO);
 
-        Task AddOrderAsync(Order order);
+        Task<ActionResponse<Order>> AddOrderAsync(Order order);
     }
 }

@@ -27,15 +27,11 @@ namespace HandyMan_.Shered.Entities
         public string Detail { get; set; } = null!;
         [Display(Name = "Detalle")]
         [Required(ErrorMessage = "El campo {0} es requerido.")]
-
         public string Price { get; set; } = null!;
         
         [Display(Name = "Proveedor")]
         [Required(ErrorMessage = "El campo {0} es requerido.")]
-
-        
         public string? UserId { get; set; }
-       
        
         public User? User { get; set; }
 
