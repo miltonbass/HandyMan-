@@ -10,6 +10,8 @@ namespace HandyMan_.Frontend.Pages.SurveyDefinitions
 {
         private EditContext editContext = null!;
 
+        private string newOption = string.Empty;
+
         [EditorRequired, Parameter] public SurveyDefinitionEntity SurveyDefinitionEntity { get; set; } = null!;
         [EditorRequired, Parameter] public EventCallback OnValidSubmit { get; set; }
         [EditorRequired, Parameter] public EventCallback ReturnAction { get; set; }
@@ -24,6 +26,21 @@ namespace HandyMan_.Frontend.Pages.SurveyDefinitions
         {
             editContext = new(SurveyDefinitionEntity);
         }
+
+        private void RemoveOption(string option)
+        {
+            SurveyDefinitionEntity.Options.Remove(option);
+        }
+
+        private void AddOption()
+        {
+            if (!string.IsNullOrWhiteSpace(newOption) && !SurveyDefinitionEntity.Options.Contains(newOption))
+            {
+                SurveyDefinitionEntity.Options.Add(newOption);
+                newOption = string.Empty;
+            }
+        }
+
 
         private async Task OnBeforeInternalNavigation(LocationChangingContext context)
         {
@@ -48,6 +65,8 @@ namespace HandyMan_.Frontend.Pages.SurveyDefinitions
 
             context.PreventNavigation();
         }
+
+
 
     }
 }

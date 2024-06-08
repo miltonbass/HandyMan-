@@ -4,6 +4,7 @@ using HandyMan_.Shared.Entities;
 using Microsoft.EntityFrameworkCore;
 using HandyMan_.Shared.Enums;
 using HandyMan_.Shered.Entities;
+using HandyMan_.Shered.DTOs;
 namespace HandyMan_.Backend.Data
 {
     public class SeedDb
@@ -29,7 +30,9 @@ namespace HandyMan_.Backend.Data
             await CheckOrderServiceDataAsync();
             await CheckSubscriptionTypesAsync();
             await CheckSurveyDataAsync();
-            
+           await  CheckSurveyResponsesData();
+
+
             await CheckRolesAsync();
            //await CheckUserAsync("0001", "user", "admin", "admin@yopmail.com", "318 4756753", "Avenida siempre viva 123", "admin.jpg", UserType.Admin);
            //await CheckUserAsync("0001", "user", "admin", "lagm1290+1@gmail.com", "318 4756753", "Avenida siempre viva 123", "admin.jpg", UserType.Admin);
@@ -57,7 +60,8 @@ namespace HandyMan_.Backend.Data
             var user = await _usersUnitOfWork.GetUserAsync(email);
             if (user == null)
             {
-                var city = await _context.Cities.FirstOrDefaultAsync(x => x.Name == "Medellín");
+       
+                var city = await _context.Cities.FirstOrDefaultAsync(x => x.Name == "Ghormach");
                 city ??= await _context.Cities.FirstOrDefaultAsync();
 
                 var filePath = $"{Environment.CurrentDirectory}\\Images\\users\\{image}";
@@ -279,12 +283,14 @@ namespace HandyMan_.Backend.Data
         {
             if (!_context.SurveyDefinitions.Any())
             {
+                // Preguntas para Customer
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
                 {
                     Title = "Experiencia del servicio",
                     Description = "¿Cómo fue tu experiencia con el servicio prestado?",
                     QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Costumer.ToString()
+                    UserType = UserType.Costumer.ToString(),
+                    Options = new List<string> { "Excelente", "Buena", "Regular", "Mala" }
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -292,7 +298,8 @@ namespace HandyMan_.Backend.Data
                     Title = "Información por parte del usuario",
                     Description = "¿El usuario entregó la información necesaria para realizar el servicio?",
                     QuestionType = QuestionTypeEnum.SingleResponse.ToString(),
-                    UserType = UserType.Costumer.ToString()
+                    UserType = UserType.Costumer.ToString(),
+                    Options = new List<string> { "Sí", "No" }
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -319,139 +326,94 @@ namespace HandyMan_.Backend.Data
                     UserType = UserType.Costumer.ToString()
                 });
 
+                // Preguntas para Provider
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
                 {
-                    Title = "Facilidad de uso",
-                    Description = "¿Qué tan fácil es utilizar nuestro servicio?",
+                    Title = "Calidad del servicio proporcionado",
+                    Description = "¿Cómo calificarías la calidad del servicio que proporcionaste?",
+                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
+                    UserType = UserType.Provider.ToString(),
+                    Options = new List<string> { "Excelente", "Buena", "Regular", "Mala" }
+                });
+
+                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
+                {
+                    Title = "Información proporcionada",
+                    Description = "¿Recibiste toda la información necesaria del cliente?",
                     QuestionType = QuestionTypeEnum.SingleResponse.ToString(),
-                    UserType = UserType.Costumer.ToString()
+                    UserType = UserType.Provider.ToString(),
+                    Options = new List<string> { "Sí", "No" }
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
                 {
-                    Title = "Recomendaciones",
-                    Description = "¿Recomendarías nuestro servicio a otras personas?",
-                    QuestionType = QuestionTypeEnum.SingleResponse.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Eficiencia del proceso",
-                    Description = "¿El proceso de servicio fue eficiente?",
-                    QuestionType = QuestionTypeEnum.TrueFalse.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Sugerencias de mejora",
-                    Description = "¿Tienes alguna sugerencia para mejorar nuestro servicio?",
-                    QuestionType = QuestionTypeEnum.Comment.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Comentarios generales",
-                    Description = "Por favor, proporciona cualquier otro comentario que tengas.",
-                    QuestionType = QuestionTypeEnum.Comment.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Disponibilidad del servicio",
-                    Description = "¿El servicio estuvo disponible cuando lo necesitaste?",
-                    QuestionType = QuestionTypeEnum.TrueFalse.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Atención al cliente",
-                    Description = "Califica la atención recibida por parte de nuestro equipo de soporte",
+                    Title = "Satisfacción con las herramientas",
+                    Description = "¿Qué tan satisfecho estás con las herramientas proporcionadas para el trabajo?",
                     QuestionType = QuestionTypeEnum.StarRange.ToString(),
-                    UserType = UserType.Costumer.ToString()
+                    UserType = UserType.Provider.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
                 {
-                    Title = "Claridad de la información",
-                    Description = "¿La información proporcionada fue clara y comprensible?",
-                    QuestionType = QuestionTypeEnum.SingleResponse.ToString(),
-                    UserType = UserType.Costumer.ToString()
+                    Title = "Tiempo de respuesta del cliente",
+                    Description = "¿El cliente respondió a tus preguntas y solicitudes de manera oportuna?",
+                    QuestionType = QuestionTypeEnum.TrueFalse.ToString(),
+                    UserType = UserType.Provider.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
                 {
-                    Title = "Interacción con el proveedor",
-                    Description = "Describe cómo fue tu interacción con el proveedor del servicio.",
+                    Title = "Comentarios adicionales",
+                    Description = "Proporcione cualquier comentario adicional que pueda tener.",
                     QuestionType = QuestionTypeEnum.Comment.ToString(),
-                    UserType = UserType.Costumer.ToString()
+                    UserType = UserType.Provider.ToString()
                 });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Compatibilidad del servicio",
-                    Description = "¿El servicio es compatible con tus necesidades?",
-                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Compatibilidad del servicio",
-                    Description = "¿El servicio es compatible con tus necesidades?",
-                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Compatibilidad del servicio",
-                    Description = "¿El servicio es compatible con tus necesidades?",
-                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Compatibilidad del servicio",
-                    Description = "¿El servicio es compatible con tus necesidades?",
-                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Compatibilidad del servicio",
-                    Description = "¿El servicio es compatible con tus necesidades?",
-                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Compatibilidad del servicio",
-                    Description = "¿El servicio es compatible con tus necesidades?",
-                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Compatibilidad del servicio",
-                    Description = "¿El servicio es compatible con tus necesidades?",
-                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-
-
 
                 await _context.SaveChangesAsync();
             }
         }
+        private async Task CheckSurveyResponsesData()
+        {
+            if (!_context.SurveyResponses.Any())
+            {
 
-        private async Task CheckOrderServiceDataAsync()
+                _context.SurveyResponses.Add(new SurveyResponseDTO
+                {
+                    UserId = "0001",
+                    Responses = [
+                        new AnswersDTO
+                {
+                    Title = "Tiempo de respuesta del cliente",
+                    Description = "¿El cliente respondió a tus preguntas y solicitudes de manera oportuna?",
+                    QuestionType = QuestionTypeEnum.TrueFalse.ToString(),
+                    UserType = UserType.Provider.ToString(),
+                    Comment = "El cliente respondió a tiempo"
+                }
+                        ]
+                
+                });_context.SurveyResponses.Add(new SurveyResponseDTO
+                {
+                    UserId = "0002",
+                    Responses = [
+                        new AnswersDTO
+                {
+                    Title = "Tiempo de respuesta del cliente",
+                    Description = "¿El cliente respondió a tus preguntas y solicitudes de manera oportuna?",
+                    QuestionType = QuestionTypeEnum.TrueFalse.ToString(),
+                    UserType = UserType.Provider.ToString(),
+                     Comment = "El cliente respondió a tiempo"                }
+                        ]
+
+                });
+
+                await _context.SaveChangesAsync();
+
+
+            }
+        }
+
+
+                private async Task CheckOrderServiceDataAsync()
         {
             if (!_context.ServiceOrders.Any())
             {

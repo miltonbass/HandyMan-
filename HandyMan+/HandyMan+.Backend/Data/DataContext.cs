@@ -2,6 +2,7 @@
 using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using HandyMan_.Shared.Entities;
+using HandyMan_.Shered.DTOs;
 
 namespace HandyMan_.Backend.Data
 {
@@ -23,6 +24,9 @@ namespace HandyMan_.Backend.Data
         public DbSet<SubscriptionType> SubscriptionTypes { get; set; }
 
         public DbSet<SurveyDefinitionEntity> SurveyDefinitions { get; set; }
+
+        public DbSet<SurveyResponseDTO> SurveyResponses { get; set; }
+        public DbSet<AnswersDTO> AnswerSurveysDTO { get; set; }
 
         public DbSet<TemporalOrder> TemporalOrders { get; set; }
 

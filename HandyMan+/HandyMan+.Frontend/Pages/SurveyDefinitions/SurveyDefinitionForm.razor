@@ -1,4 +1,6 @@
-﻿<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+﻿@using HandyMan_.Shared.Enums
+@using MudBlazor
+<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
 
 <EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
@@ -35,6 +37,28 @@
             <option value="@userType">@userType</option>
         }
     </select>
+
+@if (SurveyDefinitionEntity.QuestionType == QuestionTypeEnum.MultipleChoice.ToString() || SurveyDefinitionEntity.QuestionType == QuestionTypeEnum.SingleResponse.ToString())
+{
+    <div>
+        <br/>
+        <label>Opciones:</label>
+        <br/>
+        <MudChipSet Class="my-chipset">
+            @foreach (var option in SurveyDefinitionEntity.Options)
+            {
+                <MudChip Text="@option" OnClose="() => RemoveOption(option)" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Medium" Class="my-chip" />
+            }
+        </MudChipSet>
+        <div class="input-group mb-2">
+            <MudTextField T="string" @bind-Value="newOption" Placeholder="Agregar opción..." Class="my-textfield" />
+            <button type="button" class="btn btn-add-option" @onclick="AddOption">Agregar</button>
+        </div>
+    </div>
+}
+
+
+
     <ValidationMessage For="@(() => SurveyDefinitionEntity.UserType)" />
 </div>
 
@@ -44,3 +68,67 @@
     <button class="btn btn-primary" type="submit">Guardar Cambios</button>
     <button class="btn btn-success" @onclick="ReturnAction">Regresar</button>
 </EditForm>
+
+
+<style>
+    .my-chipset {
+        margin-top: 10px;
+    }
+
+    .my-chip {
+        margin: 5px;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 20px;
+        background-color: #1e88e5;
+        color: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .my-chip .mud-chip-close {
+        color: white;
+    }
+
+    .input-group {
+        display: flex;
+        align-items: center;
+    }
+
+    .my-textfield {
+        border: 2px solid #1e88e5; 
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 16px;
+        outline: none;
+        max-width: 20%; 
+    }
+
+    .my-textfield:focus {
+        box-shadow: 0 0 5px rgba(30, 136, 229, 0.8);
+    }
+
+    .my-textfield::placeholder {
+        color: #1e88e5;
+        opacity: 0.7;
+    }
+
+    .btn-add-option {
+        margin-left: 10px;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        background-color: #1e88e5;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-add-option:hover {
+        background-color: #1565c0; 
+    }
+
+    .btn-add-option:focus {
+        outline: none;
+        box-shadow: 0 0 5px rgba(30, 136, 229, 0.8);
+    }
+</style>
