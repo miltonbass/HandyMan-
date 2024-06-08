@@ -23,7 +23,7 @@ namespace HandyMan_.Backend.Data
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
-            await CheckCountriesFullAsync();
+            //await CheckCountriesFullAsync();
             await CheckCountriesAsync();
             await CheckCategoriesAsync();
             await CheckOrderServiceDataAsync();
