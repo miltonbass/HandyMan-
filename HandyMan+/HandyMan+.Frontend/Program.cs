@@ -19,8 +19,8 @@ builder.Services.AddScoped<AuthenticationProviderJWT>();
 builder.Services.AddScoped<AuthenticationStateProvider, AuthenticationProviderJWT>(x => x.GetRequiredService<AuthenticationProviderJWT>());
 builder.Services.AddScoped<ILoginService, AuthenticationProviderJWT>(x => x.GetRequiredService<AuthenticationProviderJWT>());
 
-var uriBack = "https://handymanplus.azurewebsites.net";
-//var uriBack = "https://localhost:7002/";
+//var uriBack = "https://handymanplus.azurewebsites.net";
+var uriBack = "https://localhost:7002/";
 
 builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(uriBack) }); 
 builder.Services.AddScoped<IRepository, Repository>();

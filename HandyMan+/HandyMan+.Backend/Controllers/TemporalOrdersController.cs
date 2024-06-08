@@ -1,4 +1,5 @@
-﻿using HandyMan_.Backend.UnitsOfWork.Interfaces;
+﻿using HandyMan_.Backend.UnitsOfWork.Implementations;
+using HandyMan_.Backend.UnitsOfWork.Interfaces;
 using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -29,6 +30,15 @@ namespace HandyMan_.Backend.Controllers
             return NotFound(response.Message);
         }
 
+
+        [HttpGet("GetAllRequest")]
+        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetAllRequest()
+        {
+            return Ok(await _temporalOrdersUnitOfWork.GetAllRequest());
+        }
+
         [HttpPut("full")]
         public async Task<IActionResult> PutFullAsync(TemporalOrder temporalOrderDTO)
         {
@@ -40,17 +50,7 @@ namespace HandyMan_.Backend.Controllers
             return NotFound(action.Message);
         }
 
-        [HttpPost("full")]
-        public async Task<IActionResult> PostAsync(TemporalOrder temporalOrderDTO)
-        {
-            var action = await _temporalOrdersUnitOfWork.AddFullAsync(User.Identity!.Name!, temporalOrderDTO);
-            if (action.WasSuccess)
-            {
-                return Ok(action.Result);
-            }
-            return BadRequest(action.Message);
-        }
-
+     
         [HttpGet("my")]
         public override async Task<IActionResult> GetAsync()
         {
