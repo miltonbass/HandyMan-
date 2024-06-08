@@ -15,6 +15,6 @@ namespace HandyMan_.Backend.UnitsOfWork.Interfaces
         Task<ActionResponse<Order>> GetAsync(int id);
 
         Task<ActionResponse<Order>> UpdateFullAsync(string email, OrderDTO orderDTO);
-        Task AddOrderAsync(Order order);
+        Task<ActionResponse<Order>> AddOrderAsync(Order order);
     }
 }

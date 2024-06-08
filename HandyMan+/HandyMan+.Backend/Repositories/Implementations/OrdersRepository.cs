@@ -154,10 +154,15 @@ namespace HandyMan_.Backend.Repositories.Implementations
             };
         }
 
-        public async Task AddOrderAsync(Order order)
+        public async Task<ActionResponse<Order>> AddOrderAsync(Order order)
         {
-            _context.Orders.Add(order);
+            _context.Add(order);
             await _context.SaveChangesAsync();
+            return new ActionResponse<Order>
+            {
+                WasSuccess = true,
+                Result = order
+            };
         }
     }
 }

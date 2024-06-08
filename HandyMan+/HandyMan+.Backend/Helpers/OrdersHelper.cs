@@ -43,10 +43,10 @@ namespace HandyMan_.Backend.Helpers
             }
 
             var temporalOrders = actionTemporalOrders.Result as List<TemporalOrder>;
-            var response = new ActionResponse<bool>() { WasSuccess = true };
-            if (!response.WasSuccess)
+            var responses = new ActionResponse<bool>() { WasSuccess = true };
+            if (!responses.WasSuccess)
             {
-                return response;
+                return responses;
             }
 
             var order = new Order
@@ -80,8 +80,9 @@ namespace HandyMan_.Backend.Helpers
             }
 
             //await _ordersUnitOfWork.AddAsync(order);
-            _ = _ordersUnitOfWork.AddOrderAsync(order);
-            return response;
+            var response = _ordersUnitOfWork.AddOrderAsync(order);
+            
+            return responses;
         }
 
         private async Task<ActionResponse<bool>> CheckInventoryAsync(List<TemporalOrder> temporalOrders)
