@@ -22,7 +22,7 @@ builder.Services.AddScoped<ILoginService, AuthenticationProviderJWT>(x => x.GetR
 var uriBack = "https://handymanplus.azurewebsites.net/";
 //var uriBack = "https://localhost:7002/";
 
-builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(uriBack) }); 
+builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://handymanplus.azurewebsites.net/") }); 
 builder.Services.AddScoped<IRepository, Repository>();
 
 builder.Services.AddSweetAlert2();
