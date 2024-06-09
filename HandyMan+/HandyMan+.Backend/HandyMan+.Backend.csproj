@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HandyMan+.Shered\HandyMan+.Shered.csproj" />
+    <ProjectReference Include="..\HandyMan+.Shered\HandyMan_.Shered.csproj" />
   </ItemGroup>
 
 </Project>
