@@ -39,6 +39,7 @@ namespace HandyMan_.Backend.Controllers
             return Ok(await _temporalOrdersUnitOfWork.GetAllRequest());
         }
 
+        /*
         [HttpPut("full")]
         public async Task<IActionResult> PutFullAsync(TemporalOrder temporalOrderDTO)
         {
@@ -49,9 +50,30 @@ namespace HandyMan_.Backend.Controllers
             }
             return NotFound(action.Message);
         }
+        */
 
+        /*
+        [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> UpdateAsync(int id, [FromBody] TemporalOrder temporalOrder)
+        {
+            if (id != temporalOrder.Id)
+            {
+                return BadRequest("El ID del servicio no coincide.");
+            }
 
-           
+            var response = await _temporalOrdersUnitOfWork.PutAsync(temporalOrder.Id);
+
+            if (response.WasSuccess)
+            {
+                return Ok(response.Result);
+            }
+
+            return BadRequest(response.Message);
+        }
+
+        */
+
         [HttpGet("count")]
         public async Task<IActionResult> GetCountAsync()
         {
