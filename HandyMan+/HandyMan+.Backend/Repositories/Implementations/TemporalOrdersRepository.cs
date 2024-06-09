@@ -135,5 +135,15 @@ namespace HandyMan_.Backend.Repositories.Implementations
                 Result = (int)count
             };
         }
+
+        public async Task<IEnumerable<TemporalOrder>> GetAllRequest()
+        {
+            return await _context.TemporalOrders
+            .Include(ts => ts.User!)
+                .Include(ts => ts.Service!)
+                .ThenInclude(p => p.Category!).ToListAsync();
+
+        }
+
     }
 }

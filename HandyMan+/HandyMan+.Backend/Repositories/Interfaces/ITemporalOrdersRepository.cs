@@ -14,5 +14,8 @@ namespace HandyMan_.Backend.Repositories.Interfaces
         Task<ActionResponse<IEnumerable<TemporalOrder>>> GetAsync(string email);
 
         Task<ActionResponse<int>> GetCountAsync(string email);
+
+        Task<IEnumerable<TemporalOrder>> GetAllRequest();
+        
     }
 }

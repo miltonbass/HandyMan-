@@ -4,6 +4,7 @@ using HandyMan_.Shared.Entities;
 using Microsoft.EntityFrameworkCore;
 using HandyMan_.Shared.Enums;
 using HandyMan_.Shered.Entities;
+using HandyMan_.Shered.DTOs;
 namespace HandyMan_.Backend.Data
 {
     public class SeedDb
@@ -23,22 +24,27 @@ namespace HandyMan_.Backend.Data
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
-            //await CheckCountriesFullAsync();
-            await CheckCountriesAsync();
-            await CheckCategoriesAsync();
+            await CheckCountriesFullAsync();
+            //await CheckCountriesAsync();
+            
             await CheckOrderServiceDataAsync();
             await CheckSubscriptionTypesAsync();
             await CheckSurveyDataAsync();
-            
+            //await  CheckSurveyResponsesData();
+
+
             await CheckRolesAsync();
-           //await CheckUserAsync("0001", "user", "admin", "admin@yopmail.com", "318 4756753", "Avenida siempre viva 123", "admin.jpg", UserType.Admin);
-           //await CheckUserAsync("0001", "user", "admin", "lagm1290+1@gmail.com", "318 4756753", "Avenida siempre viva 123", "admin.jpg", UserType.Admin);
-          // await CheckUserAsync("0002", "User", "asistant", "asistant@yopmail.com", "111 111 111", "Avenida 2", "specialist.jpg", UserType.Specialist);
-          //await CheckUserAsync("0003", "User", "provider", "provider@yopmail.com", "111 111 111", "Avenida 3", "provider.jpg", UserType.Provider);
-           //await CheckUserAsync("0003", "User", "costumer", "costumer@yopmail.com", "111 111 111", "Avenida 3", "costumer.jpg", UserType.Costumer);
+            await CheckUserAsync("0001", "user", "admin", "admin@yopmail.com", "318 4756753", "Avenida siempre viva 123", "admin.jpg", UserType.Admin);
+            await CheckUserAsync("0001", "user", "admin", "lagm1290+1@gmail.com", "318 4756753", "Avenida siempre viva 123", "admin.jpg", UserType.Admin);
+            await CheckUserAsync("0002", "User", "asistant", "asistant@yopmail.com", "111 111 111", "Avenida 2", "specialist.jpg", UserType.Specialist);
+            await CheckUserAsync("0003", "User", "provider", "provider@yopmail.com", "111 111 111", "Avenida 3", "provider.jpg", UserType.Provider);
+            await CheckUserAsync("0003", "User", "costumer", "lagm1290+3@gmail.com", "111 111 111", "Avenida 3", "costumer.jpg", UserType.Costumer);
+
+            await CheckCategoriesAsync();
+            await CheckoutServiceAsync();
+            await CheckTemporalOrderAsync();
 
             //await CheckoutPeopleAsync();
-            //await CheckoutServiceAsync();
             //await CheckoutServiceOrderAsync();
         }
 
@@ -74,13 +80,15 @@ namespace HandyMan_.Backend.Data
                     PhoneNumber = phone,
                     Address = address,
                     Document = document,
-                    City = city,
                     UserType = userType,
                     Photo = imagePath,
+                    CityId = city.Id,
+
                 };
 
                 await _usersUnitOfWork.AddUserAsync(user, "123456");
                 await _usersUnitOfWork.AddUserToRoleAsync(user, userType.ToString());
+
 
 
                 //Forced email confirmation
@@ -129,18 +137,16 @@ namespace HandyMan_.Backend.Data
             await _context.SaveChangesAsync();
         }
 
-        
-
-        /*private async Task CheckoutServiceAsync()
+        private async Task CheckoutServiceAsync()
         {
             if (!_context.Services.Any())
             {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == "provider@yopmail.com");
+                var category = await _context.Categories.FirstOrDefaultAsync();
                 _context.Services.Add(new Service
                 {
-                    CategoryId = 1,
-                    Category = null,
-                    PeopleId = 2,
-                    People = null,
+                    CategoryId = category.Id,
+                    UserId = user.Id,
                     Name = "Repacion de Jardiner",
                     Detail = "Repacion de 2mts de ceped mas 400gm de abono",
                     Price = "300.000"
@@ -149,11 +155,80 @@ namespace HandyMan_.Backend.Data
             await _context.SaveChangesAsync();
         }
 
+        private async Task CheckTemporalOrderAsync()
+        {
+            if (!_context.TemporalOrders.Any())
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == "lagm1290+3@gmail.com");
+                var service = await _context.Services.FirstOrDefaultAsync();
 
+                _context.TemporalOrders.Add(new TemporalOrder { 
+                        UserId = user.Id,
+                        ServiceId = service.Id,
+                        Status = "Por Pagar"
+
+                });
+                _context.TemporalOrders.Add(new TemporalOrder
+                {
+                    UserId = user.Id,
+                    ServiceId = service.Id,
+                    Status = "Por Pagar"
+
+                });
+                _context.TemporalOrders.Add(new TemporalOrder
+                {
+                    UserId = user.Id,
+                    ServiceId = service.Id,
+                    Status = "Por Pagar"
+
+                });
+                _context.TemporalOrders.Add(new TemporalOrder
+                {
+                    UserId = user.Id,
+                    ServiceId = service.Id,
+                    Status = "Pago"
+
+                });
+                _context.TemporalOrders.Add(new TemporalOrder
+                {
+                    UserId = user.Id,
+                    ServiceId = service.Id,
+                    Status = "Pago"
+
+                });
+                _context.TemporalOrders.Add(new TemporalOrder
+                {
+                    UserId = user.Id,
+                    ServiceId = service.Id,
+                    Status = "Agendado"
+
+                });
+                _context.TemporalOrders.Add(new TemporalOrder
+                {
+                    UserId = user.Id,
+                    ServiceId = service.Id,
+                    Status = "Agendado"
+
+                });
+                _context.TemporalOrders.Add(new TemporalOrder
+                {
+                    UserId = user.Id,
+                    ServiceId = service.Id,
+                    Status = "Agendado"
+
+                });
+
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+                       
         private async Task CheckoutServiceOrderAsync()
         {
             if (!_context.ServiceOrders.Any())
             {
+
                 _ = _context.ServiceOrders.Add(new ServiceOrder
                 {
                     State = "Creado",
@@ -163,7 +238,7 @@ namespace HandyMan_.Backend.Data
                 });
             }
             await _context.SaveChangesAsync();
-        }*/
+        }
 
         private async Task CheckCountriesAsync()
         {
@@ -279,12 +354,14 @@ namespace HandyMan_.Backend.Data
         {
             if (!_context.SurveyDefinitions.Any())
             {
+                // Preguntas para Customer
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
                 {
                     Title = "Experiencia del servicio",
                     Description = "¿Cómo fue tu experiencia con el servicio prestado?",
                     QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Costumer.ToString()
+                    UserType = UserType.Costumer.ToString(),
+                    Options = new List<string> { "Excelente", "Buena", "Regular", "Mala" }
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -292,7 +369,8 @@ namespace HandyMan_.Backend.Data
                     Title = "Información por parte del usuario",
                     Description = "¿El usuario entregó la información necesaria para realizar el servicio?",
                     QuestionType = QuestionTypeEnum.SingleResponse.ToString(),
-                    UserType = UserType.Costumer.ToString()
+                    UserType = UserType.Costumer.ToString(),
+                    Options = new List<string> { "Sí", "No" }
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
@@ -319,139 +397,94 @@ namespace HandyMan_.Backend.Data
                     UserType = UserType.Costumer.ToString()
                 });
 
+                // Preguntas para Provider
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
                 {
-                    Title = "Facilidad de uso",
-                    Description = "¿Qué tan fácil es utilizar nuestro servicio?",
+                    Title = "Calidad del servicio proporcionado",
+                    Description = "¿Cómo calificarías la calidad del servicio que proporcionaste?",
+                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
+                    UserType = UserType.Provider.ToString(),
+                    Options = new List<string> { "Excelente", "Buena", "Regular", "Mala" }
+                });
+
+                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
+                {
+                    Title = "Información proporcionada",
+                    Description = "¿Recibiste toda la información necesaria del cliente?",
                     QuestionType = QuestionTypeEnum.SingleResponse.ToString(),
-                    UserType = UserType.Costumer.ToString()
+                    UserType = UserType.Provider.ToString(),
+                    Options = new List<string> { "Sí", "No" }
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
                 {
-                    Title = "Recomendaciones",
-                    Description = "¿Recomendarías nuestro servicio a otras personas?",
-                    QuestionType = QuestionTypeEnum.SingleResponse.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Eficiencia del proceso",
-                    Description = "¿El proceso de servicio fue eficiente?",
-                    QuestionType = QuestionTypeEnum.TrueFalse.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Sugerencias de mejora",
-                    Description = "¿Tienes alguna sugerencia para mejorar nuestro servicio?",
-                    QuestionType = QuestionTypeEnum.Comment.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Comentarios generales",
-                    Description = "Por favor, proporciona cualquier otro comentario que tengas.",
-                    QuestionType = QuestionTypeEnum.Comment.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Disponibilidad del servicio",
-                    Description = "¿El servicio estuvo disponible cuando lo necesitaste?",
-                    QuestionType = QuestionTypeEnum.TrueFalse.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Atención al cliente",
-                    Description = "Califica la atención recibida por parte de nuestro equipo de soporte",
+                    Title = "Satisfacción con las herramientas",
+                    Description = "¿Qué tan satisfecho estás con las herramientas proporcionadas para el trabajo?",
                     QuestionType = QuestionTypeEnum.StarRange.ToString(),
-                    UserType = UserType.Costumer.ToString()
+                    UserType = UserType.Provider.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
                 {
-                    Title = "Claridad de la información",
-                    Description = "¿La información proporcionada fue clara y comprensible?",
-                    QuestionType = QuestionTypeEnum.SingleResponse.ToString(),
-                    UserType = UserType.Costumer.ToString()
+                    Title = "Tiempo de respuesta del cliente",
+                    Description = "¿El cliente respondió a tus preguntas y solicitudes de manera oportuna?",
+                    QuestionType = QuestionTypeEnum.TrueFalse.ToString(),
+                    UserType = UserType.Provider.ToString()
                 });
 
                 _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
                 {
-                    Title = "Interacción con el proveedor",
-                    Description = "Describe cómo fue tu interacción con el proveedor del servicio.",
+                    Title = "Comentarios adicionales",
+                    Description = "Proporcione cualquier comentario adicional que pueda tener.",
                     QuestionType = QuestionTypeEnum.Comment.ToString(),
-                    UserType = UserType.Costumer.ToString()
+                    UserType = UserType.Provider.ToString()
                 });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Compatibilidad del servicio",
-                    Description = "¿El servicio es compatible con tus necesidades?",
-                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Compatibilidad del servicio",
-                    Description = "¿El servicio es compatible con tus necesidades?",
-                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Compatibilidad del servicio",
-                    Description = "¿El servicio es compatible con tus necesidades?",
-                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Compatibilidad del servicio",
-                    Description = "¿El servicio es compatible con tus necesidades?",
-                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Compatibilidad del servicio",
-                    Description = "¿El servicio es compatible con tus necesidades?",
-                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Compatibilidad del servicio",
-                    Description = "¿El servicio es compatible con tus necesidades?",
-                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-                _context.SurveyDefinitions.Add(new SurveyDefinitionEntity
-                {
-                    Title = "Compatibilidad del servicio",
-                    Description = "¿El servicio es compatible con tus necesidades?",
-                    QuestionType = QuestionTypeEnum.MultipleChoice.ToString(),
-                    UserType = UserType.Costumer.ToString()
-                });
-
-
 
                 await _context.SaveChangesAsync();
             }
         }
+        private async Task CheckSurveyResponsesData()
+        {
+            if (!_context.SurveyResponses.Any())
+            {
 
-        private async Task CheckOrderServiceDataAsync()
+                _context.SurveyResponses.Add(new SurveyResponseDTO
+                {
+                    UserId = "0001",
+                    Responses = [
+                        new AnswersDTO
+                {
+                    Title = "Tiempo de respuesta del cliente",
+                    Description = "¿El cliente respondió a tus preguntas y solicitudes de manera oportuna?",
+                    QuestionType = QuestionTypeEnum.TrueFalse.ToString(),
+                    UserType = UserType.Provider.ToString(),
+                    Comment = "El cliente respondió a tiempo"
+                }
+                        ]
+                
+                });_context.SurveyResponses.Add(new SurveyResponseDTO
+                {
+                    UserId = "0002",
+                    Responses = [
+                        new AnswersDTO
+                {
+                    Title = "Tiempo de respuesta del cliente",
+                    Description = "¿El cliente respondió a tus preguntas y solicitudes de manera oportuna?",
+                    QuestionType = QuestionTypeEnum.TrueFalse.ToString(),
+                    UserType = UserType.Provider.ToString(),
+                     Comment = "El cliente respondió a tiempo"                }
+                        ]
+
+                });
+
+                await _context.SaveChangesAsync();
+
+
+            }
+        }
+
+
+                private async Task CheckOrderServiceDataAsync()
         {
             if (!_context.ServiceOrders.Any())
             {
