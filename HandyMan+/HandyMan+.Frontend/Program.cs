@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using HandyMan_.Frontend.AuthenticationProviders;
 using HandyMan_.Frontend.Services;
 using Blazored.Modal;
+using MudBlazor.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -27,5 +28,6 @@ builder.Services.AddScoped<IRepository, Repository>();
 
 builder.Services.AddSweetAlert2();
 builder.Services.AddBlazoredModal();
+builder.Services.AddMudServices();
 
 await builder.Build().RunAsync();
