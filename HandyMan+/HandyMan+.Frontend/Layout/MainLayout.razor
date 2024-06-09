@@ -1,4 +1,7 @@
-﻿@using MatBlazor
+﻿@using HandyMan_.Frontend.Pages.Auth
+@using HandyMan_.Frontend.Pages.DynamicSurvey
+@using HandyMan_.Shared.Enums
+@using MatBlazor
 @inherits LayoutComponentBase
 
 <MatAppBarContainer>
@@ -19,6 +22,9 @@
             <AuthorizeView Roles="Admin">
                 <MatNavMenu>
                     <MatNavItem Href="/"><MatIcon Icon="grade"></MatIcon>&nbsp; Inicio </MatNavItem>
+
+                    <MatNavItem  OnClick="@(() => ShowModalFeedback(new DynamicSurveyParams {userId= "123", userType = UserType.Provider.ToString()}))" ><MatIcon Icon="grade"></MatIcon>&nbsp; Calificación de proveedor </MatNavItem>
+                    <MatNavItem  OnClick="@(() => ShowModalFeedback(new DynamicSurveyParams {userId= "456", userType =  UserType.Costumer.ToString()}))" ><MatIcon Icon="grade"></MatIcon>&nbsp; Calificación de usuario </MatNavItem>
                 
                         <MatNavItem Href="/categories"><MatIcon Icon="grade"></MatIcon>&nbsp; Categorias </MatNavItem>
 
@@ -87,6 +93,8 @@
 @code
 {
     bool Opened = false;
+
+    [CascadingParameter] IModalService Modal { get; set; } = default!;
  
     void ButtonClicked()
     {
@@ -101,6 +109,14 @@
     {
         Console.WriteLine("test");
         await JS.InvokeAsync<object>("alert", "Successful OnClick!");
+    }
+
+    private void ShowModalFeedback(DynamicSurveyParams parametro)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(DynamicSurveyPage.dynamicSurveyParams), parametro);
+
+        Modal.Show<DynamicSurveyPage>("Calificación de servicio", parameters);
     }
  
 }

@@ -1,4 +1,5 @@
 ﻿using HandyMan_.Frontend.Shared.Interfaces;
+using HandyMan_.Shared.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace HandyMan_.Shared.Entities
@@ -20,6 +21,20 @@ namespace HandyMan_.Shared.Entities
         [MaxLength(100, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string QuestionType { get; set; } = null!;
+
+        [Display(Name = "Opciones")]
+        public List<string> Options { get; set; } = new List<string>();
+
+        [Display(Name = "Respuesta")]
+        public string Answer { get; set; } = " ";
+
+        public List<string> SelectedOptions { get; set; } = new List<string>();
+
+        [Display(Name = "Calificación Estrellas")]
+        public int StarRating { get; set; } = 0;
+
+        [Display(Name = "Recomendación")]
+        public bool Recommend { get; set; } = false;
 
         [Display(Name = "Tipo de Usuario")]
         [MaxLength(50, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]

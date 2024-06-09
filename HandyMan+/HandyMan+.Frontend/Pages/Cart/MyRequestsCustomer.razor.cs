@@ -6,6 +6,9 @@ using HandyMan_.Shered.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using HandyMan_.Shered.DTOs;
+using HandyMan_.Frontend.Pages.Services;
+using Microsoft.AspNetCore.Components.Forms;
+using HandyMan_.Frontend.Pages.DynamicSurvey;
 
 namespace HandyMan_.Frontend.Pages.Cart
 {
@@ -15,17 +18,20 @@ namespace HandyMan_.Frontend.Pages.Cart
         private int counter = 0;
         private bool isAuthenticated;
         private bool loading;
+
+      
         public OrderDTO OrderDTO { get; set; } = new();
         public List<TemporalOrder>? ListTemporalOrder { get; set; }
 
-        
 
+        [CascadingParameter] IModalService Modal { get; set; } = default!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
 
         private int activeTabIndex = 0;
         [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
 
         protected override async Task OnInitializedAsync()
         {
@@ -55,6 +61,16 @@ namespace HandyMan_.Frontend.Pages.Cart
                 2 => "Ver Detalle",
             };
         }
+
+    private async Task ShowModal(int id = 0)
+        {
+                Modal.Show<Payment>(string.Empty, new ModalParameters().Add("Id", id));
+
+        }
+
+     
+
+
 
         private List<TemporalOrder> GetFilteredOrders(string status)
         {

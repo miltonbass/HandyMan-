@@ -63,7 +63,7 @@ else
                 <td>@context.Service.Detail</td>
                 <td>@context.Service.Price</td>
                 <td>@context.User.FirstName @context.User.LastName</td>
-                <td><MatButton Type="submit" OnClick="@ConfirmOrderAsync" Raised="true">@GetButtonText(activeTabIndex)</MatButton></td>
+                <td><MatButton Type="submit" OnClick=@(() => ShowModal(@context.Id)) Raised="true">@GetButtonText(activeTabIndex)</MatButton></td>
             </MatTableRow>
         </MatTable>
     </div>;

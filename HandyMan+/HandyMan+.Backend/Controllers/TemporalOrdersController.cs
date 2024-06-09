@@ -50,18 +50,8 @@ namespace HandyMan_.Backend.Controllers
             return NotFound(action.Message);
         }
 
-     
-        [HttpGet("my")]
-        public override async Task<IActionResult> GetAsync()
-        {
-            var action = await _temporalOrdersUnitOfWork.GetAsync(User.Identity!.Name!);
-            if (action.WasSuccess)
-            {
-                return Ok(action.Result);
-            }
-            return BadRequest(action.Message);
-        }
 
+           
         [HttpGet("count")]
         public async Task<IActionResult> GetCountAsync()
         {
