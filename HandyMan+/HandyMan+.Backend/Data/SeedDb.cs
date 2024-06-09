@@ -24,24 +24,27 @@ namespace HandyMan_.Backend.Data
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
-            //await CheckCountriesFullAsync();
-            await CheckCountriesAsync();
-            await CheckCategoriesAsync();
+            await CheckCountriesFullAsync();
+            //await CheckCountriesAsync();
+            
             await CheckOrderServiceDataAsync();
             await CheckSubscriptionTypesAsync();
             await CheckSurveyDataAsync();
-           await  CheckSurveyResponsesData();
+            //await  CheckSurveyResponsesData();
 
 
             await CheckRolesAsync();
-           //await CheckUserAsync("0001", "user", "admin", "admin@yopmail.com", "318 4756753", "Avenida siempre viva 123", "admin.jpg", UserType.Admin);
-           //await CheckUserAsync("0001", "user", "admin", "lagm1290+1@gmail.com", "318 4756753", "Avenida siempre viva 123", "admin.jpg", UserType.Admin);
-          // await CheckUserAsync("0002", "User", "asistant", "asistant@yopmail.com", "111 111 111", "Avenida 2", "specialist.jpg", UserType.Specialist);
-          //await CheckUserAsync("0003", "User", "provider", "provider@yopmail.com", "111 111 111", "Avenida 3", "provider.jpg", UserType.Provider);
-           //await CheckUserAsync("0003", "User", "costumer", "costumer@yopmail.com", "111 111 111", "Avenida 3", "costumer.jpg", UserType.Costumer);
+            await CheckUserAsync("0001", "user", "admin", "admin@yopmail.com", "318 4756753", "Avenida siempre viva 123", "admin.jpg", UserType.Admin);
+            await CheckUserAsync("0001", "user", "admin", "lagm1290+1@gmail.com", "318 4756753", "Avenida siempre viva 123", "admin.jpg", UserType.Admin);
+            await CheckUserAsync("0002", "User", "asistant", "asistant@yopmail.com", "111 111 111", "Avenida 2", "specialist.jpg", UserType.Specialist);
+            await CheckUserAsync("0003", "User", "provider", "provider@yopmail.com", "111 111 111", "Avenida 3", "provider.jpg", UserType.Provider);
+            await CheckUserAsync("0003", "User", "costumer", "lagm1290+3@gmail.com", "111 111 111", "Avenida 3", "costumer.jpg", UserType.Costumer);
+
+            await CheckCategoriesAsync();
+            await CheckoutServiceAsync();
+            await CheckTemporalOrderAsync();
 
             //await CheckoutPeopleAsync();
-            //await CheckoutServiceAsync();
             //await CheckoutServiceOrderAsync();
         }
 
@@ -60,8 +63,7 @@ namespace HandyMan_.Backend.Data
             var user = await _usersUnitOfWork.GetUserAsync(email);
             if (user == null)
             {
-       
-                var city = await _context.Cities.FirstOrDefaultAsync(x => x.Name == "Ghormach");
+                var city = await _context.Cities.FirstOrDefaultAsync(x => x.Name == "Medellín");
                 city ??= await _context.Cities.FirstOrDefaultAsync();
 
                 var filePath = $"{Environment.CurrentDirectory}\\Images\\users\\{image}";
@@ -78,13 +80,15 @@ namespace HandyMan_.Backend.Data
                     PhoneNumber = phone,
                     Address = address,
                     Document = document,
-                    City = city,
                     UserType = userType,
                     Photo = imagePath,
+                    CityId = city.Id,
+
                 };
 
                 await _usersUnitOfWork.AddUserAsync(user, "123456");
                 await _usersUnitOfWork.AddUserToRoleAsync(user, userType.ToString());
+
 
 
                 //Forced email confirmation
@@ -133,18 +137,16 @@ namespace HandyMan_.Backend.Data
             await _context.SaveChangesAsync();
         }
 
-        
-
-        /*private async Task CheckoutServiceAsync()
+        private async Task CheckoutServiceAsync()
         {
             if (!_context.Services.Any())
             {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == "provider@yopmail.com");
+                var category = await _context.Categories.FirstOrDefaultAsync();
                 _context.Services.Add(new Service
                 {
-                    CategoryId = 1,
-                    Category = null,
-                    PeopleId = 2,
-                    People = null,
+                    CategoryId = category.Id,
+                    UserId = user.Id,
                     Name = "Repacion de Jardiner",
                     Detail = "Repacion de 2mts de ceped mas 400gm de abono",
                     Price = "300.000"
@@ -153,11 +155,80 @@ namespace HandyMan_.Backend.Data
             await _context.SaveChangesAsync();
         }
 
+        private async Task CheckTemporalOrderAsync()
+        {
+            if (!_context.TemporalOrders.Any())
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == "lagm1290+3@gmail.com");
+                var service = await _context.Services.FirstOrDefaultAsync();
 
+                _context.TemporalOrders.Add(new TemporalOrder { 
+                        UserId = user.Id,
+                        ServiceId = service.Id,
+                        Status = "Por Pagar"
+
+                });
+                _context.TemporalOrders.Add(new TemporalOrder
+                {
+                    UserId = user.Id,
+                    ServiceId = service.Id,
+                    Status = "Por Pagar"
+
+                });
+                _context.TemporalOrders.Add(new TemporalOrder
+                {
+                    UserId = user.Id,
+                    ServiceId = service.Id,
+                    Status = "Por Pagar"
+
+                });
+                _context.TemporalOrders.Add(new TemporalOrder
+                {
+                    UserId = user.Id,
+                    ServiceId = service.Id,
+                    Status = "Pago"
+
+                });
+                _context.TemporalOrders.Add(new TemporalOrder
+                {
+                    UserId = user.Id,
+                    ServiceId = service.Id,
+                    Status = "Pago"
+
+                });
+                _context.TemporalOrders.Add(new TemporalOrder
+                {
+                    UserId = user.Id,
+                    ServiceId = service.Id,
+                    Status = "Agendado"
+
+                });
+                _context.TemporalOrders.Add(new TemporalOrder
+                {
+                    UserId = user.Id,
+                    ServiceId = service.Id,
+                    Status = "Agendado"
+
+                });
+                _context.TemporalOrders.Add(new TemporalOrder
+                {
+                    UserId = user.Id,
+                    ServiceId = service.Id,
+                    Status = "Agendado"
+
+                });
+
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+                       
         private async Task CheckoutServiceOrderAsync()
         {
             if (!_context.ServiceOrders.Any())
             {
+
                 _ = _context.ServiceOrders.Add(new ServiceOrder
                 {
                     State = "Creado",
@@ -167,7 +238,7 @@ namespace HandyMan_.Backend.Data
                 });
             }
             await _context.SaveChangesAsync();
-        }*/
+        }
 
         private async Task CheckCountriesAsync()
         {

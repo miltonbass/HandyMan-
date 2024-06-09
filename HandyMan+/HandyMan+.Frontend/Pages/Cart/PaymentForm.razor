@@ -1,0 +1,101 @@
+﻿<MatCard Class="service-details-card">
+    <div class="service-details-image">
+        <!-- Aquí deberías agregar la lógica para mostrar la imagen del servicio -->
+        <!-- Por ejemplo: <img src="@temporalOrder.Service.Photo" alt="Foto del Servicio"> -->
+    </div>
+    <MatCardContent>
+        <div class="service-details-header">
+            <h3 class="service-details-title">Detalles del Servicio</h3>
+            <!-- Puedes agregar iconos, botones de acción u otros elementos aquí -->
+        </div>
+        <div class="service-details-content">
+            <div class="service-details-item">
+                <strong>Nombre del Servicio:</strong> @temporalOrder.Service.Name
+            </div>
+            <div class="service-details-item">
+                <strong>Detalle:</strong> @temporalOrder.Service.Detail
+            </div>
+            <div class="service-details-item">
+                <strong>Precio:</strong> @temporalOrder.Service.Price
+            </div>
+            <div class="service-details-item">
+                <strong>Proveedor:</strong> @temporalOrder.User.FirstName @temporalOrder.User.LastName
+            </div>
+            <div class="service-details-item">
+                <strong>Teléfono del Proveedor:</strong> @temporalOrder.User.PhoneNumber
+            </div>
+        </div>
+    </MatCardContent>
+     <MatDialogActions>
+            <MatButton Type="button" OnClick="CloseModalAsync" >No Gracias</MatButton>
+            <MatButton Type="submit" Raised="true">Iniciar el Pago</MatButton>
+
+    </MatDialogActions>
+            
+
+</MatCard>
+
+
+
+
+
+
+<style>
+/* Estilos para la tarjeta de detalles del servicio */
+.service-details-card {
+    width: 100%;
+    max-width: 400px; /* Ancho máximo opcional para controlar la anchura de la tarjeta */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    background-color: #ffffff;
+}
+
+.service-details-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Estilos para la imagen del servicio */
+.service-details-image {
+    height: 200px; /* Altura de la imagen */
+    overflow: hidden;
+}
+
+.service-details-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Estilos para el encabezado de los detalles del servicio */
+.service-details-header {
+    padding: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.service-details-title {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333333;
+}
+
+/* Estilos para el contenido de los detalles del servicio */
+.service-details-content {
+    padding: 1.5rem;
+}
+
+/* Estilos para los elementos individuales de los detalles del servicio */
+.service-details-item {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: #666666;
+}
+
+.service-details-item strong {
+    margin-right: 0.5rem;
+    color: #333333;
+}
+
+
+</style>

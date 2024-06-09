@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HandyMan_.Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240603214910_AddTemporalOrder")]
-    partial class AddTemporalOrder
+    [Migration("20240608163025_AddServiceOrderEntity")]
+    partial class AddServiceOrderEntity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -158,6 +158,56 @@ namespace HandyMan_.Backend.Migrations
                     b.ToTable("Countries");
                 });
 
+            modelBuilder.Entity("HandyMan_.Shered.Entities.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("HandyMan_.Shered.Entities.OrderDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("OrderDetails");
+                });
+
             modelBuilder.Entity("HandyMan_.Shered.Entities.Service", b =>
                 {
                     b.Property<int>("Id")
@@ -175,7 +225,7 @@ namespace HandyMan_.Backend.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Photo")
                         .HasColumnType("nvarchar(max)");
@@ -192,7 +242,8 @@ namespace HandyMan_.Backend.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId", "Name")
+                        .IsUnique();
 
                     b.ToTable("Services");
                 });
@@ -509,6 +560,35 @@ namespace HandyMan_.Backend.Migrations
                     b.Navigation("State");
                 });
 
+            modelBuilder.Entity("HandyMan_.Shered.Entities.Order", b =>
+                {
+                    b.HasOne("HandyMan_.Shered.Entities.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("HandyMan_.Shered.Entities.OrderDetail", b =>
+                {
+                    b.HasOne("HandyMan_.Shered.Entities.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("HandyMan_.Shered.Entities.Service", "Service")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Service");
+                });
+
             modelBuilder.Entity("HandyMan_.Shered.Entities.Service", b =>
                 {
                     b.HasOne("HandyMan_.Shered.Entities.Category", "Category")
@@ -629,8 +709,15 @@ namespace HandyMan_.Backend.Migrations
                     b.Navigation("States");
                 });
 
+            modelBuilder.Entity("HandyMan_.Shered.Entities.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
             modelBuilder.Entity("HandyMan_.Shered.Entities.Service", b =>
                 {
+                    b.Navigation("OrderDetails");
+
                     b.Navigation("TemporalOrders");
                 });
 
@@ -641,6 +728,8 @@ namespace HandyMan_.Backend.Migrations
 
             modelBuilder.Entity("HandyMan_.Shered.Entities.User", b =>
                 {
+                    b.Navigation("Orders");
+
                     b.Navigation("Service");
 
                     b.Navigation("TemporalOrders");

@@ -14,7 +14,6 @@ using Microsoft.OpenApi.Models;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
-using Microsoft.Extensions.Azure;
 
 var builder = WebApplication.CreateBuilder(args);
 //Evitar las referencias circulares al momento de la serialización
@@ -61,7 +60,7 @@ builder.Services.AddSwaggerGen(c =>
         });
 });
 
-builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=AzureConnection"));
+builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=LocalConnection"), ServiceLifetime.Transient);
 builder.Services.AddTransient<SeedDb>();
 builder.Services.AddScoped<IFileStorage, FileStorage>();
 builder.Services.AddScoped<IMailHelper, MailHelper>();
@@ -133,11 +132,6 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminPolicy", policy =>
         policy.RequireRole("Admin"));
-});
-builder.Services.AddAzureClients(clientBuilder =>
-{
-    clientBuilder.AddBlobServiceClient(builder.Configuration["ConnectionStrings:AzureStorage:blob"]!, preferMsi: true);
-    clientBuilder.AddQueueServiceClient(builder.Configuration["ConnectionStrings:AzureStorage:queue"]!, preferMsi: true);
 });
 
 var app = builder.Build();

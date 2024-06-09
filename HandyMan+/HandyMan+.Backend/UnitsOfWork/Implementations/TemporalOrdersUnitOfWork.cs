@@ -1,4 +1,5 @@
-﻿using HandyMan_.Backend.Repositories.Interfaces;
+﻿using HandyMan_.Backend.Repositories.Implementations;
+using HandyMan_.Backend.Repositories.Interfaces;
 using HandyMan_.Backend.UnitsOfWork.Interfaces;
 using HandyMan_.Shered.Entities;
 using HandyMan_.Shered.Responses;
@@ -23,5 +24,7 @@ namespace HandyMan_.Backend.UnitsOfWork.Implementations
         public async Task<ActionResponse<IEnumerable<TemporalOrder>>> GetAsync(string email) => await _temporalOrdersRepository.GetAsync(email);
 
         public async Task<ActionResponse<int>> GetCountAsync(string email) => await _temporalOrdersRepository.GetCountAsync(email);
+
+        public Task<IEnumerable<TemporalOrder>> GetAllRequest() => _temporalOrdersRepository.GetAllRequest();
     }
 }

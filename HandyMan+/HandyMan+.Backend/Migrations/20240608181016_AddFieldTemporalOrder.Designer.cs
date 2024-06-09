@@ -4,6 +4,7 @@ using HandyMan_.Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HandyMan_.Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240608181016_AddFieldTemporalOrder")]
+    partial class AddFieldTemporalOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,33 +67,15 @@ namespace HandyMan_.Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Answer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("Options")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("QuestionType")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("Recommend")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SelectedOptions")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StarRating")
-                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -105,71 +90,6 @@ namespace HandyMan_.Backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SurveyDefinitions");
-                });
-
-            modelBuilder.Entity("HandyMan_.Shered.DTOs.AnswersDTO", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("BooleanAnswer")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("QuestionType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SelectedOptions")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StarRating")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SurveyResponseDTOId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SurveyResponseDTOId");
-
-                    b.ToTable("AnswerSurveysDTO");
-                });
-
-            modelBuilder.Entity("HandyMan_.Shered.DTOs.SurveyResponseDTO", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SurveyResponses");
                 });
 
             modelBuilder.Entity("HandyMan_.Shered.Entities.Category", b =>
@@ -632,14 +552,6 @@ namespace HandyMan_.Backend.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("HandyMan_.Shered.DTOs.AnswersDTO", b =>
-                {
-                    b.HasOne("HandyMan_.Shered.DTOs.SurveyResponseDTO", null)
-                        .WithMany("Responses")
-                        .HasForeignKey("SurveyResponseDTOId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
             modelBuilder.Entity("HandyMan_.Shered.Entities.City", b =>
                 {
                     b.HasOne("HandyMan_.Shered.Entities.State", "State")
@@ -788,11 +700,6 @@ namespace HandyMan_.Backend.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("HandyMan_.Shered.DTOs.SurveyResponseDTO", b =>
-                {
-                    b.Navigation("Responses");
                 });
 
             modelBuilder.Entity("HandyMan_.Shered.Entities.Category", b =>

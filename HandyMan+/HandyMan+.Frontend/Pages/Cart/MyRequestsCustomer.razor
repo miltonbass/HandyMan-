@@ -1,0 +1,93 @@
+﻿@page "/MyRequestCustomer"
+@using MatBlazor
+
+@if (loading)
+{
+    <Loading />
+}
+else
+{
+    <MatDialogTitle>Mis Servicios</MatDialogTitle>
+    <MatDialogContent>
+        <MatTabGroup @bind-ActiveIndex="activeTabIndex">
+            <MatTab Label="Por Pagar">
+                @RenderTabContent("Por Pagar")
+            </MatTab>
+            <MatTab Label="Pago">
+                @RenderTabContent("Pago")
+            </MatTab>
+            <MatTab Label="Agendado">
+                @RenderTabContent("Agendado")
+            </MatTab>
+        </MatTabGroup>
+    </MatDialogContent>
+}
+
+@code {
+      
+    private RenderFragment RenderTabContent(string status) => @<div>
+       @{
+        var all = GetAllTemporalOrder();
+        var total = all.Count();
+        var filteredOrders = GetFilteredOrders(status);
+        var counter = filteredOrders.Count;
+        } 
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+            <div class="mat-h6">
+                Total: @total
+            </div>
+            <div class="mat-h6">
+                Cantidad: @counter
+            </div>
+        </div>
+        <MatTable Items="@GetFilteredOrders(status)" class="mat-elevation-z5 fixed-table" ShowPaging="false" UseSortHeaderRow="false"  FilterByColumnName="Name">
+    
+            <MatTableHeader>
+                <th>#</th>
+                <th>Estado</th>
+                <th>Foto</th>
+                <th>Servicio</th>
+                <th>Detalle</th>
+                <th>Valor</th>
+                <th>Proveedor</th>
+                <th>Acciones</th>
+            </MatTableHeader>
+            <MatTableRow>
+                <td>@context.Service.Id</td>
+                <td>
+                    <td><MatButton Type="button" disabled Raised="true">@context.Status</MatButton></td>
+                </td>
+                
+                <td><img src="@context.Service.Photo" style="width:100px;" /></td>
+                <td>@context.Service.Name</td>
+                <td>@context.Service.Detail</td>
+                <td>@context.Service.Price</td>
+                <td>@context.User.FirstName @context.User.LastName</td>
+                <td><MatButton Type="submit" OnClick=@(() => ShowModal(@context.Id)) Raised="true">@GetButtonText(activeTabIndex)</MatButton></td>
+            </MatTableRow>
+        </MatTable>
+    </div>;
+
+ 
+}
+
+<style>
+    .fixed-table {
+        table-layout: fixed;
+        width: 95%;
+    }
+
+    .fixed-table th, .fixed-table td {
+        width: 11.1%; /* 100% divided by 9 columns */
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .status-cell {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>

@@ -49,8 +49,6 @@ namespace HandyMan_.Frontend.Pages.Cart
             {
                 var responseHppt = await Repository.GetAsync<List<TemporalOrder>>("api/temporalOrders/my");
                 temporalOrders = responseHppt.Response!;
-                //sumQuantity = temporalOrders.Sum(x => x.Quantity);
-                //sumValue = temporalOrders.Sum(x => x.Value);
             }
             catch (Exception ex)
             {

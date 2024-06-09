@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HandyMan_.Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class AddUsersEntities : Migration
+    public partial class AddServiceOrderEntity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -284,6 +284,28 @@ namespace HandyMan_.Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    OrderStatus = table.Column<int>(type: "int", nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Services",
                 columns: table => new
                 {
@@ -291,7 +313,7 @@ namespace HandyMan_.Backend.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Photo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Detail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
@@ -309,6 +331,58 @@ namespace HandyMan_.Backend.Migrations
                         name: "FK_Services_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    ServiceId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TemporalOrders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ServiceId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TemporalOrders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TemporalOrders_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TemporalOrders_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -376,14 +450,30 @@ namespace HandyMan_.Backend.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrderDetails_OrderId",
+                table: "OrderDetails",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderDetails_ServiceId",
+                table: "OrderDetails",
+                column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_UserId",
+                table: "Orders",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Services_CategoryId",
                 table: "Services",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Services_UserId",
+                name: "IX_Services_UserId_Name",
                 table: "Services",
-                column: "UserId");
+                columns: new[] { "UserId", "Name" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_States_CountryId_Name",
@@ -396,6 +486,16 @@ namespace HandyMan_.Backend.Migrations
                 table: "SubscriptionTypes",
                 column: "Name",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TemporalOrders_ServiceId",
+                table: "TemporalOrders",
+                column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TemporalOrders_UserId",
+                table: "TemporalOrders",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -417,10 +517,10 @@ namespace HandyMan_.Backend.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ServiceOrders");
+                name: "OrderDetails");
 
             migrationBuilder.DropTable(
-                name: "Services");
+                name: "ServiceOrders");
 
             migrationBuilder.DropTable(
                 name: "SubscriptionTypes");
@@ -429,7 +529,16 @@ namespace HandyMan_.Backend.Migrations
                 name: "SurveyDefinitions");
 
             migrationBuilder.DropTable(
+                name: "TemporalOrders");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Services");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
