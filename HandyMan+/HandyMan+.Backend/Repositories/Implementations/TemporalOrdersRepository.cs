@@ -17,7 +17,7 @@ namespace HandyMan_.Backend.Repositories.Implementations
             _usersRepository = usersRepository;
         }
 
-        public async Task<ActionResponse<TemporalOrder>> PutFullAsync(TemporalOrder temporalOrder)
+        public override async Task<ActionResponse<TemporalOrder>> UpdateAsync(TemporalOrder temporalOrder)
         {
             var currentTemporalOrder = await _context.TemporalOrders.FirstOrDefaultAsync(x => x.Id == temporalOrder.Id);
             if (currentTemporalOrder == null)
@@ -40,12 +40,10 @@ namespace HandyMan_.Backend.Repositories.Implementations
             };
         }
 
+      
         public override async Task<ActionResponse<TemporalOrder>> GetAsync(int id)
         {
             var temporalOrder = await _context.TemporalOrders
-                .Include(ts => ts.User!)
-                .Include(ts => ts.Service!)
-                .ThenInclude(p => p.Category!)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (temporalOrder == null)
