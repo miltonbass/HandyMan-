@@ -1,5 +1,6 @@
 ﻿using HandyMan_.Shered.Entities;
 using HandyMan_.Shered.Responses;
+using System.Threading.Tasks;
 
 namespace HandyMan_.Backend.Repositories.Interfaces
 {
@@ -7,7 +8,8 @@ namespace HandyMan_.Backend.Repositories.Interfaces
     {
         Task<ActionResponse<TemporalOrder>> GetAsync(int id);
 
-        Task<ActionResponse<TemporalOrder>> PutFullAsync(TemporalOrder temporalOrder);
+        //Task<ActionResponse<TemporalOrder>> PutFullAsync(TemporalOrder temporalOrder);
+        Task<ActionResponse<TemporalOrder>> UpdateAsync(TemporalOrder temporalOrder);
 
         Task<ActionResponse<TemporalOrder>> AddFullAsync(string email, TemporalOrder temporalOrder);
 

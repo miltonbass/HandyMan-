@@ -15,9 +15,9 @@ namespace HandyMan_.Backend.UnitsOfWork.Implementations
             _temporalOrdersRepository = temporalOrdersRepository;
         }
 
-        public async Task<ActionResponse<TemporalOrder>> PutFullAsync(TemporalOrder temporalOrder) => await _temporalOrdersRepository.PutFullAsync(temporalOrder);
-
-        public override async Task<ActionResponse<TemporalOrder>> GetAsync(int id) => await _temporalOrdersRepository.GetAsync(id);
+        //public async Task<ActionResponse<TemporalOrder>> PutFullAsync(TemporalOrder temporalOrder) => await _temporalOrdersRepository.PutFullAsync(temporalOrder);
+        public override async Task<ActionResponse<TemporalOrder>> UpdateAsync(TemporalOrder temporalOrder) => await _temporalOrdersRepository.UpdateAsync(temporalOrder);
+                public override async Task<ActionResponse<TemporalOrder>> GetAsync(int id) => await _temporalOrdersRepository.GetAsync(id);
 
         public async Task<ActionResponse<TemporalOrder>> AddFullAsync(string email, TemporalOrder temporalOrder) => await _temporalOrdersRepository.AddFullAsync(email, temporalOrder);
 
