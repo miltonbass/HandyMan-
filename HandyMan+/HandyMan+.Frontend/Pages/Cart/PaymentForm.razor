@@ -1,38 +1,23 @@
 ﻿<MatCard Class="service-details-card">
     <div class="service-details-image">
-        <!-- Aquí deberías agregar la lógica para mostrar la imagen del servicio -->
-        <!-- Por ejemplo: <img src="@temporalOrder.Service.Photo" alt="Foto del Servicio"> -->
+        <img src="@temporalOrder.Service.Photo" alt="Foto del Servicio">
     </div>
     <MatCardContent>
         <div class="service-details-header">
-            <h3 class="service-details-title">Detalles del Servicio</h3>
-            <!-- Puedes agregar iconos, botones de acción u otros elementos aquí -->
+            <h3 class="service-details-title">Información del Pago  <b>$ @temporalOrder.Service.Price</b></h3>
         </div>
         <div class="service-details-content">
-            <div class="service-details-item">
-                <strong>Nombre del Servicio:</strong> @temporalOrder.Service.Name
-            </div>
-            <div class="service-details-item">
-                <strong>Detalle:</strong> @temporalOrder.Service.Detail
-            </div>
-            <div class="service-details-item">
-                <strong>Precio:</strong> @temporalOrder.Service.Price
-            </div>
-            <div class="service-details-item">
-                <strong>Proveedor:</strong> @temporalOrder.User.FirstName @temporalOrder.User.LastName
-            </div>
-            <div class="service-details-item">
-                <strong>Teléfono del Proveedor:</strong> @temporalOrder.User.PhoneNumber
-            </div>
+            <MatTextField Label="Nombre en la Tarjeta" TValue="string" Class="form-field" Required="true"/>
+            <MatTextField Label="Número de Tarjeta" TValue="string" Class="form-field" Required="true"/>
+            <MatTextField Label="Fecha de Expiración (MM/YY)" TValue="string" Class="form-field" Required="true"/>
+            <MatTextField Label="CVV" TValue="string" Class="form-field" Required="true"/>
+
+             <MatDialogActions>
+                <MatButton Type="button" OnClick="CloseModalAsync" >No Gracias</MatButton>
+                <MatButton Type="submit" Raised="true" OnClick=@(() => SubmitPayment()) >Realizar Pago</MatButton>
+            </MatDialogActions>
         </div>
     </MatCardContent>
-     <MatDialogActions>
-            <MatButton Type="button" OnClick="CloseModalAsync" >No Gracias</MatButton>
-            <MatButton Type="submit" Raised="true">Iniciar el Pago</MatButton>
-
-    </MatDialogActions>
-            
-
 </MatCard>
 
 
@@ -41,10 +26,10 @@
 
 
 <style>
-/* Estilos para la tarjeta de detalles del servicio */
+
 .service-details-card {
     width: 100%;
-    max-width: 400px; /* Ancho máximo opcional para controlar la anchura de la tarjeta */
+    max-width: 400px; 
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -95,6 +80,11 @@
 .service-details-item strong {
     margin-right: 0.5rem;
     color: #333333;
+}
+
+.form-field {
+    width: 80%;
+    margin-bottom: 1rem;
 }
 
 

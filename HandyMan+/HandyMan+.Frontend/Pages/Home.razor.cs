@@ -1,3 +1,4 @@
+using Blazored.Modal;
 using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using HandyMan_.Frontend.Pages.Auth;
@@ -15,6 +16,9 @@ namespace HandyMan_.Frontend.Pages
         private int counter = 0;
         private bool isAuthenticated;
 
+
+        
+
         public List<Service>? ListServices { get; set; }
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
@@ -23,6 +27,7 @@ namespace HandyMan_.Frontend.Pages
 
         [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; } = null!;
         [CascadingParameter] private IModalService Modal { get; set; } = default!;
+        [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -103,10 +108,18 @@ namespace HandyMan_.Frontend.Pages
             await toast2.FireAsync(icon: SweetAlertIcon.Success, message: "Producto agregado al carro de compras.");
         }
 
-        private void ShowCartModal()
+        private async Task CloseModalAsync()
         {
-            Modal.Show<ShowCart>();
+            await BlazoredModal.CloseAsync(ModalResult.Ok());
+
         }
+
+        private async Task ShowModal(int id = 0)
+        {
+            Modal.Show<Payment>(string.Empty, new ModalParameters().Add("Id", id));
+
+        }
+
     }
     
 }

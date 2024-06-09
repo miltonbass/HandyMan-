@@ -19,7 +19,7 @@ namespace HandyMan_.Shered.Entities
 
         public int ServiceId { get; set; }
 
-        public string? Status { get; set;}
+        public string? Status { get; set; } = null!;
         
     }
 }

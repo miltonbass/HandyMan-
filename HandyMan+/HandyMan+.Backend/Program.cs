@@ -60,7 +60,7 @@ builder.Services.AddSwaggerGen(c =>
         });
 });
 
-builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=LocalConnection"), ServiceLifetime.Transient);
+builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=AzureConnection"), ServiceLifetime.Transient);
 builder.Services.AddTransient<SeedDb>();
 builder.Services.AddScoped<IFileStorage, FileStorage>();
 builder.Services.AddScoped<IMailHelper, MailHelper>();

@@ -14,7 +14,7 @@ using System.Net;
 namespace HandyMan_.Frontend.Pages.Cart
 {
     [Authorize(Roles = "Admin, User")]
-    public  partial class Payment
+    public partial class Payment
     {
         public List<TemporalOrder>? temporalOrders { get; set; }
         private TemporalOrder? temporalOrder;
@@ -30,10 +30,10 @@ namespace HandyMan_.Frontend.Pages.Cart
 
         [EditorRequired, Parameter] public int Id { get; set; }
 
-   
+
         protected async override Task OnParametersSetAsync()
         {
-         
+
 
             var responseHttp = await Repository.GetAsync<TemporalOrder>($"api/temporalOrders/{Id}");
 
@@ -68,7 +68,7 @@ namespace HandyMan_.Frontend.Pages.Cart
         private async Task ShowModal(int id = 0)
 
         {
-            CloseModalAsync();
+            await CloseModalAsync();
             await Task.Delay(400);
             Modal.Show<PaymentForm>(string.Empty, new ModalParameters().Add("Id", id));
 

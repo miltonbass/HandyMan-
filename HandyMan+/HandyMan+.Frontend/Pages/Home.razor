@@ -6,41 +6,104 @@
 }
 else
 {
-        
-     <div class="mat-layout-grid">
-        <div class="mat-layout-grid-inner">
+    <div class="layout-grid">
+        <div class="layout-grid-inner">
             @foreach (var service in ListServices!)
             {
-                <div class="mat-layout-grid-cell" style="max-width: 800px;">
-                    <MatCard class="demo-mat-card">
-                    <div class="demo-mat-card-content">
-                        <MatHeadline6 class="demo-mat-card-clean-margin">
-                            @service.Name
-                        </MatHeadline6>
-                        <MatSubtitle2 class="demo-mat-card-clean-margin">
-                            @service.User!.FullName
-                        </MatSubtitle2>
-                    </div>
-                    <MatCardContent>
-                        <MatCardMedia Wide="true" ImageUrl="@service.Photo"></MatCardMedia>
-                        <MatBody2 class="demo-mat-card-content demo-mat-card-clean-margin">
-                            @service.Detail
-                        </MatBody2>
-                    </MatCardContent>
-                    <MatCardActions>
-                        <MatCardActionButtons>
-                            <MatButton>Detalle</MatButton>
-                            <MatButton OnClick=@(() => AddToCartAsync(service.Id))>Agregar a Cesta</MatButton>
-                        </MatCardActionButtons>
- 
-                        <MatCardActionIcons>
-                            <MatIconButton Icon="@MatIconNames.Favorite"></MatIconButton>
-                        </MatCardActionIcons>
-                    </MatCardActions>
-                </MatCard>
-            </div>
+                <div class="layout-grid-cell">
+                    <MatCard class="service-card">
+                        <div class="service-card-content">
+                            <MatHeadline6 class="service-card-title">
+                                @service.Name
+                            </MatHeadline6>
+                            <MatSubtitle2 class="service-card-subtitle">
+                                @service.User!.FullName
+                            </MatSubtitle2>
+                        </div>
+                        <MatCardContent>
+                            <MatCardMedia Wide="false" ImageUrl="@service.Photo" class="service-card-media"></MatCardMedia>
+                            <MatBody2 class="service-card-description">
+                                @service.Detail
+                            </MatBody2>
+                        </MatCardContent>
+                        <MatCardActions>
+                            <MatCardActionButtons>
+                                         <MatButton Type="button" OnClick=@(() => ShowModal(service.Id)) Raised="true">ver detalle</MatButton>
+                                        <MatButton OnClick=@(() => ShowModal(service.Id))>Confirmar Servicio</MatButton>
+                            </MatCardActionButtons>
+
+                            <MatCardActionIcons>
+                                <MatIconButton Icon="@MatIconNames.Favorite"></MatIconButton>
+                            </MatCardActionIcons>
+                        </MatCardActions>
+                    </MatCard>
+                </div>
             }
         </div>
     </div>
 }
 
+<style>
+    .layout-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 16px;
+    }
+
+    .layout-grid-inner {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        max-width: 1200px;
+        width: 100%;
+    }
+
+    .layout-grid-cell {
+        max-width: 300px;
+        width: 100%;
+    }
+
+    .service-card {
+        margin: 16px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: box-shadow 0.3s ease-in-out;
+    }
+
+    .service-card:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .service-card-content {
+        padding: 16px;
+    }
+
+    .service-card-title {
+        margin-bottom: 8px;
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+
+    .service-card-subtitle {
+        margin-bottom: 16px;
+        color: #757575;
+    }
+
+    .service-card-media {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .service-card-description {
+        padding: 16px;
+    }
+
+    .mat-button {
+        color: #0D47A1;
+    }
+
+    .mat-icon-button {
+        color: #0D47A1;
+    }
+</style>
